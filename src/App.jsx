@@ -1,19 +1,53 @@
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+
+import MainLayout from "./components/layout/MainLayout";
+
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import ProjectsPage from "./pages/projects/ProjectsPage";
+import IssuesPage from "./pages/issues/IssuesPage";
+import NotificationsPage from "./pages/notifications/NotificationsPage";
+
 function App() {
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F7E7CE]">
-      <div className="text-center">
+    <BrowserRouter>
 
-        <h1 className="heading-font text-5xl font-bold text-[#102C26]">
-          DevFlow
-        </h1>
+      <Routes>
 
-        <p className="mt-4 text-gray-700">
-          Enterprise Issue Tracking Platform
-        </p>
+        <Route
+          element={<MainLayout />}
+        >
 
-      </div>
-    </div>
-  )
+          <Route
+            path="/"
+            element={<DashboardPage />}
+          />
+
+          <Route
+            path="/projects"
+            element={<ProjectsPage />}
+          />
+
+          <Route
+            path="/issues"
+            element={<IssuesPage />}
+          />
+
+          <Route
+            path="/notifications"
+            element={<NotificationsPage />}
+          />
+
+        </Route>
+
+      </Routes>
+
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
