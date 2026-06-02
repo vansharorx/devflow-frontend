@@ -1,3 +1,5 @@
+import ProtectedRoute from "./routes/ProtectedRoute";
+
 import {
   BrowserRouter,
   Routes,
@@ -11,6 +13,9 @@ import ProjectsPage from "./pages/projects/ProjectsPage";
 import IssuesPage from "./pages/issues/IssuesPage";
 import NotificationsPage from "./pages/notifications/NotificationsPage";
 
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+
 function App() {
 
   return (
@@ -19,27 +24,53 @@ function App() {
       <Routes>
 
         <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+
+        <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
+
+        <Route
           element={<MainLayout />}
         >
 
           <Route
             path="/"
-            element={<DashboardPage />}
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/projects"
-            element={<ProjectsPage />}
+            element={
+              <ProtectedRoute>
+                <ProjectsPage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/issues"
-            element={<IssuesPage />}
+            element={
+              <ProtectedRoute>
+                <IssuesPage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/notifications"
-            element={<NotificationsPage />}
+            element={
+              <ProtectedRoute>
+                <NotificationsPage />
+              </ProtectedRoute>
+            }
           />
 
         </Route>
