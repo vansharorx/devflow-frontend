@@ -24,7 +24,7 @@ export default function RegisterPage() {
     try {
 
       await api.post(
-        "/users/register",
+        "/users",
         {
           name,
           email,
