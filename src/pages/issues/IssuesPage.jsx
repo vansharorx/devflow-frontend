@@ -7,15 +7,24 @@ import api from "../../services/api";
 
 import IssueForm from "./IssueForm";
 
+import UserSelect
+from "../../components/ui/UserSelect";
+
 export default function IssuesPage() {
 
   const [issues,
     setIssues] =
       useState([]);
 
+  const [users,
+    setUsers] =
+      useState([]);
+
   useEffect(() => {
 
     fetchIssues();
+
+    fetchUsers();
 
   }, []);
 
@@ -29,6 +38,25 @@ export default function IssuesPage() {
         );
 
       setIssues(
+        res.data.data
+      );
+
+    } catch (err) {
+
+      console.log(err);
+    }
+  };
+
+  const fetchUsers = async () => {
+
+    try {
+
+      const res =
+        await api.get(
+          "/users"
+        );
+
+      setUsers(
         res.data.data
       );
 
@@ -70,6 +98,29 @@ export default function IssuesPage() {
         `/issues/${id}`,
         {
           status
+        }
+      );
+
+      fetchIssues();
+
+    } catch (err) {
+
+      console.log(err);
+    }
+  };
+
+  const assignIssue =
+    async (
+      issueId,
+      userId
+    ) => {
+
+    try {
+
+      await api.put(
+        `/issues/${issueId}`,
+        {
+          assignedTo: userId
         }
       );
 
@@ -167,6 +218,33 @@ export default function IssuesPage() {
                 >
                   Delete
                 </button>
+
+              </div>
+
+              <div
+                className="
+                mt-3
+              "
+              >
+
+                <UserSelect
+
+                  users={users}
+
+                  value={
+                    issue.assignedTo
+                  }
+
+                  onChange={(e)=>
+
+                    assignIssue(
+                      issue.id,
+                      e.target.value
+                    )
+
+                  }
+
+                />
 
               </div>
 
