@@ -1,4 +1,27 @@
+import { useState, useEffect } from "react";
+import NotificationBadge from "./NotificationBadge";
+
 export default function Navbar() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  const loadNotifications = async () => {
+    try {
+      const res = await api.get("/notifications");
+
+      const unread = res.data.data.filter(
+        (n) => !n.isRead
+      );
+
+      setCount(unread.length);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div
       className="
@@ -20,9 +43,21 @@ export default function Navbar() {
         DevFlow
       </h2>
 
-      <span>
-        Welcome, Vansh
-      </span>
+      <div
+        className="
+        flex
+        items-center
+        gap-4
+      "
+      >
+        <NotificationBadge
+          count={count}
+        />
+
+        <span>
+          Welcome, Vansh
+        </span>
+      </div>
     </div>
   );
 }
