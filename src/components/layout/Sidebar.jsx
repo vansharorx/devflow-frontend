@@ -39,6 +39,10 @@ export default function Sidebar() {
           Notifications
         </Link>
 
+        <Link to="/activities">
+          Activities
+        </Link>
+        
       </nav>
     </aside>
   );

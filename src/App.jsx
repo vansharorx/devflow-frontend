@@ -12,9 +12,9 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProjectsPage from "./pages/projects/ProjectsPage";
 import IssuesPage from "./pages/issues/IssuesPage";
 import NotificationsPage from "./pages/notifications/NotificationsPage";
-
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import ActivityPage from "./pages/activity/ActivityPage";
 
 function App() {
 
@@ -69,6 +69,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <NotificationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/activities"
+            element={
+              <ProtectedRoute>
+                <ActivityPage />
               </ProtectedRoute>
             }
           />
