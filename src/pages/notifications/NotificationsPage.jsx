@@ -4,6 +4,10 @@ import {
 } from "react";
 
 import api from "../../services/api";
+import useContext from "../../hooks/useContext";
+import {
+  SocketContext
+} from "../../context/SocketContext";
 
 export default function NotificationsPage() {
 
@@ -11,11 +15,36 @@ export default function NotificationsPage() {
     setNotifications] =
       useState([]);
 
+  const { socket } =
+    useContext(
+      SocketContext
+    );
+
   useEffect(() => {
 
     fetchNotifications();
 
   }, []);
+
+  useEffect(() => {
+
+    socket.on(
+      "notification",
+      () => {
+
+        fetchNotifications();
+
+      }
+    );
+
+    return () => {
+
+      socket.off(
+        "notification"
+      );
+    };
+
+  }, [socket]);
 
   const fetchNotifications = async () => {
 
@@ -75,53 +104,53 @@ export default function NotificationsPage() {
           notifications.map(
             notification => (
 
-            <div
-              key={
-                notification.id
-              }
-              className={`
-                p-5
-                rounded-xl
-                shadow
-                bg-white
-                ${
-                  !notification.isRead
-                    ? "border-l-4 border-[#102C26]"
-                    : ""
+              <div
+                key={
+                  notification.id
                 }
-              `}
-            >
+                className={`
+                  p-5
+                  rounded-xl
+                  shadow
+                  bg-white
+                  ${
+                    !notification.isRead
+                      ? "border-l-4 border-[#102C26]"
+                      : ""
+                  }
+                `}
+              >
 
-              <p>
+                <p>
+                  {
+                    notification.message
+                  }
+                </p>
+
                 {
-                  notification.message
+                  !notification.isRead && (
+
+                    <button
+                      onClick={() =>
+                        markRead(
+                          notification.id
+                        )
+                      }
+                      className="
+                        mt-3
+                        text-[#102C26]
+                        font-medium
+                      "
+                    >
+                      Mark as Read
+                    </button>
+
+                  )
                 }
-              </p>
 
-              {
-                !notification.isRead && (
+              </div>
 
-                  <button
-                    onClick={() =>
-                      markRead(
-                        notification.id
-                      )
-                    }
-                    className="
-                    mt-3
-                    text-[#102C26]
-                    font-medium
-                  "
-                  >
-                    Mark as Read
-                  </button>
-
-                )
-              }
-
-            </div>
-
-          ))
+            ))
         }
 
       </div>

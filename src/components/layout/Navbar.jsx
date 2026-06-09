@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import NotificationBadge from "./NotificationBadge";
+import ConnectionStatus from "../ui/ConnectionStatus";
 
 export default function Navbar() {
   const [count, setCount] = useState(0);
@@ -55,7 +56,7 @@ export default function Navbar() {
         />
 
         <span>
-          Welcome, Vansh
+          Welcome, Vansh <ConnectionStatus />
         </span>
       </div>
     </div>
