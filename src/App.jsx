@@ -15,7 +15,7 @@ import NotificationsPage from "./pages/notifications/NotificationsPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ActivityPage from "./pages/activity/ActivityPage";
-
+import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
 function App() {
 
   return (
@@ -77,6 +77,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ActivityPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/issues/:id"
+            element={
+              <ProtectedRoute>
+                <IssueDetailsPage />
               </ProtectedRoute>
             }
           />

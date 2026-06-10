@@ -3,6 +3,10 @@ import {
   useState
 } from "react";
 
+import {
+  Link
+} from "react-router-dom";
+
 import api from "../../services/api";
 
 import IssueForm from "./IssueForm";
@@ -287,6 +291,19 @@ export default function IssuesPage() {
                 </select>
 
               </div>
+
+              <Link
+                to={`/issues/${issue.id}`}
+                className="
+                text-[#102C26]
+                underline
+                text-sm
+                mt-2
+                inline-block
+              "
+              >
+                Open Discussion
+              </Link>
 
             </div>
 
