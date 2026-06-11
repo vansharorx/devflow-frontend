@@ -16,11 +16,11 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ActivityPage from "./pages/activity/ActivityPage";
 import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
-function App() {
+import ProfilePage from "./pages/profile/ProfilePage";
 
+function App() {
   return (
     <BrowserRouter>
-
       <Routes>
 
         <Route
@@ -33,9 +33,7 @@ function App() {
           element={<RegisterPage />}
         />
 
-        <Route
-          element={<MainLayout />}
-        >
+        <Route element={<MainLayout />}>
 
           <Route
             path="/"
@@ -65,22 +63,6 @@ function App() {
           />
 
           <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <NotificationsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/activities"
-            element={
-              <ProtectedRoute>
-                <ActivityPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/issues/:id"
             element={
               <ProtectedRoute>
@@ -89,10 +71,36 @@ function App() {
             }
           />
 
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <NotificationsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/activities"
+            element={
+              <ProtectedRoute>
+                <ActivityPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
         </Route>
 
       </Routes>
-
     </BrowserRouter>
   );
 }
