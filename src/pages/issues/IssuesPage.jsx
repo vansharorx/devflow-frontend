@@ -24,6 +24,14 @@ export default function IssuesPage() {
     setUsers] =
       useState([]);
 
+  const [search,
+    setSearch] =
+      useState("");
+
+  const [statusFilter,
+    setStatusFilter] =
+      useState("All");
+
   useEffect(() => {
 
     fetchIssues();
@@ -153,6 +161,31 @@ export default function IssuesPage() {
     }
   };
 
+  const filteredIssues =
+    issues.filter(issue => {
+
+      const matchesSearch =
+
+        issue.title
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
+
+      const matchesStatus =
+
+        statusFilter === "All"
+        ||
+        issue.status ===
+        statusFilter;
+
+      return (
+        matchesSearch
+        &&
+        matchesStatus
+      );
+    });
+
   return (
 
     <div>
@@ -176,13 +209,91 @@ export default function IssuesPage() {
 
       <div
         className="
+        flex
+        gap-4
+        mb-6
+      "
+      >
+
+        <input
+          type="text"
+          placeholder="Search issues..."
+          value={search}
+          onChange={(e)=>
+            setSearch(
+              e.target.value
+            )
+          }
+          className="
+          border
+          p-3
+          rounded-lg
+          flex-1
+        "
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e)=>
+            setStatusFilter(
+              e.target.value
+            )
+          }
+          className="
+          border
+          p-3
+          rounded-lg
+        "
+        >
+
+          <option>
+            All
+          </option>
+
+          <option>
+            Open
+          </option>
+
+          <option>
+            In Progress
+          </option>
+
+          <option>
+            Closed
+          </option>
+
+        </select>
+
+      </div>
+
+      {
+        filteredIssues.length === 0 && (
+
+          <div
+            className="
+            bg-white
+            rounded-xl
+            p-6
+            shadow
+          "
+          >
+
+            No issues found.
+
+          </div>
+
+        )
+      }
+
+      <div
+        className="
         grid
         gap-4
       "
       >
 
         {
-          issues.map(
+          filteredIssues.map(
             issue => (
 
             <div
