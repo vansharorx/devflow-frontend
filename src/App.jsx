@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 
 import MainLayout from "./components/layout/MainLayout";
-
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProjectsPage from "./pages/projects/ProjectsPage";
 import IssuesPage from "./pages/issues/IssuesPage";
@@ -17,6 +16,7 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import ActivityPage from "./pages/activity/ActivityPage";
 import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
+import ProjectDetailsPage from "./pages/projects/ProjectDetailsPage";
 
 function App() {
   return (
@@ -94,6 +94,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectDetailsPage />
               </ProtectedRoute>
             }
           />

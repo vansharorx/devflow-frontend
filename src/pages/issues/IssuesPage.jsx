@@ -207,6 +207,20 @@ export default function IssuesPage() {
         }
       />
 
+      <span
+        className="
+        bg-[#102C26]
+        text-white
+        px-3
+        py-1
+        rounded-full
+        inline-block
+        mb-4
+      "
+      >
+        {issues.length} Issues
+      </span>
+
       <div
         className="
         flex

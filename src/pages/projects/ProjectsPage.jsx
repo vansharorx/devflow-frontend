@@ -3,6 +3,10 @@ import {
   useState
 } from "react";
 
+import {
+  Link
+} from "react-router-dom";
+
 import api from "../../services/api";
 
 import ProjectForm from "./ProjectForm";
@@ -130,6 +134,17 @@ export default function ProjectsPage() {
                 >
                   {project.name}
                 </h2>
+
+                <Link
+                  to={`/projects/${project.id}`}
+                  className="
+                  text-[#102C26]
+                  underline
+                  text-sm
+                "
+                >
+                  View Details
+                </Link>
 
               </div>
 
