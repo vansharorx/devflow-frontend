@@ -4,6 +4,10 @@ import api from "../../services/api";
 
 import StatCard from "../../components/ui/StatCard";
 
+import IssueStatusChart from "../../components/charts/IssueStatusChart";
+
+import ProjectActivityChart from "../../components/charts/ProjectActivityChart";
+
 export default function DashboardPage() {
 
   const [dashboardData,
@@ -46,6 +50,48 @@ export default function DashboardPage() {
   if (loading) {
     return <h2>Loading...</h2>;
   }
+
+  const issueStatusData = [
+
+    {
+      name: "Open",
+      value:
+        dashboardData
+        ?.issuesByStatus
+        ?.open || 0
+    },
+
+    {
+      name: "In Progress",
+      value:
+        dashboardData
+        ?.issuesByStatus
+        ?.inProgress || 0
+    },
+
+    {
+      name: "Closed",
+      value:
+        dashboardData
+        ?.issuesByStatus
+        ?.closed || 0
+    }
+
+  ];
+
+  const projectActivityData =
+
+    dashboardData
+    ?.topProjects
+    ?.map(project => ({
+
+      name:
+        project.name,
+
+      issues:
+        project.totalIssues
+
+    })) || [];
 
   return (
 
@@ -95,6 +141,29 @@ export default function DashboardPage() {
             dashboardData
               .totals
               .issues
+          }
+        />
+
+      </div>
+
+      <div
+        className="
+        grid
+        md:grid-cols-2
+        gap-6
+        mt-8
+      "
+      >
+
+        <IssueStatusChart
+          data={
+            issueStatusData
+          }
+        />
+
+        <ProjectActivityChart
+          data={
+            projectActivityData
           }
         />
 
