@@ -45,7 +45,7 @@ export default function ActivityPage() {
   };
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <h2><LoadingSpinner /></h2>;
   }
 
   return (

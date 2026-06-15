@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
-import NotificationBadge from "./NotificationBadge";
+import { Menu } from "lucide-react";
+
+import NotificationBadge from "../ui/NotificationBadge";
 import ConnectionStatus from "../ui/ConnectionStatus";
 import UserMenu from "../ui/UserMenu";
+import api from "../../services/api";
 
-export default function Navbar() {
+export default function Navbar({
+  setSidebarOpen
+}) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -27,37 +32,51 @@ export default function Navbar() {
   return (
     <div
       className="
-      bg-white
-      h-16
-      shadow
-      flex
-      items-center
-      justify-between
-      px-6
-    "
-    >
-      <h2
-        className="
-        heading-font
-        text-[#102C26]
+        bg-white
+        h-16
+        shadow
+        flex
+        items-center
+        justify-between
+        px-6
       "
-      >
-        DevFlow
-      </h2>
+    >
+      <div className="flex items-center gap-4">
+
+        <button
+          onClick={() =>
+            setSidebarOpen(true)
+          }
+          className="md:hidden"
+        >
+          <Menu />
+        </button>
+
+        <h2
+          className="
+            heading-font
+            text-[#102C26]
+          "
+        >
+          DevFlow
+        </h2>
+
+      </div>
 
       <div
         className="
-        flex
-        items-center
-        gap-4
-      "
+          flex
+          items-center
+          gap-4
+        "
       >
         <NotificationBadge
           count={count}
         />
 
         <span>
-          <UserMenu /> <ConnectionStatus />
+          <UserMenu />
+          <ConnectionStatus />
         </span>
       </div>
     </div>

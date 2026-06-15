@@ -78,7 +78,7 @@ export default function ProjectDetailsPage() {
   };
 
   if (!project) {
-    return <h2>Loading...</h2>;
+    return <h2><LoadingSpinner /></h2>;
   }
 
   return (

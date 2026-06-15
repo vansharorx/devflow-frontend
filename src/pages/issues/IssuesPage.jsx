@@ -292,7 +292,9 @@ export default function IssuesPage() {
           "
           >
 
-            No issues found.
+            <EmptyState
+              title="No issues found"
+            />
 
           </div>
 
