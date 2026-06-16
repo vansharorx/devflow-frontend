@@ -17,6 +17,7 @@ import ActivityPage from "./pages/activity/ActivityPage";
 import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProjectDetailsPage from "./pages/projects/ProjectDetailsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -106,7 +107,10 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="*"
+            element={<NotFoundPage />}
+          />
         </Route>
 
       </Routes>

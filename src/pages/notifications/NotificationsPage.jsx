@@ -4,10 +4,8 @@ import {
 } from "react";
 
 import api from "../../services/api";
-import useContext from "../../hooks/useContext";
-import {
-  SocketContext
-} from "../../context/SocketContext";
+import { useContext } from "react";
+import { SocketContext } from "../../context/SocketContext";
 
 export default function NotificationsPage() {
 
@@ -15,11 +13,7 @@ export default function NotificationsPage() {
     setNotifications] =
       useState([]);
 
-  const { socket } =
-    useContext(
-      SocketContext
-    );
-
+    const { socket } = useContext(SocketContext);
   useEffect(() => {
 
     fetchNotifications();
