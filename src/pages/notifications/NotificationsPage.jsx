@@ -66,7 +66,7 @@ export default function NotificationsPage() {
     try {
 
       await api.put(
-        `/notifications/${id}`
+        `/notifications/${id}/read`
       );
 
       fetchNotifications();
@@ -108,7 +108,7 @@ export default function NotificationsPage() {
                   shadow
                   bg-white
                   ${
-                    !notification.isRead
+                    !notification.is_read
                       ? "border-l-4 border-[#102C26]"
                       : ""
                   }
@@ -122,7 +122,7 @@ export default function NotificationsPage() {
                 </p>
 
                 {
-                  !notification.isRead && (
+                  !notification.is_read && (
 
                     <button
                       onClick={() =>
@@ -131,9 +131,11 @@ export default function NotificationsPage() {
                         )
                       }
                       className="
-                        mt-3
-                        text-[#102C26]
-                        font-medium
+                      mt-3
+                      text-[#102C26]
+                      font-medium
+                      cursor-pointer
+                      hover:underline
                       "
                     >
                       Mark as Read

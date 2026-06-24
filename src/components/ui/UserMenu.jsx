@@ -27,24 +27,16 @@ export default function UserMenu() {
     >
 
       <button
-        onClick={() =>
-          navigate("/profile")
-        }
-        className="
-        text-[#102C26]
-      "
-      >
-        Profile
-      </button>
-
-      <button
         onClick={logout}
         className="
-        text-red-500
-      "
+          text-red-500
+          cursor-pointer
+          hover:underline
+          transition
+        "
       >
         Logout
-      </button>
+</button>
 
     </div>
   );

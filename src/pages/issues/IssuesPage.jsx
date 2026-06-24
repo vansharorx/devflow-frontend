@@ -11,8 +11,8 @@ import api from "../../services/api";
 
 import IssueForm from "./IssueForm";
 
-import UserSelect
-from "../../components/ui/UserSelect";
+import UserSelect from "../../components/ui/UserSelect";
+import EmptyState from "../../components/ui/EmptyState";
 
 export default function IssuesPage() {
 
@@ -78,25 +78,30 @@ export default function IssuesPage() {
     }
   };
 
-  const createIssue =
-    async (title) => {
+  const createIssue = async (
+  title,
+  projectId
+) => {
 
-    try {
+  try {
 
-      await api.post(
-        "/issues",
-        {
-          title
-        }
-      );
+    await api.post("/issues", {
 
-      fetchIssues();
+      title,
 
-    } catch (err) {
+      projectId
 
-      console.log(err);
-    }
-  };
+    });
+
+    fetchIssues();
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
 
   const updateStatus =
     async (
@@ -106,12 +111,9 @@ export default function IssuesPage() {
 
     try {
 
-      await api.put(
-        `/issues/${id}`,
-        {
-          status
-        }
-      );
+      await api.put(`/issues/${id}/status`, {
+        status
+      });
 
       fetchIssues();
 
@@ -129,12 +131,9 @@ export default function IssuesPage() {
 
     try {
 
-      await api.put(
-        `/issues/${issueId}`,
-        {
-          assignedTo: userId
-        }
-      );
+      await api.put(`/issues/${issueId}/assign`, {
+        userId
+      });
 
       fetchIssues();
 
@@ -173,11 +172,8 @@ export default function IssuesPage() {
           );
 
       const matchesStatus =
-
-        statusFilter === "All"
-        ||
-        issue.status ===
-        statusFilter;
+      statusFilter === "All" ||
+      issue.status.toLowerCase() === statusFilter.toLowerCase();
 
       return (
         matchesSearch
@@ -345,6 +341,9 @@ export default function IssuesPage() {
                   }
                   className="
                   text-red-500
+                  cursor-pointer
+                  hover:underline
+                  transition-colors
                 "
                 >
                   Delete
@@ -362,9 +361,7 @@ export default function IssuesPage() {
 
                   users={users}
 
-                  value={
-                    issue.assignedTo
-                  }
+                  value={issue.assigned_to}
 
                   onChange={(e)=>
 

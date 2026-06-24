@@ -3,6 +3,8 @@ import {
   useState
 } from "react";
 
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
+
 import api from "../../services/api";
 
 export default function ActivityPage() {
@@ -31,7 +33,11 @@ export default function ActivityPage() {
         );
 
       setActivities(
-        res.data.data
+        res.data.data.sort(
+          (a, b) =>
+            new Date(b.created_at) -
+            new Date(a.created_at)
+        )
       );
 
     } catch (err) {
@@ -96,9 +102,10 @@ export default function ActivityPage() {
                 mt-1
               "
               >
-                {
-                  activity.created_at
-                }
+                {new Date(activity.created_at).toLocaleString("en-IN", {
+                  dateStyle: "medium",
+                  timeStyle: "short"
+                })}
               </p>
 
             </div>

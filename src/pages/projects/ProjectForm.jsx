@@ -45,11 +45,14 @@ export default function ProjectForm({
 
       <button
         className="
-        bg-[#102C26]
-        text-white
-        px-6
-        rounded-lg
-      "
+          bg-[#102C26]
+          text-white
+          px-6
+          rounded-lg
+          cursor-pointer
+          hover:bg-[#17453b]
+          transition-colors
+        "
       >
         Create
       </button>

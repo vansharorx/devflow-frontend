@@ -8,6 +8,8 @@ import IssueStatusChart from "../../components/charts/IssueStatusChart";
 
 import ProjectActivityChart from "../../components/charts/ProjectActivityChart";
 
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
+
 export default function DashboardPage() {
 
   const [dashboardData,
@@ -119,29 +121,17 @@ export default function DashboardPage() {
 
         <StatCard
           title="Users"
-          value={
-            dashboardData
-              .totals
-              .users
-          }
+          value={dashboardData?.totals?.users || 0}
         />
 
         <StatCard
           title="Projects"
-          value={
-            dashboardData
-              .totals
-              .projects
-          }
+          value={dashboardData?.totals?.projects || 0}
         />
 
         <StatCard
           title="Issues"
-          value={
-            dashboardData
-              .totals
-              .issues
-          }
+          value={dashboardData?.totals?.issues || 0}
         />
 
       </div>
@@ -197,10 +187,7 @@ export default function DashboardPage() {
           </h2>
 
           {
-
-            dashboardData
-              .topUsers
-              ?.map(user => (
+            dashboardData?.topUsers?.map(user => (
 
               <div
                 key={user.id}
@@ -240,10 +227,7 @@ export default function DashboardPage() {
           </h2>
 
           {
-
-            dashboardData
-              .topProjects
-              ?.map(project => (
+             dashboardData?.topProjects?.map(project => (
 
               <div
                 key={project.id}

@@ -1,0 +1,1 @@
+activities.slice(0,5)

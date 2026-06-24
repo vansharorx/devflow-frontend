@@ -25,7 +25,7 @@ export default function CommentList({
           >
 
             <p>
-              {comment.content}
+              {comment.comment}
             </p>
 
             <p

@@ -59,7 +59,7 @@ export default function IssueDetailsPage() {
         "/comments",
         {
           issueId: id,
-          content
+          comment: content
         }
       );
 

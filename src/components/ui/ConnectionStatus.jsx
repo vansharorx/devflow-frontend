@@ -1,60 +1,19 @@
-import {
-  useEffect,
-  useState
-} from "react";
-
-import socket from "../../services/socket";
+import { useContext } from "react";
+import { SocketContext } from "../../context/SocketContext";
 
 export default function ConnectionStatus() {
 
-  const [connected,
-    setConnected] =
-      useState(false);
-
-  useEffect(() => {
-
-    socket.on(
-      "connect",
-      () => {
-        setConnected(true);
-      }
-    );
-
-    socket.on(
-      "disconnect",
-      () => {
-        setConnected(false);
-      }
-    );
-
-    return () => {
-
-      socket.off("connect");
-      socket.off("disconnect");
-    };
-
-  }, []);
+  const { connected } = useContext(SocketContext);
 
   return (
-
     <span
-      className={`
-      text-sm
-      font-medium
-      ${
+      className={
         connected
-        ? "text-green-600"
-        : "text-red-500"
+          ? "text-green-600 font-medium"
+          : "text-red-500 font-medium"
       }
-      `}
     >
-
-      {
-        connected
-          ? "● Live"
-          : "● Offline"
-      }
-
+      {connected ? "● Live" : "● Offline"}
     </span>
   );
 }

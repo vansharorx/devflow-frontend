@@ -57,9 +57,9 @@ export default function ProjectsPage() {
       fetchProjects();
 
     } catch (err) {
-
-      console.log(err);
-    }
+        console.log("Status:", err.response?.status);
+        console.log("Response:", err.response?.data);
+      }
   };
 
   const deleteProject =
@@ -149,18 +149,13 @@ export default function ProjectsPage() {
               </div>
 
               <button
-                onClick={() =>
-                  deleteProject(
-                    project.id
-                  )
-                }
+                onClick={() => deleteProject(project.id)}
                 className="
-                bg-red-500
-                text-white
-                px-4
-                py-2
-                rounded
-              "
+                  text-red-500
+                  cursor-pointer
+                  hover:underline
+                  transition-colors
+                "
               >
                 Delete
               </button>

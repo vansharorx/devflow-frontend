@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import socket from "../../services/socket";
 
 import api from "../../services/api";
 
@@ -33,6 +34,8 @@ export default function LoginPage() {
         "token",
         res.data.accessToken
       );
+
+      socket.connect();
 
       navigate("/");
 
