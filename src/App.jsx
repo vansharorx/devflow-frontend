@@ -18,6 +18,7 @@ import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProjectDetailsPage from "./pages/projects/ProjectDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import SettingsPage from "./pages/settings/SettingsPage";
 
 function App() {
   return (
@@ -112,6 +113,11 @@ function App() {
             element={<NotFoundPage />}
           />
         </Route>
+
+            <Route
+            path="/settings"
+            element={<SettingsPage />}
+          />
 
       </Routes>
     </BrowserRouter>
