@@ -1,5 +1,4 @@
 import SecurityCard from "../../components/settings/SecurityCard";
-import AppearanceCard from "../../components/settings/AppearanceCard";
 
 export default function SettingsPage() {
 
@@ -30,8 +29,6 @@ export default function SettingsPage() {
       <div className="space-y-8">
 
         <SecurityCard />
-
-        <AppearanceCard />
 
       </div>
 

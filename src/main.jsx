@@ -5,6 +5,10 @@ import App from "./App";
 import "./index.css";
 
 import {
+  ThemeProvider
+} from "./context/ThemeContext";
+
+import {
   SocketProvider
 }
 from "./context/SocketContext";
@@ -21,7 +25,11 @@ ReactDOM.createRoot(
 
   <SocketProvider>
 
-    <App />
+    <ThemeProvider>
+
+      <App />
+
+    </ThemeProvider>
 
   </SocketProvider>
 

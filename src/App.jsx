@@ -7,22 +7,31 @@ import {
 } from "react-router-dom";
 
 import MainLayout from "./components/layout/MainLayout";
+
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProjectsPage from "./pages/projects/ProjectsPage";
-import IssuesPage from "./pages/issues/IssuesPage";
-import NotificationsPage from "./pages/notifications/NotificationsPage";
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
-import ActivityPage from "./pages/activity/ActivityPage";
-import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
-import ProfilePage from "./pages/profile/ProfilePage";
 import ProjectDetailsPage from "./pages/projects/ProjectDetailsPage";
-import NotFoundPage from "./pages/NotFoundPage";
+
+import IssuesPage from "./pages/issues/IssuesPage";
+import IssueDetailsPage from "./pages/issues/IssueDetailsPage";
+
+import NotificationsPage from "./pages/notifications/NotificationsPage";
+import ActivityPage from "./pages/activity/ActivityPage";
+
+import ProfilePage from "./pages/profile/ProfilePage";
 import SettingsPage from "./pages/settings/SettingsPage";
 
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+
+import NotFoundPage from "./pages/NotFoundPage";
+
 function App() {
+
   return (
+
     <BrowserRouter>
+
       <Routes>
 
         <Route
@@ -51,6 +60,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectDetailsPage />
               </ProtectedRoute>
             }
           />
@@ -101,27 +119,27 @@ function App() {
           />
 
           <Route
-            path="/projects/:id"
+            path="/settings"
             element={
               <ProtectedRoute>
-                <ProjectDetailsPage />
+                <SettingsPage />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="*"
             element={<NotFoundPage />}
           />
+
         </Route>
 
-            <Route
-            path="/settings"
-            element={<SettingsPage />}
-          />
-
       </Routes>
+
     </BrowserRouter>
+
   );
+
 }
 
 export default App;
