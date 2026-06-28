@@ -38,6 +38,11 @@ export default function LoginPage() {
         res.data.accessToken
       );
 
+      localStorage.setItem(
+        "refreshToken",
+        res.data.refreshToken
+      );
+
       socket.connect();
 
       navigate("/");
