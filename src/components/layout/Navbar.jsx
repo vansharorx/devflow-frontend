@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Menu } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,7 +16,6 @@ export default function Navbar({ setSidebarOpen }) {
 
   const { socket } = useContext(SocketContext);
 
-  // Decode user name from JWT
   let userName = "User";
 
   try {
@@ -37,17 +36,25 @@ export default function Navbar({ setSidebarOpen }) {
 
   }
 
-  const loadNotifications = async () => {
+  const loadNotifications = useCallback(async () => {
 
     try {
 
-      const res = await api.get("/notifications");
+      const res = await api.get(
+        `/notifications?t=${Date.now()}`
+      );
 
       const unread = res.data.data.filter(
-        notification => Number(notification.is_read) === 0
+        notification =>
+          Number(notification.is_read) === 0
       );
 
       setCount(unread.length);
+
+      console.log(
+        "Unread Notifications:",
+        unread.length
+      );
 
     } catch (err) {
 
@@ -55,27 +62,41 @@ export default function Navbar({ setSidebarOpen }) {
 
     }
 
-  };
+  }, []);
 
   useEffect(() => {
 
     loadNotifications();
 
-  }, []);
+  }, [loadNotifications]);
 
   useEffect(() => {
 
     if (!socket) return;
 
-    socket.on("notification", loadNotifications);
+    const handleNotification = () => {
 
-    return () => {
+      console.log("🔔 Notification Event Received");
 
-      socket.off("notification", loadNotifications);
+      loadNotifications();
 
     };
 
-  }, [socket]);
+    socket.on(
+      "notification",
+      handleNotification
+    );
+
+    return () => {
+
+      socket.off(
+        "notification",
+        handleNotification
+      );
+
+    };
+
+  }, [socket, loadNotifications]);
 
   return (
 

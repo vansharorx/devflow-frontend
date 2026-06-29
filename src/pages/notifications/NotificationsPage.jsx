@@ -44,19 +44,18 @@ export default function NotificationsPage() {
 
     try {
 
-      const res =
-        await api.get(
-          "/notifications"
-        );
+      const res = await api.get("/notifications");
 
-      setNotifications(
-        res.data.data
-      );
+      console.log(res.data);
+
+      setNotifications(res.data.data);
 
     } catch (err) {
 
       console.log(err);
+
     }
+
   };
 
   const markRead = async (
