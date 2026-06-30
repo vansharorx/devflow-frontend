@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
 
 import socket from "../../services/socket";
 import api from "../../services/api";
+
+import AuthCard from "../../components/auth/AuthCard";
+import AuthLogo from "../../components/auth/AuthLogo";
+import AuthInput from "../../components/auth/AuthInput";
+import PasswordInput from "../../components/auth/PasswordInput";
+import AuthDivider from "../../components/auth/AuthDivider";
+import GoogleButton from "../../components/auth/GoogleButton";
+import AuthFooter from "../../components/auth/AuthFooter";
 
 export default function LoginPage() {
 
@@ -14,9 +21,6 @@ export default function LoginPage() {
 
   const [password, setPassword] =
     useState("");
-
-  const [showPassword, setShowPassword] =
-    useState(false);
 
   const handleSubmit = async (e) => {
 
@@ -57,132 +61,99 @@ export default function LoginPage() {
 
   };
 
+  const handleGoogleLogin = () => {
+
+    // OAuth Later
+
+    alert(
+      "Google OAuth Coming Soon"
+    );
+
+  };
+
   return (
 
     <div
       className="
         min-h-screen
+        bg-[#F7E7CE]
         flex
         items-center
         justify-center
-        bg-[#F7E7CE]
+        px-5
       "
     >
 
-      <form
-        onSubmit={handleSubmit}
-        className="
-          bg-white
-          p-8
-          rounded-xl
-          shadow
-          w-96
-        "
-      >
+      <AuthCard>
 
-        <h1
-          className="
-            heading-font
-            text-3xl
-            text-[#102C26]
-            mb-6
-          "
-        >
-          Login
-        </h1>
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(
-              e.target.value
-            )
-          }
-          className="
-            border
-            w-full
-            p-3
-            rounded-lg
-            mb-4
-            focus:outline-none
-            focus:ring-2
-            focus:ring-[#102C26]
-          "
+        <AuthLogo
+          title="Sign in to DevFlow"
+          subtitle="Track projects. Assign issues. Collaborate with your team."
         />
 
-        <div className="relative mb-4">
+        <form
+          onSubmit={handleSubmit}
+        >
 
-          <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
+          <AuthInput
+            label="Email address"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e)=>
+              setEmail(
+                e.target.value
+              )
             }
-            placeholder="Password"
+          />
+
+          <PasswordInput
+            label="Password"
+            placeholder="Enter your password"
             value={password}
-            onChange={(e) =>
+            onChange={(e)=>
               setPassword(
                 e.target.value
               )
             }
-            className="
-              border
-              w-full
-              p-3
-              pr-12
-              rounded-lg
-              focus:outline-none
-              focus:ring-2
-              focus:ring-[#102C26]
-            "
+            forgotPassword
           />
 
           <button
-            type="button"
-            onClick={() =>
-              setShowPassword(
-                !showPassword
-              )
-            }
+            type="submit"
             className="
-              absolute
-              right-3
-              top-1/2
-              -translate-y-1/2
-              text-gray-500
-              hover:text-[#102C26]
+              w-full
+              bg-[#102C26]
+              text-white
+              py-3
+              rounded-lg
+              mt-2
+              font-medium
+              hover:bg-[#17453b]
+              transition
               cursor-pointer
             "
           >
-
-            {
-              showPassword
-                ? <EyeOff size={20} />
-                : <Eye size={20} />
-            }
-
+            Sign in
           </button>
 
-        </div>
+        </form>
 
-        <button
-          className="
-            bg-[#102C26]
-            text-white
-            w-full
-            p-3
-            rounded-lg
-            cursor-pointer
-            hover:bg-[#17453b]
-            transition-colors
-          "
-        >
-          Login
-        </button>
+        <AuthDivider />
 
-      </form>
+        <GoogleButton
+          onClick={
+            handleGoogleLogin
+          }
+        />
+
+        <AuthFooter
+          text="New to DevFlow?"
+          linkText="Create an account"
+          to="/register"
+        />
+
+      </AuthCard>
 
     </div>
 
