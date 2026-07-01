@@ -25,6 +25,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
 import NotFoundPage from "./pages/NotFoundPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 
 function App() {
 
@@ -42,6 +43,11 @@ function App() {
         <Route
           path="/register"
           element={<RegisterPage />}
+        />
+
+        <Route
+            path="/forgot-password"
+            element={<ForgotPasswordPage />}
         />
 
         <Route element={<MainLayout />}>

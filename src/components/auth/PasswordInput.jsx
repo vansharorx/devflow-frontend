@@ -4,6 +4,8 @@ import {
   EyeOff
 } from "lucide-react";
 
+import { Link } from "react-router-dom";
+
 export default function PasswordInput({
 
   label,
@@ -44,16 +46,16 @@ export default function PasswordInput({
 
           forgotPassword && (
 
-            <button
-              type="button"
-              className="
-                text-sm
-                text-[#102C26]
-                hover:underline
-              "
+            <Link
+                to="/forgot-password"
+                className="
+                    text-sm
+                    text-[#102C26]
+                    hover:underline
+                "
             >
-              Forgot password?
-            </button>
+                Forgot password?
+            </Link>
 
           )
 
