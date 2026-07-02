@@ -26,6 +26,9 @@ import RegisterPage from "./pages/auth/RegisterPage";
 
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
+
 
 function App() {
 
@@ -48,6 +51,16 @@ function App() {
         <Route
             path="/forgot-password"
             element={<ForgotPasswordPage />}
+        />
+
+        <Route
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
+        />
+
+        <Route
+            path="/verify-email/:token"
+            element={<VerifyEmailPage />}
         />
 
         <Route element={<MainLayout />}>
