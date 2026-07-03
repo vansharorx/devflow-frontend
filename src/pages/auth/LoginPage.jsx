@@ -63,11 +63,8 @@ export default function LoginPage() {
 
   const handleGoogleLogin = () => {
 
-    // OAuth Later
-
-    alert(
-      "Google OAuth Coming Soon"
-    );
+    window.location.href =
+      "http://localhost:2005/api/v1/auth/google";
 
   };
 
@@ -142,9 +139,7 @@ export default function LoginPage() {
         <AuthDivider />
 
         <GoogleButton
-          onClick={
-            handleGoogleLogin
-          }
+          onClick={handleGoogleLogin}
         />
 
         <AuthFooter

@@ -29,6 +29,7 @@ import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
 
+import OAuthSuccessPage from "./pages/auth/OAuthSuccessPage";
 
 function App() {
 
@@ -61,6 +62,11 @@ function App() {
         <Route
             path="/verify-email/:token"
             element={<VerifyEmailPage />}
+        />
+        
+        <Route
+            path="/oauth-success"
+            element={<OAuthSuccessPage />}
         />
 
         <Route element={<MainLayout />}>
