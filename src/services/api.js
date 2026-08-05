@@ -96,4 +96,31 @@ api.interceptors.response.use(
 
 );
 
+export const uploadProfileImage = async (file) => {
+
+  const formData = new FormData();
+
+  formData.append(
+    "profileImage",
+    file
+  );
+
+  const response = await api.post(
+
+    "/users/profile-image",
+
+    formData,
+
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+
+  );
+
+  return response.data;
+
+};
+
 export default api;

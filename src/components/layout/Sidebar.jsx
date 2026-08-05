@@ -25,7 +25,7 @@ export default function Sidebar({
     <aside
       className={`
         fixed
-        md:static
+        md:fixed
         z-50
         ${
           open
@@ -36,7 +36,8 @@ export default function Sidebar({
         transition-transform
         duration-300
         w-64
-        min-h-screen
+        h-screen
+        flex-shrink-0
         bg-[#102C26]
         text-white
         p-6

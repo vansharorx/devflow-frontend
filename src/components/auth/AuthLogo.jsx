@@ -1,3 +1,5 @@
+import devflowLogo from "../../assets/devflow-login.png";
+
 export default function AuthLogo({
   title,
   subtitle
@@ -14,24 +16,17 @@ export default function AuthLogo({
       "
     >
 
-      <div
+      <img
+        src={devflowLogo}
+        alt="DevFlow Logo"
         className="
-          w-16
-          h-16
-          rounded-2xl
-          bg-[#102C26]
-          text-[#F7E7CE]
-          flex
-          items-center
-          justify-center
-          heading-font
-          text-2xl
-          shadow-md
-          mb-5
+          w-40
+          h-40
+          object-contain
+          -mb-8
+          -mt-6
         "
-      >
-        D
-      </div>
+      />
 
       <h1
         className="

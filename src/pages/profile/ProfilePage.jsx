@@ -1,26 +1,25 @@
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import api from "../../services/api";
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
+
+import api, {
+  uploadProfileImage
+} from "../../services/api";
+
+import { AuthContext } from "../../context/AuthContext";
 
 export default function ProfilePage() {
 
-  const token = localStorage.getItem("token");
+  const {
+    user,
+    loadUser
+  } = useContext(AuthContext);
 
-  let user = null;
-
-  try {
-
-    if (token) {
-
-      user = jwtDecode(token);
-
-    }
-
-  } catch (err) {
-
-    console.log(err);
-
-  }
+  const fileInputRef =
+    useRef(null);
 
   const [stats, setStats] = useState({
     projects: 0,
@@ -33,6 +32,27 @@ export default function ProfilePage() {
     loadStats();
 
   }, []);
+
+  const handleProfileImage = async (event) => {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) return;
+
+    try {
+
+      await uploadProfileImage(file);
+
+      await loadUser();
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+  };
 
   const loadStats = async () => {
 
@@ -72,7 +92,7 @@ export default function ProfilePage() {
     return <h2>User not found</h2>;
 
   }
-
+  
   return (
 
     <div>
@@ -99,21 +119,77 @@ export default function ProfilePage() {
 
         <div className="flex items-center gap-6">
 
-          <div
-            className="
-              w-24
-              h-24
-              rounded-full
-              bg-[#102C26]
-              text-white
-              flex
-              items-center
-              justify-center
-              text-4xl
-              font-bold
-            "
-          >
-            {user.name.charAt(0).toUpperCase()}
+          <div className="relative">
+
+            <div
+              className="
+                w-24
+                h-24
+                rounded-full
+                overflow-hidden
+                bg-[#102C26]
+                flex
+                items-center
+                justify-center
+              "
+            >
+
+              {user.profile_image ? (
+
+                <img
+                  src={`${import.meta.env.VITE_API_URL.replace("/api/v1", "")}/${user.profile_image}`}
+                  alt="Profile"
+                  className="
+                    w-full
+                    h-full
+                    object-cover
+                  "
+                />
+
+              ) : (
+
+                <span
+                  className="
+                    text-white
+                    text-4xl
+                    font-bold
+                  "
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+
+              )}
+
+            </div>
+
+            <button
+              onClick={() =>
+                fileInputRef.current.click()
+              }
+              className="
+                absolute
+                bottom-0
+                right-0
+                w-8
+                h-8
+                rounded-full
+                bg-[#102C26]
+                text-white
+                shadow
+                hover:bg-[#1b473f]
+              "
+            >
+              📷
+            </button>
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleProfileImage}
+            />
+
           </div>
 
           <div>

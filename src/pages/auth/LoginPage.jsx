@@ -1,8 +1,12 @@
-import { useState } from "react";
+import {
+  useContext,
+  useState
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import socket from "../../services/socket";
 import api from "../../services/api";
+import { AuthContext } from "../../context/AuthContext";
 
 import AuthCard from "../../components/auth/AuthCard";
 import AuthLogo from "../../components/auth/AuthLogo";
@@ -15,6 +19,10 @@ import AuthFooter from "../../components/auth/AuthFooter";
 export default function LoginPage() {
 
   const navigate = useNavigate();
+
+  const {
+    loadUser
+  } = useContext(AuthContext);
 
   const [email, setEmail] =
     useState("");
@@ -46,6 +54,8 @@ export default function LoginPage() {
         "refreshToken",
         res.data.refreshToken
       );
+
+      await loadUser();
 
       socket.connect();
 
