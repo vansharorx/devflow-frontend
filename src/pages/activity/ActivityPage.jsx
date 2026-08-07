@@ -4,6 +4,7 @@ import {
 } from "react";
 
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import { formatRelativeDate } from "../../utils/dateFormatter";
 
 import api from "../../services/api";
 
@@ -60,11 +61,11 @@ export default function ActivityPage() {
 
       <h1
         className="
-        heading-font
-        text-3xl
-        text-[#102C26]
-        mb-6
-      "
+          heading-font
+          text-3xl
+          text-[#102C26]
+          mb-6
+        "
       >
         Activity Timeline
       </h1>
@@ -75,42 +76,37 @@ export default function ActivityPage() {
           activities.map(
             activity => (
 
-            <div
-              key={activity.id}
-              className="
-              bg-white
-              p-5
-              rounded-xl
-              shadow
-            "
-            >
-
-              <p
+              <div
+                key={activity.id}
                 className="
-                font-medium
-              "
+                  bg-white
+                  p-5
+                  rounded-xl
+                  shadow
+                "
               >
-                {
-                  activity.action
-                }
-              </p>
 
-              <p
-                className="
-                text-gray-500
-                text-sm
-                mt-1
-              "
-              >
-                {new Date(activity.created_at).toLocaleString("en-IN", {
-                  dateStyle: "medium",
-                  timeStyle: "short"
-                })}
-              </p>
+                <p
+                  className="
+                    font-medium
+                  "
+                >
+                  {activity.action}
+                </p>
 
-            </div>
+                <p
+                  className="
+                    text-gray-500
+                    text-sm
+                    mt-1
+                  "
+                >
+                  {formatRelativeDate(activity.created_at)}
+                </p>
 
-          ))
+              </div>
+
+            ))
         }
 
       </div>
