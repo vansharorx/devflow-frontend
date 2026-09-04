@@ -1,126 +1,110 @@
 import axios from "axios";
 
+import {
+    getAccessToken,
+    setAccessToken,
+    clearAccessToken
+} from "./tokenStore";
+
 const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_URL
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true
 });
 
 api.interceptors.request.use((config) => {
 
-  const token =
-    localStorage.getItem("token");
+    const token = getAccessToken();
 
-  if (token) {
+    if (token) {
+        config.headers.Authorization =
+            `Bearer ${token}`;
+    }
 
-    config.headers.Authorization =
-      `Bearer ${token}`;
-
-  }
-
-  return config;
+    return config;
 
 });
 
 api.interceptors.response.use(
 
-  (response) => response,
+    (response) => response,
 
-  async (error) => {
+    async (error) => {
 
-    const originalRequest =
-      error.config;
+        const originalRequest =
+            error.config;
 
-    if (
+        if (
+            error.response?.status === 401 &&
+            !originalRequest._retry &&
+            !originalRequest.url?.includes("/users/refresh")
+        ) {
 
-      error.response?.status === 401 &&
+            originalRequest._retry = true;
 
-      !originalRequest._retry
+            try {
 
-    ) {
+                const res =
+                    await axios.post(
+                        `${import.meta.env.VITE_API_URL}/users/refresh`,
+                        {},
+                        {
+                            withCredentials: true
+                        }
+                    );
 
-      originalRequest._retry = true;
+                const newAccessToken =
+                    res.data.accessToken;
 
-      try {
+                setAccessToken(
+                    newAccessToken
+                );
 
-        const refreshToken =
-          localStorage.getItem(
-            "refreshToken"
-          );
+                originalRequest.headers.Authorization =
+                    `Bearer ${newAccessToken}`;
 
-        const res =
-          await axios.post(
+                return api(originalRequest);
 
-            `${import.meta.env.VITE_API_URL}/users/refresh`,
+            } catch (err) {
 
-            {
-              token: refreshToken
+                clearAccessToken();
+
+                window.location.href =
+                    "/login";
+
+                return Promise.reject(err);
+
             }
 
-          );
+        }
 
-        const newAccessToken =
-          res.data.accessToken;
-
-        localStorage.setItem(
-          "token",
-          newAccessToken
-        );
-
-        originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
-
-        return api(originalRequest);
-
-      } catch (err) {
-
-        localStorage.removeItem(
-          "token"
-        );
-
-        localStorage.removeItem(
-          "refreshToken"
-        );
-
-        window.location.href =
-          "/login";
-
-        return Promise.reject(err);
-
-      }
+        return Promise.reject(error);
 
     }
-
-    return Promise.reject(error);
-
-  }
 
 );
 
 export const uploadProfileImage = async (file) => {
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  formData.append(
-    "profileImage",
-    file
-  );
+    formData.append(
+        "profileImage",
+        file
+    );
 
-  const response = await api.post(
+    const response =
+        await api.post(
+            "/users/profile-image",
+            formData,
+            {
+                headers: {
+                    "Content-Type":
+                        "multipart/form-data"
+                }
+            }
+        );
 
-    "/users/profile-image",
-
-    formData,
-
-    {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }
-
-  );
-
-  return response.data;
-
+    return response.data;
 };
 
 export default api;

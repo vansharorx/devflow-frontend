@@ -1,76 +1,129 @@
 import {
-  createContext,
-  useEffect,
-  useState
+    createContext,
+    useEffect,
+    useState
 } from "react";
 
 import api from "../services/api";
 
+import {
+    setAccessToken,
+    clearAccessToken
+} from "../services/tokenStore";
+
 export const AuthContext =
-  createContext();
+    createContext();
 
 export const AuthProvider = ({
-  children
+    children
 }) => {
 
-  const [user, setUser] =
-    useState(null);
+    const [user, setUser] =
+        useState(null);
 
-  const loadUser = async () => {
+    const [loading, setLoading] =
+        useState(true);
 
-    const token =
-      localStorage.getItem("token");
+    const loadUser = async () => {
 
-    if (!token) return;
+        try {
 
-    try {
+            const res =
+                await api.get("/users/me");
 
-      const res =
-        await api.get("/users/me");
+            setUser(
+                res.data.data
+            );
 
-      setUser(
-        res.data.data
-      );
+            return true;
 
-    } catch (err) {
+        } catch (err) {
 
-      console.log(err);
+            try {
 
-      logout();
+                const refreshResponse =
+                    await api.post(
+                        "/users/refresh"
+                    );
 
-    }
+                setAccessToken(
+                    refreshResponse.data.accessToken
+                );
 
-  };
+                const userResponse =
+                    await api.get("/users/me");
 
-  useEffect(() => {
+                setUser(
+                    userResponse.data.data
+                );
 
-    loadUser();
+                return true;
 
-  }, []);
+            } catch (refreshError) {
 
-  const logout = () => {
+                clearAccessToken();
+                setUser(null);
 
-    localStorage.removeItem("token");
+                return false;
 
-    localStorage.removeItem("refreshToken");
+            }
 
-    setUser(null);
+        }
 
-  };
+    };
 
-  return (
+    useEffect(() => {
 
-    <AuthContext.Provider
-      value={{
-        user,
-        setUser,
-        loadUser,
-        logout
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+        const initializeAuth = async () => {
 
-  );
+            await loadUser();
+
+            setLoading(false);
+
+        };
+
+        initializeAuth();
+
+    }, []);
+
+    const logout = async () => {
+
+        try {
+
+            await api.post(
+                "/users/logout"
+            );
+
+        } catch (err) {
+
+            console.error(
+                "Logout failed:",
+                err
+            );
+
+        } finally {
+
+            clearAccessToken();
+            setUser(null);
+
+        }
+
+    };
+
+    return (
+
+        <AuthContext.Provider
+            value={{
+                user,
+                setUser,
+                loadUser,
+                logout,
+                loading
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+
+    );
 
 };

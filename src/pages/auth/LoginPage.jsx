@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 import socket from "../../services/socket";
 import api from "../../services/api";
+
+import {
+  setAccessToken
+} from "../../services/tokenStore";
+
 import { AuthContext } from "../../context/AuthContext";
 
 import AuthCard from "../../components/auth/AuthCard";
@@ -45,14 +50,13 @@ export default function LoginPage() {
           }
         );
 
-      localStorage.setItem(
-        "token",
+      /*
+       * Access token lives only in memory.
+       * The refresh token is automatically stored
+       * by the backend as an HttpOnly cookie.
+       */
+      setAccessToken(
         res.data.accessToken
-      );
-
-      localStorage.setItem(
-        "refreshToken",
-        res.data.refreshToken
       );
 
       await loadUser();
@@ -107,7 +111,7 @@ export default function LoginPage() {
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e)=>
+            onChange={(e) =>
               setEmail(
                 e.target.value
               )
@@ -118,7 +122,7 @@ export default function LoginPage() {
             label="Password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e)=>
+            onChange={(e) =>
               setPassword(
                 e.target.value
               )

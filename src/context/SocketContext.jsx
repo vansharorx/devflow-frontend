@@ -6,15 +6,20 @@ import {
 
 import socket from "../services/socket";
 
+import {
+  getAccessToken
+} from "../services/tokenStore";
+
 export const SocketContext = createContext();
 
 export function SocketProvider({ children }) {
 
-  const [connected, setConnected] = useState(socket.connected);
+  const [connected, setConnected] =
+    useState(socket.connected);
 
   useEffect(() => {
 
-    const token = localStorage.getItem("token");
+    const token = getAccessToken();
 
     if (token) {
       socket.connect();
@@ -30,13 +35,27 @@ export function SocketProvider({ children }) {
       setConnected(false);
     };
 
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
+    socket.on(
+      "connect",
+      handleConnect
+    );
+
+    socket.on(
+      "disconnect",
+      handleDisconnect
+    );
 
     return () => {
 
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
+      socket.off(
+        "connect",
+        handleConnect
+      );
+
+      socket.off(
+        "disconnect",
+        handleDisconnect
+      );
 
     };
 

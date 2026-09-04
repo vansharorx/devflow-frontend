@@ -1,8 +1,14 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  useCallback
+} from "react";
+
 import { Menu } from "lucide-react";
-import { jwtDecode } from "jwt-decode";
 
 import { SocketContext } from "../../context/SocketContext";
+import { AuthContext } from "../../context/AuthContext";
 
 import NotificationBadge from "../ui/NotificationBadge";
 import ConnectionStatus from "../ui/ConnectionStatus";
@@ -12,75 +18,76 @@ import api from "../../services/api";
 
 export default function Navbar({ setSidebarOpen }) {
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] =
+    useState(0);
 
-  const { socket } = useContext(SocketContext);
+  const { socket } =
+    useContext(SocketContext);
 
-  let userName = "User";
+  const { user } =
+    useContext(AuthContext);
 
-  try {
+  const userName =
+    user?.name || "User";
 
-    const token = localStorage.getItem("token");
+  const loadNotifications =
+    useCallback(async () => {
 
-    if (token) {
+      try {
 
-      const decoded = jwtDecode(token);
+        const res =
+          await api.get(
+            `/notifications?t=${Date.now()}`
+          );
 
-      userName = decoded.name || "User";
+        const unread =
+          res.data.data.filter(
+            notification =>
+              Number(notification.is_read) === 0
+          );
 
-    }
+        setCount(
+          unread.length
+        );
 
-  } catch (err) {
+        console.log(
+          "Unread Notifications:",
+          unread.length
+        );
 
-    console.log(err);
+      } catch (err) {
 
-  }
+        console.log(err);
 
-  const loadNotifications = useCallback(async () => {
+      }
 
-    try {
-
-      const res = await api.get(
-        `/notifications?t=${Date.now()}`
-      );
-
-      const unread = res.data.data.filter(
-        notification =>
-          Number(notification.is_read) === 0
-      );
-
-      setCount(unread.length);
-
-      console.log(
-        "Unread Notifications:",
-        unread.length
-      );
-
-    } catch (err) {
-
-      console.log(err);
-
-    }
-
-  }, []);
+    }, []);
 
   useEffect(() => {
 
+    if (!user) return;
+
     loadNotifications();
 
-  }, [loadNotifications]);
+  }, [
+    user,
+    loadNotifications
+  ]);
 
   useEffect(() => {
 
     if (!socket) return;
 
-    const handleNotification = () => {
+    const handleNotification =
+      () => {
 
-      console.log("🔔 Notification Event Received");
+        console.log(
+          "🔔 Notification Event Received"
+        );
 
-      loadNotifications();
+        loadNotifications();
 
-    };
+      };
 
     socket.on(
       "notification",
@@ -96,7 +103,10 @@ export default function Navbar({ setSidebarOpen }) {
 
     };
 
-  }, [socket, loadNotifications]);
+  }, [
+    socket,
+    loadNotifications
+  ]);
 
   return (
 
@@ -112,10 +122,18 @@ export default function Navbar({ setSidebarOpen }) {
       "
     >
 
-      <div className="flex items-center gap-4">
+      <div
+        className="
+          flex
+          items-center
+          gap-4
+        "
+      >
 
         <button
-          onClick={() => setSidebarOpen(true)}
+          onClick={() =>
+            setSidebarOpen(true)
+          }
           className="md:hidden"
         >
           <Menu />
@@ -141,9 +159,17 @@ export default function Navbar({ setSidebarOpen }) {
         "
       >
 
-        <NotificationBadge count={count} />
+        <NotificationBadge
+          count={count}
+        />
 
-        <div className="flex items-center gap-4">
+        <div
+          className="
+            flex
+            items-center
+            gap-4
+          "
+        >
 
           <UserMenu />
 

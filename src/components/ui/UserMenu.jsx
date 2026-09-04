@@ -1,17 +1,27 @@
 import {
+  useContext
+} from "react";
+
+import {
   useNavigate
 } from "react-router-dom";
+
+import {
+  AuthContext
+} from "../../context/AuthContext";
 
 export default function UserMenu() {
 
   const navigate =
     useNavigate();
 
-  const logout = () => {
+  const {
+    logout
+  } = useContext(AuthContext);
 
-    localStorage.removeItem(
-      "token"
-    );
+  const handleLogout = async () => {
+
+    await logout();
 
     navigate("/login");
   };
@@ -27,7 +37,7 @@ export default function UserMenu() {
     >
 
       <button
-        onClick={logout}
+        onClick={handleLogout}
         className="
           text-red-500
           cursor-pointer
@@ -36,7 +46,7 @@ export default function UserMenu() {
         "
       >
         Logout
-</button>
+      </button>
 
     </div>
   );

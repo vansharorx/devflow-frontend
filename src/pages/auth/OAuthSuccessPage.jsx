@@ -1,60 +1,55 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import api from "../../services/api";
+
 import {
-    useNavigate,
-    useSearchParams
-} from "react-router-dom";
+    setAccessToken
+} from "../../services/tokenStore";
 
 import socket from "../../services/socket";
 
 export default function OAuthSuccessPage() {
 
-    const navigate = useNavigate();
-
-    const [params] = useSearchParams();
+    const navigate =
+        useNavigate();
 
     useEffect(() => {
 
-        const accessToken =
-            params.get("accessToken");
+        const completeOAuthLogin =
+            async () => {
 
-        const refreshToken =
-            params.get("refreshToken");
+                try {
 
-        if (
+                    const res =
+                        await api.post(
+                            "/users/refresh"
+                        );
 
-            !accessToken ||
+                    setAccessToken(
+                        res.data.accessToken
+                    );
 
-            !refreshToken
+                    socket.connect();
 
-        ) {
+                    navigate("/");
 
-            navigate("/login");
+                } catch (err) {
 
-            return;
+                    console.error(
+                        "OAuth login failed:",
+                        err
+                    );
 
-        }
+                    navigate("/login");
 
-        localStorage.setItem(
+                }
 
-            "token",
+            };
 
-            accessToken
+        completeOAuthLogin();
 
-        );
-
-        localStorage.setItem(
-
-            "refreshToken",
-
-            refreshToken
-
-        );
-
-        socket.connect();
-
-        navigate("/");
-
-    }, []);
+    }, [navigate]);
 
     return (
 
@@ -75,9 +70,7 @@ export default function OAuthSuccessPage() {
                     text-2xl
                 "
             >
-
                 Signing you in...
-
             </h1>
 
         </div>
