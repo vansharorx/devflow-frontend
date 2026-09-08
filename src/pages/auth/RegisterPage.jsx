@@ -4,143 +4,111 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+    const [name, setName] = useState("");
 
-  const [name, setName] =
-    useState("");
+    const [email, setEmail] = useState("");
 
-  const [email, setEmail] =
-    useState("");
+    const [password, setPassword] = useState("");
 
-  const [password, setPassword] =
-    useState("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const handleSubmit = async (e) => {
+        try {
+            await api.post("/users", {
+                name,
+                email,
+                password,
+            });
 
-    e.preventDefault();
+            alert("Registration successful");
 
-    try {
-
-      await api.post(
-        "/users",
-        {
-          name,
-          email,
-          password
+            navigate("/login");
+        } catch (err) {
+            alert(err.response?.data?.message);
         }
-      );
+    };
 
-      alert(
-        "Registration successful"
-      );
-
-      navigate("/login");
-
-    } catch (err) {
-
-      alert(
-        err.response?.data?.message
-      );
-    }
-  };
-
-  return (
-    <div
-      className="
+    return (
+        <div
+            className="
       min-h-screen
       flex
       items-center
       justify-center
       bg-[#F7E7CE]
     "
-    >
-
-      <form
-        onSubmit={handleSubmit}
-        className="
+        >
+            <form
+                onSubmit={handleSubmit}
+                className="
         bg-white
         p-8
         rounded-xl
         shadow
         w-96
       "
-      >
-
-        <h1
-          className="
+            >
+                <h1
+                    className="
           heading-font
           text-3xl
           text-[#102C26]
           mb-6
         "
-        >
-          Register
-        </h1>
+                >
+                    Register
+                </h1>
 
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e)=>
-            setName(
-              e.target.value
-            )
-          }
-          className="
+                <input
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="
           border
           w-full
           p-3
           mb-4
         "
-        />
+                />
 
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e)=>
-            setEmail(
-              e.target.value
-            )
-          }
-          className="
+                <input
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="
           border
           w-full
           p-3
           mb-4
         "
-        />
+                />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e)=>
-            setPassword(
-              e.target.value
-            )
-          }
-          className="
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="
           border
           w-full
           p-3
           mb-4
         "
-        />
+                />
 
-        <button
-          className="
+                <button
+                    className="
           bg-[#102C26]
           text-white
           w-full
           p-3
         "
-        >
-          Register
-        </button>
-
-      </form>
-
-    </div>
-  );
+                >
+                    Register
+                </button>
+            </form>
+        </div>
+    );
 }

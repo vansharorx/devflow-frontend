@@ -1,12 +1,9 @@
-export default function NotificationBadge({
-  count
-}) {
+export default function NotificationBadge({ count }) {
+    if (!count) return null;
 
-  if (!count) return null;
-
-  return (
-    <span
-      className="
+    return (
+        <span
+            className="
       bg-red-500
       text-white
       text-xs
@@ -14,8 +11,8 @@ export default function NotificationBadge({
       py-1
       rounded-full
     "
-    >
-      {count}
-    </span>
-  );
+        >
+            {count}
+        </span>
+    );
 }

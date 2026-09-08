@@ -1,50 +1,35 @@
 import { useState } from "react";
 
-export default function CommentForm({
-  onSubmit
-}) {
+export default function CommentForm({ onSubmit }) {
+    const [content, setContent] = useState("");
 
-  const [content,
-    setContent] =
-      useState("");
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-  const handleSubmit = (e) => {
+        if (!content.trim()) return;
 
-    e.preventDefault();
+        onSubmit(content);
 
-    if (!content.trim()) return;
+        setContent("");
+    };
 
-    onSubmit(content);
-
-    setContent("");
-  };
-
-  return (
-
-    <form
-      onSubmit={handleSubmit}
-      className="mb-6"
-    >
-
-      <textarea
-        value={content}
-        onChange={(e)=>
-          setContent(
-            e.target.value
-          )
-        }
-        placeholder="Write a comment..."
-        className="
+    return (
+        <form onSubmit={handleSubmit} className="mb-6">
+            <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write a comment..."
+                className="
         w-full
         border
         rounded-lg
         p-3
         min-h-[100px]
       "
-      />
+            />
 
-      <button
-        className="
+            <button
+                className="
         mt-3
         bg-[#102C26]
         text-white
@@ -52,10 +37,9 @@ export default function CommentForm({
         py-2
         rounded-lg
       "
-      >
-        Add Comment
-      </button>
-
-    </form>
-  );
+            >
+                Add Comment
+            </button>
+        </form>
+    );
 }

@@ -1,15 +1,7 @@
-export default function StatCard({
-
-  title,
-  value,
-  color = "#102C26"
-
-}) {
-
-  return (
-
-    <div
-      className="
+export default function StatCard({ title, value, color = "#102C26" }) {
+    return (
+        <div
+            className="
         relative
         overflow-hidden
         bg-white
@@ -23,23 +15,22 @@ export default function StatCard({
         hover:-translate-y-1
         hover:shadow-xl
       "
-    >
-
-      <div
-        className="
+        >
+            <div
+                className="
           absolute
           top-0
           left-0
           w-2
           h-full
         "
-        style={{
-          backgroundColor: color
-        }}
-      />
+                style={{
+                    backgroundColor: color,
+                }}
+            />
 
-      <p
-        className="
+            <p
+                className="
           text-sm
           font-medium
           text-gray-500
@@ -47,24 +38,21 @@ export default function StatCard({
           tracking-wide
           ml-2
         "
-      >
-        {title}
-      </p>
+            >
+                {title}
+            </p>
 
-      <h2
-        className="
+            <h2
+                className="
           heading-font
           text-4xl
           text-[#102C26]
           mt-3
           ml-2
         "
-      >
-        {value}
-      </h2>
-
-    </div>
-
-  );
-
+            >
+                {value}
+            </h2>
+        </div>
+    );
 }

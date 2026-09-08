@@ -9,57 +9,37 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthFooter from "../../components/auth/AuthFooter";
 
 export default function ForgotPasswordPage() {
-
     const navigate = useNavigate();
 
-    const [email, setEmail] =
-        useState("");
+    const [email, setEmail] = useState("");
 
-    const [loading, setLoading] =
-        useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
         try {
-
             setLoading(true);
 
             const res = await api.post(
-
                 "/password/forgot-password",
 
                 {
-                    email
+                    email,
                 }
-
             );
 
             alert(res.data.message);
 
             navigate("/login");
-
         } catch (err) {
-
-            alert(
-
-                err.response?.data?.message ||
-
-                "Something went wrong."
-
-            );
-
+            alert(err.response?.data?.message || "Something went wrong.");
         } finally {
-
             setLoading(false);
-
         }
-
     };
 
     return (
-
         <div
             className="
                 min-h-screen
@@ -70,21 +50,15 @@ export default function ForgotPasswordPage() {
                 px-5
             "
         >
-
             <AuthCard>
-
                 <AuthLogo
-
                     title="Forgot Password"
 
                     subtitle="Enter your email address to receive a password reset link."
-
                 />
 
                 <form onSubmit={handleSubmit}>
-
                     <AuthInput
-
                         label="Email Address"
 
                         type="email"
@@ -93,14 +67,10 @@ export default function ForgotPasswordPage() {
 
                         value={email}
 
-                        onChange={(e) =>
-                            setEmail(e.target.value)
-                        }
-
+                        onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <button
-
                         type="submit"
 
                         disabled={loading}
@@ -118,35 +88,18 @@ export default function ForgotPasswordPage() {
                             disabled:opacity-50
                         "
                     >
-
-                        {
-
-                            loading
-
-                                ? "Sending..."
-
-                                : "Send Reset Link"
-
-                        }
-
+                        {loading ? "Sending..." : "Send Reset Link"}
                     </button>
-
                 </form>
 
                 <AuthFooter
-
                     text="Remember your password?"
 
                     linkText="Sign In"
 
                     to="/login"
-
                 />
-
             </AuthCard>
-
         </div>
-
     );
-
 }

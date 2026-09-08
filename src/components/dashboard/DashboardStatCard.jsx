@@ -1,13 +1,5 @@
-export default function DashboardStatCard({
-
-    title,
-    value,
-    color
-
-}) {
-
+export default function DashboardStatCard({ title, value, color }) {
     return (
-
         <div
             className="
                 bg-white
@@ -17,10 +9,9 @@ export default function DashboardStatCard({
                 border-l-4
             "
             style={{
-                borderColor: color
+                borderColor: color,
             }}
         >
-
             <p
                 className="
                     text-gray-500
@@ -40,9 +31,6 @@ export default function DashboardStatCard({
             >
                 {value}
             </h2>
-
         </div>
-
     );
-
 }

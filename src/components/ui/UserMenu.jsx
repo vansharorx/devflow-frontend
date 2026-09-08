@@ -1,53 +1,39 @@
-import {
-  useContext
-} from "react";
+import { useContext } from "react";
 
-import {
-  useNavigate
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import {
-  AuthContext
-} from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function UserMenu() {
+    const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+    const { logout } = useContext(AuthContext);
 
-  const {
-    logout
-  } = useContext(AuthContext);
+    const handleLogout = async () => {
+        await logout();
 
-  const handleLogout = async () => {
+        navigate("/login");
+    };
 
-    await logout();
-
-    navigate("/login");
-  };
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
       flex
       items-center
       gap-4
     "
-    >
-
-      <button
-        onClick={handleLogout}
-        className="
+        >
+            <button
+                onClick={handleLogout}
+                className="
           text-red-500
           cursor-pointer
           hover:underline
           transition
         "
-      >
-        Logout
-      </button>
-
-    </div>
-  );
+            >
+                Logout
+            </button>
+        </div>
+    );
 }

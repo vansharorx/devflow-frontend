@@ -5,27 +5,21 @@ import { Lock } from "lucide-react";
 import ChangePasswordModal from "./ChangePasswordModal";
 
 export default function SecurityCard() {
+    const [openModal, setOpenModal] = useState(false);
 
-  const [openModal, setOpenModal] =
-    useState(false);
-
-  return (
-
-    <>
-
-      <div
-        className="
+    return (
+        <>
+            <div
+                className="
           bg-white
           rounded-2xl
           shadow
           p-8
         "
-      >
-
-        <div className="flex gap-6">
-
-          <div
-            className="
+            >
+                <div className="flex gap-6">
+                    <div
+                        className="
               h-20
               w-20
               rounded-full
@@ -34,43 +28,35 @@ export default function SecurityCard() {
               items-center
               justify-center
             "
-          >
+                    >
+                        <Lock size={38} color="#102C26" />
+                    </div>
 
-            <Lock
-              size={38}
-              color="#102C26"
-            />
-
-          </div>
-
-          <div className="flex-1">
-
-            <h2
-              className="
+                    <div className="flex-1">
+                        <h2
+                            className="
                 text-3xl
                 font-semibold
                 text-[#102C26]
               "
-            >
-              Security
-            </h2>
+                        >
+                            Security
+                        </h2>
 
-            <p
-              className="
+                        <p
+                            className="
                 text-gray-500
                 mt-2
               "
-            >
-              Update your password to keep your account secure.
-            </p>
+                        >
+                            Update your password to keep your account secure.
+                        </p>
 
-            <hr className="my-6" />
+                        <hr className="my-6" />
 
-            <button
-              onClick={() =>
-                setOpenModal(true)
-              }
-              className="
+                        <button
+                            onClick={() => setOpenModal(true)}
+                            className="
                 bg-[#102C26]
                 text-white
                 px-8
@@ -83,29 +69,15 @@ export default function SecurityCard() {
                 hover:bg-[#17453b]
                 transition
               "
-            >
+                        >
+                            <Lock size={18} />
+                            Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-              <Lock size={18} />
-
-              Change Password
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <ChangePasswordModal
-        open={openModal}
-        onClose={() =>
-          setOpenModal(false)
-        }
-      />
-
-    </>
-
-  );
-
+            <ChangePasswordModal open={openModal} onClose={() => setOpenModal(false)} />
+        </>
+    );
 }

@@ -1,5 +1,4 @@
 export function formatRelativeDate(date) {
-
     const now = new Date();
     const created = new Date(date);
 
@@ -33,7 +32,6 @@ export function formatRelativeDate(date) {
     return created.toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "short",
-        year: "numeric"
+        year: "numeric",
     });
-
 }

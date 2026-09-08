@@ -5,60 +5,43 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
 export default function MainLayout() {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+    return (
+        <div className="bg-[#F7E7CE]">
+            {/* Sidebar */}
 
-  return (
+            <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
-    <div className="bg-[#F7E7CE]">
+            {/* Right Section */}
 
-      {/* Sidebar */}
-
-      <Sidebar
-        open={sidebarOpen}
-        setOpen={setSidebarOpen}
-      />
-
-      {/* Right Section */}
-
-      <div
-        className="
+            <div
+                className="
           ml-0
           md:ml-64
           min-h-screen
           flex
           flex-col
       "
-      >
+            >
+                {/* Navbar */}
 
-        {/* Navbar */}
+                <Navbar setSidebarOpen={setSidebarOpen} />
 
-        <Navbar
-          setSidebarOpen={setSidebarOpen}
-        />
+                {/* Scrollable Content */}
 
-        {/* Scrollable Content */}
-
-        <main
-          className="
+                <main
+                    className="
             flex-1
             overflow-y-auto
             p-6
           "
-        >
-
-          <div className="max-w-7xl mx-auto">
-
-            <Outlet />
-
-          </div>
-
-        </main>
-
-      </div>
-
-    </div>
-
-  );
-
+                >
+                    <div className="max-w-7xl mx-auto">
+                        <Outlet />
+                    </div>
+                </main>
+            </div>
+        </div>
+    );
 }

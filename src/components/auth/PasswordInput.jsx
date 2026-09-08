@@ -1,80 +1,58 @@
 import { useState } from "react";
-import {
-  Eye,
-  EyeOff
-} from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Link } from "react-router-dom";
 
 export default function PasswordInput({
-
-  label,
-  placeholder,
-  value,
-  onChange,
-  forgotPassword = false
-
+    label,
+    placeholder,
+    value,
+    onChange,
+    forgotPassword = false,
 }) {
+    const [showPassword, setShowPassword] = useState(false);
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  return (
-
-    <div className="mb-5">
-
-      <div
-        className="
+    return (
+        <div className="mb-5">
+            <div
+                className="
           flex
           items-center
           justify-between
           mb-2
         "
-      >
-
-        <label
-          className="
+            >
+                <label
+                    className="
             text-sm
             font-medium
             text-[#102C26]
           "
-        >
-          {label}
-        </label>
+                >
+                    {label}
+                </label>
 
-        {
-
-          forgotPassword && (
-
-            <Link
-                to="/forgot-password"
-                className="
+                {forgotPassword && (
+                    <Link
+                        to="/forgot-password"
+                        className="
                     text-sm
                     text-[#102C26]
                     hover:underline
                 "
-            >
-                Forgot password?
-            </Link>
+                    >
+                        Forgot password?
+                    </Link>
+                )}
+            </div>
 
-          )
-
-        }
-
-      </div>
-
-      <div className="relative">
-
-        <input
-          type={
-            showPassword
-              ? "text"
-              : "password"
-          }
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          className="
+            <div className="relative">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    className="
             w-full
             px-4
             py-3
@@ -91,16 +69,12 @@ export default function PasswordInput({
             focus:ring-2
             focus:ring-[#102C26]/20
           "
-        />
+                />
 
-        <button
-          type="button"
-          onClick={() =>
-            setShowPassword(
-              !showPassword
-            )
-          }
-          className="
+                <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="
             absolute
             right-3
             top-1/2
@@ -109,24 +83,10 @@ export default function PasswordInput({
             hover:text-[#102C26]
             cursor-pointer
           "
-        >
-
-          {
-
-            showPassword
-
-              ? <EyeOff size={20} />
-
-              : <Eye size={20} />
-
-          }
-
-        </button>
-
-      </div>
-
-    </div>
-
-  );
-
+                >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+            </div>
+        </div>
+    );
 }

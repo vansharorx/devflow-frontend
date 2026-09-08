@@ -1,15 +1,10 @@
-import {
-  useContext,
-  useState
-} from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import socket from "../../services/socket";
 import api from "../../services/api";
 
-import {
-  setAccessToken
-} from "../../services/tokenStore";
+import { setAccessToken } from "../../services/tokenStore";
 
 import { AuthContext } from "../../context/AuthContext";
 
@@ -22,70 +17,47 @@ import GoogleButton from "../../components/auth/GoogleButton";
 import AuthFooter from "../../components/auth/AuthFooter";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    const { loadUser } = useContext(AuthContext);
 
-  const {
-    loadUser
-  } = useContext(AuthContext);
+    const [email, setEmail] = useState("");
 
-  const [email, setEmail] =
-    useState("");
+    const [password, setPassword] = useState("");
 
-  const [password, setPassword] =
-    useState("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const handleSubmit = async (e) => {
+        try {
+            const res = await api.post("/users/login", {
+                email,
+                password,
+            });
 
-    e.preventDefault();
+            /*
+             * Access token lives only in memory.
+             * The refresh token is automatically stored
+             * by the backend as an HttpOnly cookie.
+             */
+            setAccessToken(res.data.accessToken);
 
-    try {
+            await loadUser();
 
-      const res =
-        await api.post(
-          "/users/login",
-          {
-            email,
-            password
-          }
-        );
+            socket.connect();
 
-      /*
-       * Access token lives only in memory.
-       * The refresh token is automatically stored
-       * by the backend as an HttpOnly cookie.
-       */
-      setAccessToken(
-        res.data.accessToken
-      );
+            navigate("/");
+        } catch (err) {
+            alert(err.response?.data?.message);
+        }
+    };
 
-      await loadUser();
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:2005/api/v1/auth/google";
+    };
 
-      socket.connect();
-
-      navigate("/");
-
-    } catch (err) {
-
-      alert(
-        err.response?.data?.message
-      );
-
-    }
-
-  };
-
-  const handleGoogleLogin = () => {
-
-    window.location.href =
-      "http://localhost:2005/api/v1/auth/google";
-
-  };
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
         min-h-screen
         bg-[#F7E7CE]
         flex
@@ -93,46 +65,33 @@ export default function LoginPage() {
         justify-center
         px-5
       "
-    >
-
-      <AuthCard>
-
-        <AuthLogo
-          title="Sign in to DevFlow"
-          subtitle="Track projects. Assign issues. Collaborate with your team."
-        />
-
-        <form
-          onSubmit={handleSubmit}
         >
+            <AuthCard>
+                <AuthLogo
+                    title="Sign in to DevFlow"
+                    subtitle="Track projects. Assign issues. Collaborate with your team."
+                />
 
-          <AuthInput
-            label="Email address"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-          />
+                <form onSubmit={handleSubmit}>
+                    <AuthInput
+                        label="Email address"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
-          <PasswordInput
-            label="Password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            forgotPassword
-          />
+                    <PasswordInput
+                        label="Password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        forgotPassword
+                    />
 
-          <button
-            type="submit"
-            className="
+                    <button
+                        type="submit"
+                        className="
               w-full
               bg-[#102C26]
               text-white
@@ -144,28 +103,17 @@ export default function LoginPage() {
               transition
               cursor-pointer
             "
-          >
-            Sign in
-          </button>
+                    >
+                        Sign in
+                    </button>
+                </form>
 
-        </form>
+                <AuthDivider />
 
-        <AuthDivider />
+                <GoogleButton onClick={handleGoogleLogin} />
 
-        <GoogleButton
-          onClick={handleGoogleLogin}
-        />
-
-        <AuthFooter
-          text="New to DevFlow?"
-          linkText="Create an account"
-          to="/register"
-        />
-
-      </AuthCard>
-
-    </div>
-
-  );
-
+                <AuthFooter text="New to DevFlow?" linkText="Create an account" to="/register" />
+            </AuthCard>
+        </div>
+    );
 }

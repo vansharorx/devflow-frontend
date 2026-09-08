@@ -1,9 +1,7 @@
 export default function AuthCard({ children }) {
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
         w-full
         max-w-md
         bg-white
@@ -14,12 +12,8 @@ export default function AuthCard({ children }) {
         px-8
         py-10
       "
-    >
-
-      {children}
-
-    </div>
-
-  );
-
+        >
+            {children}
+        </div>
+    );
 }

@@ -10,304 +10,235 @@ import RecentActivity from "../../components/dashboard/RecentActivity";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
 export default function DashboardPage() {
+    const [dashboardData, setDashboardData] = useState(null);
 
-  const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
 
-  useEffect(() => {
+    const fetchDashboard = async () => {
+        try {
+            const res = await api.get("/dashboard");
 
-    fetchDashboard();
+            setDashboardData(res.data.data);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  }, []);
-
-  const fetchDashboard = async () => {
-
-    try {
-
-      const res = await api.get("/dashboard");
-
-      setDashboardData(res.data.data);
-
-    } catch (err) {
-
-      console.log(err);
-
-    } finally {
-
-      setLoading(false);
-
+    if (loading) {
+        return <LoadingSpinner />;
     }
 
-  };
+    const issueStatusData = [
+        {
+            name: "Open",
+            value: dashboardData?.issuesByStatus?.open || 0,
+        },
 
-  if (loading) {
+        {
+            name: "In Progress",
+            value: dashboardData?.issuesByStatus?.inProgress || 0,
+        },
 
-    return <LoadingSpinner />;
+        {
+            name: "Closed",
+            value: dashboardData?.issuesByStatus?.closed || 0,
+        },
+    ];
 
-  }
+    const weeklyActivityData = dashboardData?.weeklyActivity || [];
 
-  const issueStatusData = [
+    const projectProgressData = dashboardData?.projectProgress || [];
 
-    {
-      name: "Open",
-      value: dashboardData?.issuesByStatus?.open || 0
-    },
+    const recentActivities = dashboardData?.recentActivities || [];
 
-    {
-      name: "In Progress",
-      value: dashboardData?.issuesByStatus?.inProgress || 0
-    },
+    return (
+        <div className="space-y-10">
+            {/* Header */}
 
-    {
-      name: "Closed",
-      value: dashboardData?.issuesByStatus?.closed || 0
-    }
-
-  ];
-
-  const weeklyActivityData =
-    dashboardData?.weeklyActivity || [];
-
-  const projectProgressData =
-    dashboardData?.projectProgress || [];
-
-  const recentActivities =
-    dashboardData?.recentActivities || [];
-
-  return (
-
-    <div className="space-y-10">
-
-      {/* Header */}
-
-      <div
-        className="
+            <div
+                className="
           flex
           flex-col
           md:flex-row
           md:justify-between
           md:items-center
         "
-      >
-
-        <div>
-
-          <h1
-            className="
+            >
+                <div>
+                    <h1
+                        className="
               heading-font
               text-4xl
               text-[#102C26]
             "
-          >
-            Welcome Back 🍃
-          </h1>
+                    >
+                        Welcome Back 🍃
+                    </h1>
 
-          <p
-            className="
+                    <p
+                        className="
               mt-2
               text-gray-500
             "
-          >
-            Here's what's happening across your workspace today.
-          </p>
+                    >
+                        Here's what's happening across your workspace today.
+                    </p>
+                </div>
+            </div>
 
-        </div>
+            {/* KPI Cards */}
 
-      </div>
-
-      {/* KPI Cards */}
-
-      <div
-        className="
+            <div
+                className="
           grid
           grid-cols-1
           sm:grid-cols-2
           lg:grid-cols-3
           gap-8
         "
-      >
+            >
+                <StatCard title="Users" value={dashboardData?.totals?.users || 0} color="#102C26" />
 
-        <StatCard
-          title="Users"
-          value={dashboardData?.totals?.users || 0}
-          color="#102C26"
-        />
+                <StatCard
+                    title="Projects"
+                    value={dashboardData?.totals?.projects || 0}
+                    color="#3F6B5E"
+                />
 
-        <StatCard
-          title="Projects"
-          value={dashboardData?.totals?.projects || 0}
-          color="#3F6B5E"
-        />
+                <StatCard
+                    title="Issues"
+                    value={dashboardData?.totals?.issues || 0}
+                    color="#C69C3F"
+                />
+            </div>
 
-        <StatCard
-          title="Issues"
-          value={dashboardData?.totals?.issues || 0}
-          color="#C69C3F"
-        />
+            {/* Quick Status */}
 
-      </div>
-
-      {/* Quick Status */}
-
-      <div
-        className="
+            <div
+                className="
           grid
           grid-cols-1
           md:grid-cols-3
           gap-6
         "
-      >
-
-        <div
-          className="
+            >
+                <div
+                    className="
             bg-[#102C26]
             rounded-2xl
             shadow-lg
             p-6
             text-white
           "
-        >
+                >
+                    <p className="text-sm opacity-80">Open Issues</p>
 
-          <p className="text-sm opacity-80">
-
-            Open Issues
-
-          </p>
-
-          <h2
-            className="
+                    <h2
+                        className="
               heading-font
               text-4xl
               mt-3
             "
-          >
+                    >
+                        {dashboardData?.issuesByStatus?.open || 0}
+                    </h2>
+                </div>
 
-            {dashboardData?.issuesByStatus?.open || 0}
-
-          </h2>
-
-        </div>
-
-        <div
-          className="
+                <div
+                    className="
             bg-[#3F6B5E]
             rounded-2xl
             shadow-lg
             p-6
             text-white
           "
-        >
+                >
+                    <p className="text-sm opacity-80">In Progress</p>
 
-          <p className="text-sm opacity-80">
-
-            In Progress
-
-          </p>
-
-          <h2
-            className="
+                    <h2
+                        className="
               heading-font
               text-4xl
               mt-3
             "
-          >
+                    >
+                        {dashboardData?.issuesByStatus?.inProgress || 0}
+                    </h2>
+                </div>
 
-            {dashboardData?.issuesByStatus?.inProgress || 0}
-
-          </h2>
-
-        </div>
-
-        <div
-          className="
+                <div
+                    className="
             bg-[#C69C3F]
             rounded-2xl
             shadow-lg
             p-6
             text-white
           "
-        >
+                >
+                    <p className="text-sm opacity-80">Closed Issues</p>
 
-          <p className="text-sm opacity-80">
-
-            Closed Issues
-
-          </p>
-
-          <h2
-            className="
+                    <h2
+                        className="
               heading-font
               text-4xl
               mt-3
             "
-          >
+                    >
+                        {dashboardData?.issuesByStatus?.closed || 0}
+                    </h2>
+                </div>
+            </div>
 
-            {dashboardData?.issuesByStatus?.closed || 0}
+            {/* Row 1 */}
 
-          </h2>
-
-        </div>
-
-      </div>
-
-      {/* Row 1 */}
-
-      <div
-        className="
+            <div
+                className="
           grid
           grid-cols-1
           xl:grid-cols-2
           gap-8
         "
-      >
+            >
+                <IssueStatusChart data={issueStatusData} />
 
-        <IssueStatusChart
-          data={issueStatusData}
-        />
+                <WeeklyActivityChart data={weeklyActivityData} />
+            </div>
 
-        <WeeklyActivityChart
-          data={weeklyActivityData}
-        />
+            {/* Row 2 */}
 
-      </div>
-
-      {/* Row 2 */}
-
-      <div
-        className="
+            <div
+                className="
           grid
           grid-cols-1
           xl:grid-cols-2
           gap-8
         "
-      >
+            >
+                <ProjectProgressChart data={projectProgressData} />
 
-        <ProjectProgressChart
-          data={projectProgressData}
-        />
+                <RecentActivity activities={recentActivities} />
+            </div>
 
-        <RecentActivity
-          activities={recentActivities}
-        />
+            {/* Row 3 */}
 
-      </div>
-
-      {/* Row 3 */}
-
-      <div
-        className="
+            <div
+                className="
           grid
           grid-cols-1
           xl:grid-cols-2
           gap-8
         "
-      >
+            >
+                {/* Top Contributors */}
 
-        {/* Top Contributors */}
-
-        <div
-          className="
+                <div
+                    className="
             bg-white
             rounded-2xl
             shadow-md
@@ -315,30 +246,23 @@ export default function DashboardPage() {
             border-gray-100
             p-6
           "
-        >
-
-          <h2
-            className="
+                >
+                    <h2
+                        className="
               heading-font
               text-xl
               text-[#102C26]
               mb-5
             "
-          >
+                    >
+                        Top Contributors
+                    </h2>
 
-            Top Contributors
+                    {dashboardData?.topUsers?.map((user) => (
+                        <div
+                            key={user.id}
 
-          </h2>
-
-          {
-
-            dashboardData?.topUsers?.map(user => (
-
-              <div
-
-                key={user.id}
-
-                className="
+                            className="
                   flex
                   items-center
                   justify-between
@@ -346,22 +270,18 @@ export default function DashboardPage() {
                   border-b
                   border-gray-100
                 "
-
-              >
-
-                <span
-                  className="
+                        >
+                            <span
+                                className="
                     font-medium
                     text-[#102C26]
                   "
-                >
+                            >
+                                {user.name}
+                            </span>
 
-                  {user.name}
-
-                </span>
-
-                <span
-                  className="
+                            <span
+                                className="
                     bg-[#F7E7CE]
                     text-[#102C26]
                     px-3
@@ -370,24 +290,17 @@ export default function DashboardPage() {
                     text-sm
                     font-semibold
                   "
-                >
+                            >
+                                {user.totalIssuesCreated}
+                            </span>
+                        </div>
+                    ))}
+                </div>
 
-                  {user.totalIssuesCreated}
+                {/* Top Projects */}
 
-                </span>
-
-              </div>
-
-            ))
-
-          }
-
-        </div>
-
-        {/* Top Projects */}
-
-        <div
-          className="
+                <div
+                    className="
             bg-white
             rounded-2xl
             shadow-md
@@ -395,30 +308,23 @@ export default function DashboardPage() {
             border-gray-100
             p-6
           "
-        >
-
-          <h2
-            className="
+                >
+                    <h2
+                        className="
               heading-font
               text-xl
               text-[#102C26]
               mb-5
             "
-          >
+                    >
+                        Top Projects
+                    </h2>
 
-            Top Projects
+                    {dashboardData?.topProjects?.map((project) => (
+                        <div
+                            key={project.id}
 
-          </h2>
-
-          {
-
-            dashboardData?.topProjects?.map(project => (
-
-              <div
-
-                key={project.id}
-
-                className="
+                            className="
                   flex
                   items-center
                   justify-between
@@ -426,22 +332,18 @@ export default function DashboardPage() {
                   border-b
                   border-gray-100
                 "
-
-              >
-
-                <span
-                  className="
+                        >
+                            <span
+                                className="
                     font-medium
                     text-[#102C26]
                   "
-                >
+                            >
+                                {project.name}
+                            </span>
 
-                  {project.name}
-
-                </span>
-
-                <span
-                  className="
+                            <span
+                                className="
                     bg-[#F7E7CE]
                     text-[#102C26]
                     px-3
@@ -450,24 +352,13 @@ export default function DashboardPage() {
                     text-sm
                     font-semibold
                   "
-                >
-
-                  {project.totalIssues}
-
-                </span>
-
-              </div>
-
-            ))
-
-          }
-
+                            >
+                                {project.totalIssues}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-
-      </div>
-
-    </div>
-
-  );
-
+    );
 }

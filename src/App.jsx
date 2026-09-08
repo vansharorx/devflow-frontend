@@ -1,10 +1,6 @@
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import MainLayout from "./components/layout/MainLayout";
 
@@ -32,139 +28,108 @@ import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
 import OAuthSuccessPage from "./pages/auth/OAuthSuccessPage";
 
 function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
 
-  return (
+                <Route path="/register" element={<RegisterPage />} />
 
-    <BrowserRouter>
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-      <Routes>
+                <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
+                <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
 
-        <Route
-          path="/register"
-          element={<RegisterPage />}
-        />
+                <Route path="/oauth-success" element={<OAuthSuccessPage />} />
 
-        <Route
-            path="/forgot-password"
-            element={<ForgotPasswordPage />}
-        />
+                <Route element={<MainLayout />}>
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <DashboardPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-        <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-        />
+                    <Route
+                        path="/projects"
+                        element={
+                            <ProtectedRoute>
+                                <ProjectsPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-        <Route
-            path="/verify-email/:token"
-            element={<VerifyEmailPage />}
-        />
-        
-        <Route
-            path="/oauth-success"
-            element={<OAuthSuccessPage />}
-        />
+                    <Route
+                        path="/projects/:id"
+                        element={
+                            <ProtectedRoute>
+                                <ProjectDetailsPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-        <Route element={<MainLayout />}>
+                    <Route
+                        path="/issues"
+                        element={
+                            <ProtectedRoute>
+                                <IssuesPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
+                    <Route
+                        path="/issues/:id"
+                        element={
+                            <ProtectedRoute>
+                                <IssueDetailsPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/projects"
-            element={
-              <ProtectedRoute>
-                <ProjectsPage />
-              </ProtectedRoute>
-            }
-          />
+                    <Route
+                        path="/notifications"
+                        element={
+                            <ProtectedRoute>
+                                <NotificationsPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/projects/:id"
-            element={
-              <ProtectedRoute>
-                <ProjectDetailsPage />
-              </ProtectedRoute>
-            }
-          />
+                    <Route
+                        path="/activities"
+                        element={
+                            <ProtectedRoute>
+                                <ActivityPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/issues"
-            element={
-              <ProtectedRoute>
-                <IssuesPage />
-              </ProtectedRoute>
-            }
-          />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <ProfilePage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/issues/:id"
-            element={
-              <ProtectedRoute>
-                <IssueDetailsPage />
-              </ProtectedRoute>
-            }
-          />
+                    <Route
+                        path="/settings"
+                        element={
+                            <ProtectedRoute>
+                                <SettingsPage />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <NotificationsPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/activities"
-            element={
-              <ProtectedRoute>
-                <ActivityPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
-
-        </Route>
-
-      </Routes>
-
-    </BrowserRouter>
-
-  );
-
+                    <Route path="*" element={<NotFoundPage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

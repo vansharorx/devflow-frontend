@@ -1,9 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-  useCallback
-} from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 import { Menu } from "lucide-react";
 
@@ -17,101 +12,55 @@ import UserMenu from "../ui/UserMenu";
 import api from "../../services/api";
 
 export default function Navbar({ setSidebarOpen }) {
+    const [count, setCount] = useState(0);
 
-  const [count, setCount] =
-    useState(0);
+    const { socket } = useContext(SocketContext);
 
-  const { socket } =
-    useContext(SocketContext);
+    const { user } = useContext(AuthContext);
 
-  const { user } =
-    useContext(AuthContext);
+    const userName = user?.name || "User";
 
-  const userName =
-    user?.name || "User";
+    const loadNotifications = useCallback(async () => {
+        try {
+            const res = await api.get(`/notifications?t=${Date.now()}`);
 
-  const loadNotifications =
-    useCallback(async () => {
+            const unread = res.data.data.filter(
+                (notification) => Number(notification.is_read) === 0
+            );
 
-      try {
+            setCount(unread.length);
 
-        const res =
-          await api.get(
-            `/notifications?t=${Date.now()}`
-          );
-
-        const unread =
-          res.data.data.filter(
-            notification =>
-              Number(notification.is_read) === 0
-          );
-
-        setCount(
-          unread.length
-        );
-
-        console.log(
-          "Unread Notifications:",
-          unread.length
-        );
-
-      } catch (err) {
-
-        console.log(err);
-
-      }
-
+            console.log("Unread Notifications:", unread.length);
+        } catch (err) {
+            console.log(err);
+        }
     }, []);
 
-  useEffect(() => {
-
-    if (!user) return;
-
-    loadNotifications();
-
-  }, [
-    user,
-    loadNotifications
-  ]);
-
-  useEffect(() => {
-
-    if (!socket) return;
-
-    const handleNotification =
-      () => {
-
-        console.log(
-          "🔔 Notification Event Received"
-        );
+    useEffect(() => {
+        if (!user) return;
 
         loadNotifications();
+    }, [user, loadNotifications]);
 
-      };
+    useEffect(() => {
+        if (!socket) return;
 
-    socket.on(
-      "notification",
-      handleNotification
-    );
+        const handleNotification = () => {
+            console.log("🔔 Notification Event Received");
 
-    return () => {
+            loadNotifications();
+        };
 
-      socket.off(
-        "notification",
-        handleNotification
-      );
+        socket.on("notification", handleNotification);
 
-    };
+        return () => {
+            socket.off("notification", handleNotification);
+        };
+    }, [socket, loadNotifications]);
 
-  }, [
-    socket,
-    loadNotifications
-  ]);
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
         bg-white
         h-16
         shadow
@@ -120,67 +69,50 @@ export default function Navbar({ setSidebarOpen }) {
         justify-between
         px-6
       "
-    >
-
-      <div
-        className="
+        >
+            <div
+                className="
           flex
           items-center
           gap-4
         "
-      >
+            >
+                <button onClick={() => setSidebarOpen(true)} className="md:hidden">
+                    <Menu />
+                </button>
 
-        <button
-          onClick={() =>
-            setSidebarOpen(true)
-          }
-          className="md:hidden"
-        >
-          <Menu />
-        </button>
-
-        <h2
-          className="
+                <h2
+                    className="
             heading-font
             text-[#102C26]
             text-xl
           "
-        >
-          {userName}
-        </h2>
+                >
+                    {userName}
+                </h2>
+            </div>
 
-      </div>
-
-      <div
-        className="
+            <div
+                className="
           flex
           items-center
           gap-4
         "
-      >
+            >
+                <NotificationBadge count={count} />
 
-        <NotificationBadge
-          count={count}
-        />
-
-        <div
-          className="
+                <div
+                    className="
             flex
             items-center
             gap-4
           "
-        >
+                >
+                    <UserMenu />
 
-          <UserMenu />
-
-          <ConnectionStatus />
-
+                    <ConnectionStatus />
+                </div>
+            </div>
         </div>
-
-      </div>
-
-    </div>
-
-  );
-
+    );
 }

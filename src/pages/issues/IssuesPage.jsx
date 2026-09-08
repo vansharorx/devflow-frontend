@@ -1,11 +1,6 @@
-import {
-  useEffect,
-  useState
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import api from "../../services/api";
 
@@ -15,196 +10,114 @@ import UserSelect from "../../components/ui/UserSelect";
 import EmptyState from "../../components/ui/EmptyState";
 
 export default function IssuesPage() {
+    const [issues, setIssues] = useState([]);
 
-  const [issues,
-    setIssues] =
-      useState([]);
+    const [users, setUsers] = useState([]);
 
-  const [users,
-    setUsers] =
-      useState([]);
+    const [search, setSearch] = useState("");
 
-  const [search,
-    setSearch] =
-      useState("");
+    const [statusFilter, setStatusFilter] = useState("All");
 
-  const [statusFilter,
-    setStatusFilter] =
-      useState("All");
+    useEffect(() => {
+        fetchIssues();
 
-  useEffect(() => {
+        fetchUsers();
+    }, []);
 
-    fetchIssues();
+    const fetchIssues = async () => {
+        try {
+            const res = await api.get("/issues");
 
-    fetchUsers();
+            setIssues(res.data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-  }, []);
+    const fetchUsers = async () => {
+        try {
+            const res = await api.get("/users");
 
-  const fetchIssues = async () => {
+            setUsers(res.data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-    try {
+    const createIssue = async (title, projectId) => {
+        try {
+            await api.post("/issues", {
+                title,
 
-      const res =
-        await api.get(
-          "/issues"
-        );
+                projectId,
+            });
 
-      setIssues(
-        res.data.data
-      );
+            fetchIssues();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-    } catch (err) {
+    const updateStatus = async (id, status) => {
+        try {
+            await api.put(`/issues/${id}/status`, {
+                status,
+            });
 
-      console.log(err);
-    }
-  };
+            fetchIssues();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-  const fetchUsers = async () => {
+    const assignIssue = async (issueId, userId) => {
+        try {
+            await api.put(`/issues/${issueId}/assign`, {
+                userId,
+            });
 
-    try {
+            fetchIssues();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-      const res =
-        await api.get(
-          "/users"
-        );
+    const deleteIssue = async (id) => {
+        try {
+            await api.delete(`/issues/${id}`);
 
-      setUsers(
-        res.data.data
-      );
+            fetchIssues();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-    } catch (err) {
+    const filteredIssues = issues.filter((issue) => {
+        const matchesSearch = issue.title.toLowerCase().includes(search.toLowerCase());
 
-      console.log(err);
-    }
-  };
+        const matchesStatus =
+            statusFilter === "All" || issue.status.toLowerCase() === statusFilter.toLowerCase();
 
-  const createIssue = async (
-  title,
-  projectId
-) => {
-
-  try {
-
-    await api.post("/issues", {
-
-      title,
-
-      projectId
-
+        return matchesSearch && matchesStatus;
     });
 
-    fetchIssues();
-
-  } catch (err) {
-
-    console.log(err);
-
-  }
-
-};
-
-  const updateStatus =
-    async (
-      id,
-      status
-    ) => {
-
-    try {
-
-      await api.put(`/issues/${id}/status`, {
-        status
-      });
-
-      fetchIssues();
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  };
-
-  const assignIssue =
-    async (
-      issueId,
-      userId
-    ) => {
-
-    try {
-
-      await api.put(`/issues/${issueId}/assign`, {
-        userId
-      });
-
-      fetchIssues();
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  };
-
-  const deleteIssue =
-    async (id) => {
-
-    try {
-
-      await api.delete(
-        `/issues/${id}`
-      );
-
-      fetchIssues();
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  };
-
-  const filteredIssues =
-    issues.filter(issue => {
-
-      const matchesSearch =
-
-        issue.title
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          );
-
-      const matchesStatus =
-      statusFilter === "All" ||
-      issue.status.toLowerCase() === statusFilter.toLowerCase();
-
-      return (
-        matchesSearch
-        &&
-        matchesStatus
-      );
-    });
-
-  return (
-
-    <div>
-
-      <h1
-        className="
+    return (
+        <div>
+            <h1
+                className="
         heading-font
         text-3xl
         text-[#102C26]
         mb-6
       "
-      >
-        Issues
-      </h1>
+            >
+                Issues
+            </h1>
 
-      <IssueForm
-        onCreate={
-          createIssue
-        }
-      />
+            <IssueForm onCreate={createIssue} />
 
-      <span
-        className="
+            <span
+                className="
         bg-[#102C26]
         text-white
         px-3
@@ -213,229 +126,155 @@ export default function IssuesPage() {
         inline-block
         mb-4
       "
-      >
-        {issues.length} Issues
-      </span>
+            >
+                {issues.length} Issues
+            </span>
 
-      <div
-        className="
+            <div
+                className="
         flex
         gap-4
         mb-6
       "
-      >
-
-        <input
-          type="text"
-          placeholder="Search issues..."
-          value={search}
-          onChange={(e)=>
-            setSearch(
-              e.target.value
-            )
-          }
-          className="
+            >
+                <input
+                    type="text"
+                    placeholder="Search issues..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="
           border
           p-3
           rounded-lg
           flex-1
         "
-        />
+                />
 
-        <select
-          value={statusFilter}
-          onChange={(e)=>
-            setStatusFilter(
-              e.target.value
-            )
-          }
-          className="
+                <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="
           border
           p-3
           rounded-lg
         "
-        >
+                >
+                    <option>All</option>
 
-          <option>
-            All
-          </option>
+                    <option>Open</option>
 
-          <option>
-            Open
-          </option>
+                    <option>In Progress</option>
 
-          <option>
-            In Progress
-          </option>
+                    <option>Closed</option>
+                </select>
+            </div>
 
-          <option>
-            Closed
-          </option>
-
-        </select>
-
-      </div>
-
-      {
-        filteredIssues.length === 0 && (
-
-          <div
-            className="
+            {filteredIssues.length === 0 && (
+                <div
+                    className="
             bg-white
             rounded-xl
             p-6
             shadow
           "
-          >
+                >
+                    <EmptyState title="No issues found" />
+                </div>
+            )}
 
-            <EmptyState
-              title="No issues found"
-            />
-
-          </div>
-
-        )
-      }
-
-      <div
-        className="
+            <div
+                className="
         grid
         gap-4
       "
-      >
-
-        {
-          filteredIssues.map(
-            issue => (
-
-            <div
-              key={issue.id}
-              className="
+            >
+                {filteredIssues.map((issue) => (
+                    <div
+                        key={issue.id}
+                        className="
               bg-white
               rounded-xl
               shadow
               p-5
             "
-            >
-
-              <div
-                className="
+                    >
+                        <div
+                            className="
                 flex
                 justify-between
               "
-              >
-
-                <h2
-                  className="
+                        >
+                            <h2
+                                className="
                   font-semibold
                 "
-                >
-                  {issue.title}
-                </h2>
+                            >
+                                {issue.title}
+                            </h2>
 
-                <button
-                  onClick={() =>
-                    deleteIssue(
-                      issue.id
-                    )
-                  }
-                  className="
+                            <button
+                                onClick={() => deleteIssue(issue.id)}
+                                className="
                   text-red-500
                   cursor-pointer
                   hover:underline
                   transition-colors
                 "
-                >
-                  Delete
-                </button>
+                            >
+                                Delete
+                            </button>
+                        </div>
 
-              </div>
-
-              <div
-                className="
+                        <div
+                            className="
                 mt-3
               "
-              >
+                        >
+                            <UserSelect
+                                users={users}
 
-                <UserSelect
+                                value={issue.assigned_to}
 
-                  users={users}
+                                onChange={(e) => assignIssue(issue.id, e.target.value)}
+                            />
+                        </div>
 
-                  value={issue.assigned_to}
-
-                  onChange={(e)=>
-
-                    assignIssue(
-                      issue.id,
-                      e.target.value
-                    )
-
-                  }
-
-                />
-
-              </div>
-
-              <div
-                className="
+                        <div
+                            className="
                 mt-4
               "
-              >
-
-                <select
-                  value={
-                    issue.status
-                  }
-                  onChange={(e)=>
-
-                    updateStatus(
-                      issue.id,
-                      e.target.value
-                    )
-
-                  }
-                  className="
+                        >
+                            <select
+                                value={issue.status}
+                                onChange={(e) => updateStatus(issue.id, e.target.value)}
+                                className="
                   border
                   p-2
                 "
-                >
+                            >
+                                <option>Open</option>
 
-                  <option>
-                    Open
-                  </option>
+                                <option>In Progress</option>
 
-                  <option>
-                    In Progress
-                  </option>
+                                <option>Closed</option>
+                            </select>
+                        </div>
 
-                  <option>
-                    Closed
-                  </option>
-
-                </select>
-
-              </div>
-
-              <Link
-                to={`/issues/${issue.id}`}
-                className="
+                        <Link
+                            to={`/issues/${issue.id}`}
+                            className="
                 text-[#102C26]
                 underline
                 text-sm
                 mt-2
                 inline-block
               "
-              >
-                Open Discussion
-              </Link>
-
+                        >
+                            Open Discussion
+                        </Link>
+                    </div>
+                ))}
             </div>
-
-          ))
-        }
-
-      </div>
-
-    </div>
-  );
+        </div>
+    );
 }

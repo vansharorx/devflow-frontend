@@ -1,23 +1,17 @@
 import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
 } from "recharts";
 
-export default function WeeklyActivityChart({
-
-  data
-
-}) {
-
-  return (
-
-    <div
-      className="
+export default function WeeklyActivityChart({ data }) {
+    return (
+        <div
+            className="
         bg-white
         rounded-2xl
         shadow-md
@@ -25,91 +19,62 @@ export default function WeeklyActivityChart({
         border-gray-100
         p-6
       "
-    >
-
-      <h2
-        className="
+        >
+            <h2
+                className="
           heading-font
           text-xl
           text-[#102C26]
           mb-6
         "
-      >
-        Weekly Activity
-      </h2>
+            >
+                Weekly Activity
+            </h2>
 
-      <ResponsiveContainer
-        width="100%"
-        height={320}
-      >
+            <ResponsiveContainer width="100%" height={320}>
+                <LineChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
 
-        <LineChart data={data}>
+                    <XAxis
+                        dataKey="day"
+                        tickFormatter={(value) => {
+                            return new Date(value).toLocaleDateString("en-US", {
+                                weekday: "short",
+                            });
+                        }}
+                    />
 
-          <CartesianGrid
-            strokeDasharray="3 3"
-          />
+                    <YAxis allowDecimals={false} />
 
-          <XAxis
-            dataKey="day"
-            tickFormatter={(value) => {
+                    <Tooltip
+                        labelFormatter={(value) =>
+                            new Date(value).toLocaleDateString("en-US", {
+                                weekday: "long",
+                                day: "numeric",
+                                month: "short",
+                            })
+                        }
+                    />
 
-                return new Date(value).toLocaleDateString(
-                "en-US",
-                {
-                    weekday: "short"
-                }
-                );
+                    <Line
+                        type="monotone"
 
-            }}
-            />
+                        dataKey="issues"
 
-          <YAxis
-            allowDecimals={false}
-          />
+                        stroke="#102C26"
 
-          <Tooltip
+                        strokeWidth={3}
 
-            labelFormatter={(value) =>
+                        dot={{
+                            r: 5,
+                        }}
 
-                new Date(value).toLocaleDateString(
-                "en-US",
-                {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "short"
-                }
-                )
-
-            }
-
-            />
-
-          <Line
-
-            type="monotone"
-
-            dataKey="issues"
-
-            stroke="#102C26"
-
-            strokeWidth={3}
-
-            dot={{
-              r: 5
-            }}
-
-            activeDot={{
-              r: 8
-            }}
-
-          />
-
-        </LineChart>
-
-      </ResponsiveContainer>
-
-    </div>
-
-  );
-
+                        activeDot={{
+                            r: 8,
+                        }}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    );
 }

@@ -1,13 +1,7 @@
-export default function ProjectProgressChart({
-
-  data
-
-}) {
-
-  return (
-
-    <div
-      className="
+export default function ProjectProgressChart({ data }) {
+    return (
+        <div
+            className="
         bg-white
         rounded-2xl
         border
@@ -16,99 +10,79 @@ export default function ProjectProgressChart({
         p-6
         h-[420px]
       "
-    >
-
-      <h2
-        className="
+        >
+            <h2
+                className="
           heading-font
           text-xl
           text-[#102C26]
           mb-6
         "
-      >
-        Project Progress
-      </h2>
+            >
+                Project Progress
+            </h2>
 
-      <div
-        className="
+            <div
+                className="
           space-y-6
           overflow-y-auto
           h-[320px]
           pr-2
         "
-      >
-
-        {
-
-          data.map(project => (
-
-            <div
-              key={project.id}
             >
-
-              <div
-                className="
+                {data.map((project) => (
+                    <div key={project.id}>
+                        <div
+                            className="
                   flex
                   justify-between
                   mb-2
                 "
-              >
-
-                <span
-                  className="
+                        >
+                            <span
+                                className="
                     font-medium
                     text-[#102C26]
                   "
-                >
-                  {project.name}
-                </span>
+                            >
+                                {project.name}
+                            </span>
 
-                <span
-                  className="
+                            <span
+                                className="
                     text-sm
                     font-semibold
                     text-[#102C26]
                   "
-                >
-                  {project.progress}%
-                </span>
+                            >
+                                {project.progress}%
+                            </span>
+                        </div>
 
-              </div>
-
-              <div
-                className="
+                        <div
+                            className="
                   w-full
                   h-3
                   rounded-full
                   bg-gray-200
                 "
-              >
-
-                <div
-                  className="
+                        >
+                            <div
+                                className="
                     h-3
                     rounded-full
                     bg-[#102C26]
                     transition-all
                     duration-700
                   "
-                  style={{
-                    width: `${project.progress}%`
-                  }}
-                />
-
-              </div>
-
+                                style={{
+                                    width: `${project.progress}%`,
+                                }}
+                            />
+                        </div>
+                    </div>
+                ))}
             </div>
-
-          ))
-
-        }
-
-      </div>
-
-    </div>
-
-  );
-
+        </div>
+    );
 }

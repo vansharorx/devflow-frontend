@@ -1,31 +1,25 @@
 export default function AuthDivider() {
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
         flex
         items-center
         my-6
       "
-    >
+        >
+            <div className="flex-1 h-px bg-gray-300" />
 
-      <div className="flex-1 h-px bg-gray-300" />
-
-      <span
-        className="
+            <span
+                className="
           px-4
           text-sm
           text-gray-500
         "
-      >
-        OR
-      </span>
+            >
+                OR
+            </span>
 
-      <div className="flex-1 h-px bg-gray-300" />
-
-    </div>
-
-  );
-
+            <div className="flex-1 h-px bg-gray-300" />
+        </div>
+    );
 }

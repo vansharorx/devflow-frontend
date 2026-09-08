@@ -8,70 +8,47 @@ import AuthLogo from "../../components/auth/AuthLogo";
 import PasswordInput from "../../components/auth/PasswordInput";
 
 export default function ResetPasswordPage() {
-
     const navigate = useNavigate();
 
     const { token } = useParams();
 
-    const [password, setPassword] =
-        useState("");
+    const [password, setPassword] = useState("");
 
-    const [confirmPassword, setConfirmPassword] =
-        useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [loading, setLoading] =
-        useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
         if (password !== confirmPassword) {
-
             alert("Passwords do not match.");
 
             return;
-
         }
 
         try {
-
             setLoading(true);
 
             const res = await api.post(
-
                 `/password/reset-password/${token}`,
 
                 {
-                    password
+                    password,
                 }
-
             );
 
             alert(res.data.message);
 
             navigate("/login");
-
         } catch (err) {
-
-            alert(
-
-                err.response?.data?.message ||
-
-                "Something went wrong."
-
-            );
-
+            alert(err.response?.data?.message || "Something went wrong.");
         } finally {
-
             setLoading(false);
-
         }
-
     };
 
     return (
-
         <div
             className="
                 min-h-screen
@@ -82,53 +59,35 @@ export default function ResetPasswordPage() {
                 px-5
             "
         >
-
             <AuthCard>
-
                 <AuthLogo
-
                     title="Reset Password"
 
                     subtitle="Enter your new password."
-
                 />
 
                 <form onSubmit={handleSubmit}>
-
                     <PasswordInput
-
                         label="New Password"
 
                         placeholder="Enter new password"
 
                         value={password}
 
-                        onChange={(e) =>
-                            setPassword(
-                                e.target.value
-                            )
-                        }
-
+                        onChange={(e) => setPassword(e.target.value)}
                     />
 
                     <PasswordInput
-
                         label="Confirm Password"
 
                         placeholder="Confirm password"
 
                         value={confirmPassword}
 
-                        onChange={(e) =>
-                            setConfirmPassword(
-                                e.target.value
-                            )
-                        }
-
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
                     <button
-
                         type="submit"
 
                         disabled={loading}
@@ -147,25 +106,10 @@ export default function ResetPasswordPage() {
                             cursor-pointer
                         "
                     >
-
-                        {
-
-                            loading
-
-                                ? "Resetting..."
-
-                                : "Reset Password"
-
-                        }
-
+                        {loading ? "Resetting..." : "Reset Password"}
                     </button>
-
                 </form>
-
             </AuthCard>
-
         </div>
-
     );
-
 }

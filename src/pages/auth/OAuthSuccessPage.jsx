@@ -3,56 +3,34 @@ import { useNavigate } from "react-router-dom";
 
 import api from "../../services/api";
 
-import {
-    setAccessToken
-} from "../../services/tokenStore";
+import { setAccessToken } from "../../services/tokenStore";
 
 import socket from "../../services/socket";
 
 export default function OAuthSuccessPage() {
-
-    const navigate =
-        useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const completeOAuthLogin = async () => {
+            try {
+                const res = await api.post("/users/refresh");
 
-        const completeOAuthLogin =
-            async () => {
+                setAccessToken(res.data.accessToken);
 
-                try {
+                socket.connect();
 
-                    const res =
-                        await api.post(
-                            "/users/refresh"
-                        );
+                navigate("/");
+            } catch (err) {
+                console.error("OAuth login failed:", err);
 
-                    setAccessToken(
-                        res.data.accessToken
-                    );
-
-                    socket.connect();
-
-                    navigate("/");
-
-                } catch (err) {
-
-                    console.error(
-                        "OAuth login failed:",
-                        err
-                    );
-
-                    navigate("/login");
-
-                }
-
-            };
+                navigate("/login");
+            }
+        };
 
         completeOAuthLogin();
-
     }, [navigate]);
 
     return (
-
         <div
             className="
                 min-h-screen
@@ -62,7 +40,6 @@ export default function OAuthSuccessPage() {
                 bg-[#F7E7CE]
             "
         >
-
             <h1
                 className="
                     heading-font
@@ -72,9 +49,6 @@ export default function OAuthSuccessPage() {
             >
                 Signing you in...
             </h1>
-
         </div>
-
     );
-
 }

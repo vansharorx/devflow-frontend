@@ -2,103 +2,74 @@ import { useState, useEffect } from "react";
 
 import api from "../../services/api";
 
-export default function IssueForm({
-  onCreate
-}) {
+export default function IssueForm({ onCreate }) {
+    const [title, setTitle] = useState("");
 
-  const [title, setTitle] = useState("");
+    const [projects, setProjects] = useState([]);
 
-  const [projects, setProjects] = useState([]);
+    const [projectId, setProjectId] = useState("");
 
-  const [projectId, setProjectId] = useState("");
+    useEffect(() => {
+        fetchProjects();
+    }, []);
 
-  useEffect(() => {
+    const fetchProjects = async () => {
+        try {
+            const res = await api.get("/projects");
 
-    fetchProjects();
+            setProjects(res.data.data);
 
-  }, []);
+            if (res.data.data.length > 0) {
+                setProjectId(res.data.data[0].id);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-  const fetchProjects = async () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    try {
+        if (!title.trim() || !projectId) return;
 
-      const res = await api.get("/projects");
+        onCreate(title, projectId);
 
-      setProjects(res.data.data);
+        setTitle("");
+    };
 
-      if (res.data.data.length > 0) {
-
-        setProjectId(res.data.data[0].id);
-
-      }
-
-    } catch (err) {
-
-      console.log(err);
-
-    }
-
-  };
-
-  const handleSubmit = (e) => {
-
-    e.preventDefault();
-
-    if (!title.trim() || !projectId) return;
-
-    onCreate(title, projectId);
-
-    setTitle("");
-
-  };
-
-  return (
-
-    <form
-      onSubmit={handleSubmit}
-      className="flex gap-3 mb-6"
-    >
-
-      <input
-        type="text"
-        placeholder="Issue Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="
+    return (
+        <form onSubmit={handleSubmit} className="flex gap-3 mb-6">
+            <input
+                type="text"
+                placeholder="Issue Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="
           flex-1
           border
           rounded-lg
           p-3
         "
-      />
+            />
 
-      <select
-        value={projectId}
-        onChange={(e) => setProjectId(e.target.value)}
-        className="
+            <select
+                value={projectId}
+                onChange={(e) => setProjectId(e.target.value)}
+                className="
           border
           rounded-lg
           p-3
         "
-      >
-
-        {
-          projects.map(project => (
-
-            <option
-              key={project.id}
-              value={project.id}
             >
-              {project.name}
-            </option>
+                {projects.map((project) => (
+                    <option key={project.id} value={project.id}>
+                        {project.name}
+                    </option>
+                ))}
+            </select>
 
-          ))
-        }
-
-      </select>
-
-      <button
-        className="
+            <button
+                className="
           bg-[#102C26]
           text-white
           px-6
@@ -107,11 +78,9 @@ export default function IssueForm({
           hover:bg-[#17453b]
           transition-colors
         "
-      >
-        Create
-      </button>
-
-    </form>
-
-  );
+            >
+                Create
+            </button>
+        </form>
+    );
 }

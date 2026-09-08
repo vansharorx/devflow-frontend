@@ -2,7 +2,6 @@
 
 Modern frontend for DevFlow, an enterprise-grade issue tracking and project management platform.
 
-
 ## Architecture
 
 Frontend
@@ -22,7 +21,6 @@ React
 Socket.IO Client
 ↓
 Socket.IO Server
-
 
 ## Features
 
@@ -79,4 +77,3 @@ Link backend repository here.
 ## License
 
 MIT
-

@@ -1,119 +1,76 @@
-import {
-  useEffect,
-  useState
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import api from "../../services/api";
 
 import ProjectForm from "./ProjectForm";
 
 export default function ProjectsPage() {
+    const [projects, setProjects] = useState([]);
 
-  const [projects,
-    setProjects] =
-      useState([]);
+    useEffect(() => {
+        fetchProjects();
+    }, []);
 
-  useEffect(() => {
+    const fetchProjects = async () => {
+        try {
+            const res = await api.get("/projects");
 
-    fetchProjects();
-
-  }, []);
-
-  const fetchProjects = async () => {
-
-    try {
-
-      const res =
-        await api.get(
-          "/projects"
-        );
-
-      setProjects(
-        res.data.data
-      );
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  };
-
-  const createProject =
-    async (name) => {
-
-    try {
-
-      await api.post(
-        "/projects",
-        {
-          name
+            setProjects(res.data.data);
+        } catch (err) {
+            console.log(err);
         }
-      );
+    };
 
-      fetchProjects();
+    const createProject = async (name) => {
+        try {
+            await api.post("/projects", {
+                name,
+            });
 
-    } catch (err) {
-        console.log("Status:", err.response?.status);
-        console.log("Response:", err.response?.data);
-      }
-  };
+            fetchProjects();
+        } catch (err) {
+            console.log("Status:", err.response?.status);
+            console.log("Response:", err.response?.data);
+        }
+    };
 
-  const deleteProject =
-    async (id) => {
+    const deleteProject = async (id) => {
+        try {
+            await api.delete(`/projects/${id}`);
 
-    try {
+            fetchProjects();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-      await api.delete(
-        `/projects/${id}`
-      );
-
-      fetchProjects();
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  };
-
-  return (
-
-    <div>
-
-      <h1
-        className="
+    return (
+        <div>
+            <h1
+                className="
         heading-font
         text-3xl
         text-[#102C26]
         mb-6
       "
-      >
-        Projects
-      </h1>
+            >
+                Projects
+            </h1>
 
-      <ProjectForm
-        onCreate={
-          createProject
-        }
-      />
+            <ProjectForm onCreate={createProject} />
 
-      <div
-        className="
+            <div
+                className="
         grid
         gap-4
       "
-      >
-
-        {
-          projects.map(
-            project => (
-
-            <div
-              key={project.id}
-              className="
+            >
+                {projects.map((project) => (
+                    <div
+                        key={project.id}
+                        className="
               bg-white
               shadow
               rounded-xl
@@ -122,51 +79,43 @@ export default function ProjectsPage() {
               justify-between
               items-center
             "
-            >
-
-              <div>
-
-                <h2
-                  className="
+                    >
+                        <div>
+                            <h2
+                                className="
                   font-semibold
                   text-lg
                 "
-                >
-                  {project.name}
-                </h2>
+                            >
+                                {project.name}
+                            </h2>
 
-                <Link
-                  to={`/projects/${project.id}`}
-                  className="
+                            <Link
+                                to={`/projects/${project.id}`}
+                                className="
                   text-[#102C26]
                   underline
                   text-sm
                 "
-                >
-                  View Details
-                </Link>
+                            >
+                                View Details
+                            </Link>
+                        </div>
 
-              </div>
-
-              <button
-                onClick={() => deleteProject(project.id)}
-                className="
+                        <button
+                            onClick={() => deleteProject(project.id)}
+                            className="
                   text-red-500
                   cursor-pointer
                   hover:underline
                   transition-colors
                 "
-              >
-                Delete
-              </button>
-
+                        >
+                            Delete
+                        </button>
+                    </div>
+                ))}
             </div>
-
-          ))
-        }
-
-      </div>
-
-    </div>
-  );
+        </div>
+    );
 }

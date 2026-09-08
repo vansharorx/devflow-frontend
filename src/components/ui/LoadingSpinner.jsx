@@ -1,18 +1,15 @@
 export default function LoadingSpinner() {
-
-  return (
-
-    <div
-      className="
+    return (
+        <div
+            className="
       flex
       justify-center
       items-center
       py-10
     "
-    >
-
-      <div
-        className="
+        >
+            <div
+                className="
         animate-spin
         rounded-full
         h-10
@@ -20,8 +17,7 @@ export default function LoadingSpinner() {
         border-b-2
         border-[#102C26]
       "
-      />
-
-    </div>
-  );
+            />
+        </div>
+    );
 }

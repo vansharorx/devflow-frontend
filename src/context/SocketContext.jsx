@@ -1,74 +1,50 @@
-import {
-  createContext,
-  useEffect,
-  useState
-} from "react";
+import { createContext, useEffect, useState } from "react";
 
 import socket from "../services/socket";
 
-import {
-  getAccessToken
-} from "../services/tokenStore";
+import { getAccessToken } from "../services/tokenStore";
 
 export const SocketContext = createContext();
 
 export function SocketProvider({ children }) {
+    const [connected, setConnected] = useState(socket.connected);
 
-  const [connected, setConnected] =
-    useState(socket.connected);
+    useEffect(() => {
+        const token = getAccessToken();
 
-  useEffect(() => {
+        if (token) {
+            socket.connect();
+        }
 
-    const token = getAccessToken();
+        const handleConnect = () => {
+            console.log("Socket Connected");
+            setConnected(true);
+        };
 
-    if (token) {
-      socket.connect();
-    }
+        const handleDisconnect = () => {
+            console.log("Socket Disconnected");
+            setConnected(false);
+        };
 
-    const handleConnect = () => {
-      console.log("Socket Connected");
-      setConnected(true);
-    };
+        socket.on("connect", handleConnect);
 
-    const handleDisconnect = () => {
-      console.log("Socket Disconnected");
-      setConnected(false);
-    };
+        socket.on("disconnect", handleDisconnect);
 
-    socket.on(
-      "connect",
-      handleConnect
+        return () => {
+            socket.off("connect", handleConnect);
+
+            socket.off("disconnect", handleDisconnect);
+        };
+    }, []);
+
+    return (
+        <SocketContext.Provider
+            value={{
+                socket,
+                connected,
+            }}
+        >
+            {children}
+        </SocketContext.Provider>
     );
-
-    socket.on(
-      "disconnect",
-      handleDisconnect
-    );
-
-    return () => {
-
-      socket.off(
-        "connect",
-        handleConnect
-      );
-
-      socket.off(
-        "disconnect",
-        handleDisconnect
-      );
-
-    };
-
-  }, []);
-
-  return (
-    <SocketContext.Provider
-      value={{
-        socket,
-        connected
-      }}
-    >
-      {children}
-    </SocketContext.Provider>
-  );
 }

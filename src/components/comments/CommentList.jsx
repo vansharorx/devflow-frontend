@@ -1,37 +1,35 @@
 import { formatRelativeDate } from "../../utils/dateFormatter";
 
-export default function CommentList({
-  comments,
-}) {
-  return (
-    <div
-      className="
+export default function CommentList({ comments }) {
+    return (
+        <div
+            className="
         space-y-4
       "
-    >
-      {comments.map((comment) => (
-        <div
-          key={comment.id}
-          className="
+        >
+            {comments.map((comment) => (
+                <div
+                    key={comment.id}
+                    className="
             bg-white
             p-4
             rounded-xl
             shadow
           "
-        >
-          <p>{comment.comment}</p>
+                >
+                    <p>{comment.comment}</p>
 
-          <p
-            className="
+                    <p
+                        className="
               text-sm
               text-gray-500
               mt-2
             "
-          >
-            {formatRelativeDate(comment.created_at)}
-          </p>
+                    >
+                        {formatRelativeDate(comment.created_at)}
+                    </p>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }

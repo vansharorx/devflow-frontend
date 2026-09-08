@@ -1,11 +1,9 @@
 export default function GoogleButton({ onClick }) {
-
-  return (
-
-    <button
-      type="button"
-      onClick={onClick}
-      className="
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            className="
         w-full
         border
         border-gray-300
@@ -18,10 +16,8 @@ export default function GoogleButton({ onClick }) {
         font-medium
         text-[#102C26]
       "
-    >
-      Continue with Google
-    </button>
-
-  );
-
+        >
+            Continue with Google
+        </button>
+    );
 }

@@ -1,1 +1,1 @@
-projects.slice(0,5)
+projects.slice(0, 5);
