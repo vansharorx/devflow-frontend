@@ -52,7 +52,13 @@ export default function LoginPage() {
     };
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:2005/api/v1/auth/google";
+        const apiUrl = import.meta.env.VITE_API_URL;
+
+        if (!apiUrl) {
+            throw new Error("VITE_API_URL is not configured");
+        }
+
+        window.location.href = `${apiUrl}/auth/google`;
     };
 
     return (
@@ -112,7 +118,11 @@ export default function LoginPage() {
 
                 <GoogleButton onClick={handleGoogleLogin} />
 
-                <AuthFooter text="New to DevFlow?" linkText="Create an account" to="/register" />
+                <AuthFooter
+                    text="New to DevFlow?"
+                    linkText="Create an account"
+                    to="/register"
+                />
             </AuthCard>
         </div>
     );
