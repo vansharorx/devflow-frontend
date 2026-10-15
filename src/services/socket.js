@@ -10,6 +10,12 @@ const socketUrl = apiUrl.replace(/\/api\/v1\/?$/, "");
 
 const socket = io(socketUrl, {
     autoConnect: false,
+
+    auth: (callback) => {
+        callback({
+            token: localStorage.getItem("token"),
+        });
+    },
 });
 
 export default socket;
