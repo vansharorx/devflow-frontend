@@ -1,56 +1,23 @@
-export default function StatCard({ title, value, color = "#102C26" }) {
+export default function StatCard({ title, value, color = "#FFE600" }) {
     return (
-        <div
-            className="
-        relative
-        overflow-hidden
-        bg-white
-        rounded-2xl
-        p-6
-        shadow-md
-        border
-        border-gray-100
-        transition-all
-        duration-300
-        hover:-translate-y-1
-        hover:shadow-xl
-      "
-        >
+        <div className="bg-white border-[3px] border-black p-5 shadow-[5px_5px_0px_#000] relative group hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] transition-all">
+            {/* Top colored accent line */}
             <div
-                className="
-          absolute
-          top-0
-          left-0
-          w-2
-          h-full
-        "
-                style={{
-                    backgroundColor: color,
-                }}
+                className="absolute top-0 left-0 right-0 h-2 border-b-2 border-black"
+                style={{ backgroundColor: color }}
             />
 
-            <p
-                className="
-          text-sm
-          font-medium
-          text-gray-500
-          uppercase
-          tracking-wide
-          ml-2
-        "
-            >
-                {title}
-            </p>
+            <div className="mt-1 flex items-center justify-between">
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-gray-600">
+                    // {title}
+                </p>
+                <span
+                    className="w-3 h-3 border border-black inline-block"
+                    style={{ backgroundColor: color }}
+                />
+            </div>
 
-            <h2
-                className="
-          heading-font
-          text-4xl
-          text-[#102C26]
-          mt-3
-          ml-2
-        "
-            >
+            <h2 className="heading-font text-4xl sm:text-5xl font-extrabold text-black mt-2 tracking-tight">
                 {value}
             </h2>
         </div>

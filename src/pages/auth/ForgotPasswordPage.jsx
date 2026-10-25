@@ -12,7 +12,6 @@ export default function ForgotPasswordPage() {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
-
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -21,16 +20,11 @@ export default function ForgotPasswordPage() {
         try {
             setLoading(true);
 
-            const res = await api.post(
-                "/password/forgot-password",
-
-                {
-                    email,
-                }
-            );
+            const res = await api.post("/password/forgot-password", {
+                email,
+            });
 
             alert(res.data.message);
-
             navigate("/login");
         } catch (err) {
             alert(err.response?.data?.message || "Something went wrong.");
@@ -40,63 +34,34 @@ export default function ForgotPasswordPage() {
     };
 
     return (
-        <div
-            className="
-                min-h-screen
-                bg-[#F7E7CE]
-                flex
-                items-center
-                justify-center
-                px-5
-            "
-        >
+        <div className="min-h-screen bg-[#FBF7EE] flex items-center justify-center p-4 sm:p-6 antialiased">
             <AuthCard>
                 <AuthLogo
-                    title="Forgot Password"
-
-                    subtitle="Enter your email address to receive a password reset link."
+                    title="Recover Password"
+                    subtitle="Enter your verified email address to receive reset instructions."
                 />
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="mt-4">
                     <AuthInput
                         label="Email Address"
-
                         type="email"
-
-                        placeholder="Enter your email"
-
+                        placeholder="you@company.dev"
                         value={email}
-
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <button
                         type="submit"
-
                         disabled={loading}
-
-                        className="
-                            w-full
-                            bg-[#102C26]
-                            text-white
-                            py-3
-                            rounded-lg
-                            mt-2
-                            font-medium
-                            hover:bg-[#17453b]
-                            transition
-                            disabled:opacity-50
-                        "
+                        className="w-full mt-2 bg-black hover:bg-neutral-900 text-white py-3 px-4 font-mono text-xs uppercase font-bold tracking-widest border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all cursor-pointer disabled:opacity-50"
                     >
-                        {loading ? "Sending..." : "Send Reset Link"}
+                        {loading ? "Transmitting..." : "Send Reset Link →"}
                     </button>
                 </form>
 
                 <AuthFooter
-                    text="Remember your password?"
-
+                    text="Remember your credentials?"
                     linkText="Sign In"
-
                     to="/login"
                 />
             </AuthCard>

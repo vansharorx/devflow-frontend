@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { Lock } from "lucide-react";
 
 import ChangePasswordModal from "./ChangePasswordModal";
@@ -9,69 +8,35 @@ export default function SecurityCard() {
 
     return (
         <>
-            <div
-                className="
-          bg-white
-          rounded-2xl
-          shadow
-          p-8
-        "
-            >
-                <div className="flex gap-6">
-                    <div
-                        className="
-              h-20
-              w-20
-              rounded-full
-              bg-[#F7E7CE]
-              flex
-              items-center
-              justify-center
-            "
-                    >
-                        <Lock size={38} color="#102C26" />
+            <div className="bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000]">
+                <div className="flex flex-col sm:flex-row items-start gap-6">
+                    <div className="w-16 h-16 bg-[#FFE600] border-[3px] border-black shadow-[3px_3px_0px_#000] flex items-center justify-center text-black flex-shrink-0">
+                        <Lock size={32} strokeWidth={2.5} />
                     </div>
 
                     <div className="flex-1">
-                        <h2
-                            className="
-                text-3xl
-                font-semibold
-                text-[#102C26]
-              "
-                        >
-                            Security
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="bg-[#FF5E7E] text-black border border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider">
+                                CREDENTIALS
+                            </span>
+                        </div>
+
+                        <h2 className="heading-font text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
+                            Account Security
                         </h2>
 
-                        <p
-                            className="
-                text-gray-500
-                mt-2
-              "
-                        >
-                            Update your password to keep your account secure.
+                        <p className="font-mono text-xs sm:text-sm text-gray-600 mt-2 max-w-xl">
+                            Regularly rotate your password to protect repositories, issue comments, and administrative workspace capabilities.
                         </p>
 
-                        <hr className="my-6" />
+                        <hr className="my-6 border-t-2 border-black" />
 
                         <button
                             onClick={() => setOpenModal(true)}
-                            className="
-                bg-[#102C26]
-                text-white
-                px-8
-                py-3
-                rounded-xl
-                flex
-                items-center
-                gap-3
-                cursor-pointer
-                hover:bg-[#17453b]
-                transition
-              "
+                            className="bg-black hover:bg-neutral-900 text-white px-6 py-3 border-2 border-black font-mono text-xs uppercase font-bold tracking-wider shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all cursor-pointer flex items-center gap-2"
                         >
-                            <Lock size={18} />
-                            Change Password
+                            <Lock size={16} strokeWidth={2.5} />
+                            <span>Change Password →</span>
                         </button>
                     </div>
                 </div>

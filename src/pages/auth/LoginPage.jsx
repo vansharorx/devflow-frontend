@@ -5,7 +5,6 @@ import socket from "../../services/socket";
 import api from "../../services/api";
 
 import { setAccessToken } from "../../services/tokenStore";
-
 import { AuthContext } from "../../context/AuthContext";
 
 import AuthCard from "../../components/auth/AuthCard";
@@ -18,17 +17,17 @@ import AuthFooter from "../../components/auth/AuthFooter";
 
 export default function LoginPage() {
     const navigate = useNavigate();
-
     const { loadUser } = useContext(AuthContext);
 
     const [email, setEmail] = useState("");
-
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            setLoading(true);
             const res = await api.post("/users/login", {
                 email,
                 password,
@@ -47,7 +46,9 @@ export default function LoginPage() {
 
             navigate("/");
         } catch (err) {
-            alert(err.response?.data?.message);
+            alert(err.response?.data?.message || "Invalid credentials");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -62,34 +63,25 @@ export default function LoginPage() {
     };
 
     return (
-        <div
-            className="
-        min-h-screen
-        bg-[#F7E7CE]
-        flex
-        items-center
-        justify-center
-        px-5
-      "
-        >
+        <div className="min-h-screen bg-[#FBF7EE] flex items-center justify-center p-4 sm:p-6 antialiased">
             <AuthCard>
                 <AuthLogo
-                    title="Sign in to DevFlow"
-                    subtitle="Track projects. Assign issues. Collaborate with your team."
+                    title="Sign In to DevFlow"
+                    subtitle="Track issues. Plan sprints. Ship faster with your team."
                 />
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="mt-4">
                     <AuthInput
-                        label="Email address"
+                        label="Email Address"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="you@company.dev"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <PasswordInput
                         label="Password"
-                        placeholder="Enter your password"
+                        placeholder="••••••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         forgotPassword
@@ -97,20 +89,10 @@ export default function LoginPage() {
 
                     <button
                         type="submit"
-                        className="
-              w-full
-              bg-[#102C26]
-              text-white
-              py-3
-              rounded-lg
-              mt-2
-              font-medium
-              hover:bg-[#17453b]
-              transition
-              cursor-pointer
-            "
+                        disabled={loading}
+                        className="w-full mt-2 bg-black hover:bg-neutral-900 text-white py-3 px-4 font-mono text-xs uppercase font-bold tracking-widest border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all cursor-pointer disabled:opacity-50"
                     >
-                        Sign in
+                        {loading ? "Authenticating..." : "Sign In →"}
                     </button>
                 </form>
 
