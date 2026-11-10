@@ -81,10 +81,15 @@ export default function ActivityPage() {
                                     </span>
                                 </div>
 
-                                <div className="mt-2 flex items-center gap-2">
+                                <div className="mt-2 flex items-center gap-2 flex-wrap">
                                     <span className="bg-black text-white px-1.5 py-0.5 text-[10px] font-mono font-bold uppercase">
                                         ENTITY // {activity.entity_type || "SYSTEM"}
                                     </span>
+                                    {activity.performed_by_name && (
+                                        <span className="bg-[#FFE600] text-black border border-black px-1.5 py-0.5 text-[10px] font-mono font-bold uppercase">
+                                            BY // {activity.performed_by_name}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -62,10 +62,15 @@ export default function RecentActivity({ activities = [] }) {
                                 <p className="font-mono font-bold text-black text-xs sm:text-sm truncate">
                                     {activity.action}
                                 </p>
-                                <div className="flex items-center gap-2 mt-1">
+                                <div className="flex items-center gap-2 mt-1 flex-wrap">
                                     <span className="bg-black text-white px-1.5 py-0.2 text-[10px] font-mono font-bold uppercase">
                                         {activity.entity_type}
                                     </span>
+                                    {activity.performed_by_name && (
+                                        <span className="bg-[#FFE600] text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold uppercase">
+                                            BY // {activity.performed_by_name}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -6,10 +6,13 @@ import api from "../../services/api";
 import ProjectForm from "./ProjectForm";
 import EmptyState from "../../components/ui/EmptyState";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 export default function ProjectsPage() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [projectToDelete, setProjectToDelete] = useState(null);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         fetchProjects();
@@ -40,14 +43,18 @@ export default function ProjectsPage() {
         }
     };
 
-    const deleteProject = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this project?")) return;
+    const confirmDeleteProject = async () => {
+        if (!projectToDelete) return;
 
         try {
-            await api.delete(`/projects/${id}`);
+            setDeleting(true);
+            await api.delete(`/projects/${projectToDelete.id}`);
+            setProjectToDelete(null);
             fetchProjects();
         } catch (err) {
             console.log(err);
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -118,7 +125,7 @@ export default function ProjectsPage() {
                                 </Link>
 
                                 <button
-                                    onClick={() => deleteProject(project.id)}
+                                    onClick={() => setProjectToDelete(project)}
                                     className="bg-[#FF5E7E] hover:bg-[#ff476b] text-black border-2 border-black font-mono text-xs font-bold uppercase tracking-wider p-2 shadow-[3px_3px_0px_#000] hover:shadow-[1px_1px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all cursor-pointer"
                                     title="Delete project"
                                 >
@@ -129,6 +136,16 @@ export default function ProjectsPage() {
                     ))}
                 </div>
             )}
+
+            {/* In-App Neo-Brutalist Confirmation Dialog */}
+            <ConfirmModal
+                isOpen={!!projectToDelete}
+                onClose={() => setProjectToDelete(null)}
+                onConfirm={confirmDeleteProject}
+                title="Delete Project"
+                itemName={projectToDelete?.name}
+                isLoading={deleting}
+            />
         </div>
     );
 }

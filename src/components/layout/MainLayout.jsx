@@ -3,12 +3,16 @@ import { Outlet } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import CustomCursor from "../ui/CustomCursor";
 
 export default function MainLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
         <div className="bg-[#FBF7EE] min-h-screen text-black flex flex-col md:flex-row antialiased selection:bg-[#FFE600] selection:text-black">
+            {/* Custom Interactive Desktop Cursor */}
+            <CustomCursor />
+
             {/* Sidebar */}
             <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
@@ -19,7 +23,7 @@ export default function MainLayout() {
 
                 {/* Main Content */}
                 <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-                    <div className="max-w-7xl mx-auto w-full">
+                    <div className="max-w-7xl mx-auto w-full animate-neo-slide-up">
                         <Outlet />
                     </div>
                 </main>

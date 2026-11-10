@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Bell, Check } from "lucide-react";
+import { Bell, Check, CheckCheck } from "lucide-react";
 
 import api from "../../services/api";
 import { SocketContext } from "../../context/SocketContext";
@@ -50,6 +50,16 @@ export default function NotificationsPage() {
         }
     };
 
+    const markAllRead = async () => {
+        try {
+            const unread = notifications.filter((n) => Number(n.is_read) === 0);
+            await Promise.all(unread.map((n) => api.put(`/notifications/${n.id}/read`)));
+            fetchNotifications();
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const unreadCount = notifications.filter((n) => Number(n.is_read) === 0).length;
 
     return (
@@ -67,7 +77,17 @@ export default function NotificationsPage() {
                     </h1>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                    {unreadCount > 0 && (
+                        <button
+                            type="button"
+                            onClick={markAllRead}
+                            className="bg-[#00E676] hover:bg-[#00cf6a] text-black border-2 border-black font-mono text-xs font-bold uppercase tracking-wider px-3 py-1 shadow-[2px_2px_0px_#000] hover:shadow-[1px_1px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all cursor-pointer flex items-center gap-1.5"
+                        >
+                            <CheckCheck size={14} strokeWidth={2.5} />
+                            <span>Mark All Read</span>
+                        </button>
+                    )}
                     <span className="bg-[#FFE600] text-black border-2 border-black font-mono text-xs font-bold px-3 py-1 shadow-[2px_2px_0px_#000]">
                         {unreadCount} Unread
                     </span>

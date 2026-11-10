@@ -3,10 +3,11 @@ import { Plus } from "lucide-react";
 
 import api from "../../services/api";
 
-export default function IssueForm({ onCreate }) {
+export default function IssueForm({ onCreate, users = [] }) {
     const [title, setTitle] = useState("");
     const [projects, setProjects] = useState([]);
     const [projectId, setProjectId] = useState("");
+    const [assignedTo, setAssignedTo] = useState("");
 
     useEffect(() => {
         fetchProjects();
@@ -30,8 +31,9 @@ export default function IssueForm({ onCreate }) {
 
         if (!title.trim() || !projectId) return;
 
-        onCreate(title.trim(), projectId);
+        onCreate(title.trim(), projectId, assignedTo);
         setTitle("");
+        setAssignedTo("");
     };
 
     return (
@@ -64,6 +66,21 @@ export default function IssueForm({ onCreate }) {
                         </option>
                     ))}
                 </select>
+
+                {users.length > 0 && (
+                    <select
+                        value={assignedTo}
+                        onChange={(e) => setAssignedTo(e.target.value)}
+                        className="border-2 border-black p-3 font-mono text-xs sm:text-sm font-bold bg-[#FFFDF5] shadow-[3px_3px_0px_#000] focus:outline-none cursor-pointer sm:max-w-xs truncate"
+                    >
+                        <option value="">// Unassigned</option>
+                        {users.map((user) => (
+                            <option key={user.id} value={user.id}>
+                                @ {user.name}
+                            </option>
+                        ))}
+                    </select>
+                )}
 
                 <button
                     type="submit"

@@ -60,7 +60,7 @@ export default function ChangePasswordModal({ open, onClose }) {
 
     return (
         <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4 antialiased">
-            <div className="bg-white border-[3px] border-black w-full max-w-md p-6 sm:p-8 shadow-[10px_10px_0px_#000] relative">
+            <div className="bg-white border-[3px] border-black w-full max-w-md p-6 sm:p-8 shadow-[10px_10px_0px_#000] relative animate-neo-pop">
                 {/* Close Button */}
                 <button
                     onClick={onClose}

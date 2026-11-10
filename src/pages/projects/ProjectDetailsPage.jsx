@@ -26,7 +26,9 @@ export default function ProjectDetailsPage() {
             ]);
 
             setProject(projRes.data.data);
-            const filtered = issuesRes.data.data.filter((issue) => issue.projectId == id);
+            const filtered = issuesRes.data.data.filter(
+                (issue) => (issue.project_id == id || issue.projectId == id)
+            );
             setIssues(filtered);
         } catch (err) {
             console.log(err);

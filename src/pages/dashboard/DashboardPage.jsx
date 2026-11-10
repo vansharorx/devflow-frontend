@@ -13,10 +13,6 @@ export default function DashboardPage() {
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchDashboard();
-    }, []);
-
     const fetchDashboard = async () => {
         try {
             const res = await api.get("/dashboard");
@@ -27,6 +23,11 @@ export default function DashboardPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchDashboard();
+    }, []);
 
     if (loading) {
         return <LoadingSpinner />;
@@ -52,9 +53,9 @@ export default function DashboardPage() {
     const recentActivities = dashboardData?.recentActivities || [];
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 animate-neo-slide-up">
             {/* Header / Hero Section in Reference Style */}
-            <div className="bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000] relative">
+            <div className="bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000] relative animate-neo-pop">
                 <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span className="bg-[#FFE600] text-black border-2 border-black px-2.5 py-0.5 text-xs font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#000]">
                         SYSTEM // OVERVIEW
@@ -66,7 +67,7 @@ export default function DashboardPage() {
 
                 <h1 className="heading-font text-3xl sm:text-5xl font-extrabold text-black tracking-tight leading-tight">
                     Where developers{" "}
-                    <span className="bg-[#FFE600] px-2 py-0.5 border-2 border-black inline-block shadow-[3px_3px_0px_#000]">
+                    <span className="bg-[#FFE600] px-2 py-0.5 border-2 border-black inline-block shadow-[3px_3px_0px_#000] hover:scale-105 transition-transform">
                         actually
                     </span>{" "}
                     ship code.
@@ -78,7 +79,7 @@ export default function DashboardPage() {
             </div>
 
             {/* KPI Stat Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-neo-pop stagger-1">
                 <StatCard
                     title="Active Members"
                     value={dashboardData?.totals?.users || 0}
@@ -97,13 +98,10 @@ export default function DashboardPage() {
             </div>
 
             {/* Quick Status Cards - Reference High-Contrast Colors */}
-            <div>
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-black mb-3">
-                    // Issue Status Breakdown
-                </p>
+            <div className="animate-neo-pop stagger-2">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     {/* Open */}
-                    <div className="bg-[#FF5E7E] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative">
+                    <div className="bg-[#FF5E7E] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
                             <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
                                 STATUS 01
@@ -119,7 +117,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* In Progress */}
-                    <div className="bg-[#FFE600] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative">
+                    <div className="bg-[#FFE600] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
                             <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
                                 STATUS 02
@@ -135,7 +133,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Closed */}
-                    <div className="bg-[#00E676] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative">
+                    <div className="bg-[#00E676] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
                             <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
                                 STATUS 03
@@ -153,19 +151,19 @@ export default function DashboardPage() {
             </div>
 
             {/* Row 1: Charts */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 animate-neo-pop stagger-3">
                 <IssueStatusChart data={issueStatusData} />
                 <WeeklyActivityChart data={weeklyActivityData} />
             </div>
 
             {/* Row 2: Progress & Recent Activity */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 animate-neo-pop stagger-3">
                 <ProjectProgressChart data={projectProgressData} />
                 <RecentActivity activities={recentActivities} />
             </div>
 
             {/* Row 3: Top Contributors & Top Projects */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 animate-neo-pop stagger-4">
                 {/* Top Contributors */}
                 <div className="bg-white border-[3px] border-black shadow-[5px_5px_0px_#000] p-6">
                     <div className="flex items-center justify-between pb-4 border-b-2 border-black mb-4">
@@ -183,7 +181,7 @@ export default function DashboardPage() {
                             dashboardData.topUsers.map((user, idx) => (
                                 <div
                                     key={user.id}
-                                    className="flex items-center justify-between py-3 font-mono hover:bg-[#FFFDF5] px-2 transition-colors"
+                                    className="flex items-center justify-between py-3 font-mono hover:bg-[#FFFDF5] hover:translate-x-1 px-2 transition-all"
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <span className="w-6 h-6 bg-black text-white text-xs font-bold flex items-center justify-center border border-black">
@@ -194,7 +192,7 @@ export default function DashboardPage() {
                                         </span>
                                     </div>
 
-                                    <span className="bg-[#FFE600] text-black border-2 border-black px-2.5 py-0.5 text-xs font-bold shadow-[2px_2px_0px_#000]">
+                                    <span className="bg-[#FFE600] text-black border-2 border-black px-2.5 py-0.5 text-xs font-bold shadow-[2px_2px_0px_#000] hover:scale-105 transition-transform">
                                         {user.totalIssuesCreated} Issues
                                     </span>
                                 </div>
@@ -224,7 +222,7 @@ export default function DashboardPage() {
                             dashboardData.topProjects.map((project, idx) => (
                                 <div
                                     key={project.id}
-                                    className="flex items-center justify-between py-3 font-mono hover:bg-[#FFFDF5] px-2 transition-colors"
+                                    className="flex items-center justify-between py-3 font-mono hover:bg-[#FFFDF5] hover:translate-x-1 px-2 transition-all"
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <span className="w-6 h-6 bg-[#00E676] text-black text-xs font-bold flex items-center justify-center border-2 border-black shadow-[1px_1px_0px_#000]">
@@ -235,7 +233,7 @@ export default function DashboardPage() {
                                         </span>
                                     </div>
 
-                                    <span className="bg-[#00D2FF] text-black border-2 border-black px-2.5 py-0.5 text-xs font-bold shadow-[2px_2px_0px_#000]">
+                                    <span className="bg-[#00D2FF] text-black border-2 border-black px-2.5 py-0.5 text-xs font-bold shadow-[2px_2px_0px_#000] hover:scale-105 transition-transform">
                                         {project.totalIssues} Issues
                                     </span>
                                 </div>

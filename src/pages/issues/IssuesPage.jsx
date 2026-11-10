@@ -8,6 +8,7 @@ import IssueForm from "./IssueForm";
 import UserSelect from "../../components/ui/UserSelect";
 import EmptyState from "../../components/ui/EmptyState";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 export default function IssuesPage() {
     const [issues, setIssues] = useState([]);
@@ -15,6 +16,8 @@ export default function IssuesPage() {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
     const [loading, setLoading] = useState(true);
+    const [issueToDelete, setIssueToDelete] = useState(null);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -23,13 +26,18 @@ export default function IssuesPage() {
     const loadData = async () => {
         try {
             setLoading(true);
-            const [issuesRes, usersRes] = await Promise.all([
+            const [issuesResult, usersResult] = await Promise.allSettled([
                 api.get("/issues"),
-                api.get("/users"),
+                api.get("/users/team"),
             ]);
 
-            setIssues(issuesRes.data.data);
-            setUsers(usersRes.data.data);
+            if (issuesResult.status === "fulfilled") {
+                setIssues(issuesResult.value.data.data);
+            }
+
+            if (usersResult.status === "fulfilled") {
+                setUsers(usersResult.value.data.data);
+            }
         } catch (err) {
             console.log(err);
         } finally {
@@ -46,12 +54,18 @@ export default function IssuesPage() {
         }
     };
 
-    const createIssue = async (title, projectId) => {
+    const createIssue = async (title, projectId, assignedTo) => {
         try {
-            await api.post("/issues", {
+            const res = await api.post("/issues", {
                 title,
                 projectId,
             });
+
+            if (assignedTo && res.data?.data?.id) {
+                await api.put(`/issues/${res.data.data.id}/assign`, {
+                    userId: Number(assignedTo),
+                });
+            }
 
             fetchIssues();
         } catch (err) {
@@ -74,7 +88,7 @@ export default function IssuesPage() {
     const assignIssue = async (issueId, userId) => {
         try {
             await api.put(`/issues/${issueId}/assign`, {
-                userId,
+                userId: userId ? Number(userId) : null,
             });
 
             fetchIssues();
@@ -83,14 +97,18 @@ export default function IssuesPage() {
         }
     };
 
-    const deleteIssue = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this issue?")) return;
+    const confirmDeleteIssue = async () => {
+        if (!issueToDelete) return;
 
         try {
-            await api.delete(`/issues/${id}`);
+            setDeleting(true);
+            await api.delete(`/issues/${issueToDelete.id}`);
+            setIssueToDelete(null);
             fetchIssues();
         } catch (err) {
             console.log(err);
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -98,7 +116,7 @@ export default function IssuesPage() {
         const matchesSearch = issue.title.toLowerCase().includes(search.toLowerCase());
 
         const matchesStatus =
-            statusFilter === "All" || issue.status.toLowerCase() === statusFilter.toLowerCase();
+            statusFilter === "All" || issue.status === statusFilter;
 
         return matchesSearch && matchesStatus;
     });
@@ -140,7 +158,7 @@ export default function IssuesPage() {
             </div>
 
             {/* Create Issue Form */}
-            <IssueForm onCreate={createIssue} />
+            <IssueForm onCreate={createIssue} users={users} />
 
             {/* Filter and Search Bar */}
             <div className="bg-white border-[3px] border-black p-4 shadow-[5px_5px_0px_#000] flex flex-col sm:flex-row gap-3">
@@ -169,9 +187,8 @@ export default function IssuesPage() {
                         className="border-2 border-black px-4 py-2.5 font-mono text-xs sm:text-sm font-bold bg-[#FFE600] text-black shadow-[3px_3px_0px_#000] focus:outline-none cursor-pointer"
                     >
                         <option value="All">All Statuses</option>
-                        <option value="Open">Open Only</option>
-                        <option value="In Progress">In Progress Only</option>
-                        <option value="Closed">Closed Only</option>
+                        <option value="OPEN">Open Only</option>
+                        <option value="CLOSED">Closed Only</option>
                     </select>
                 </div>
             </div>
@@ -214,7 +231,7 @@ export default function IssuesPage() {
                                 </div>
 
                                 <button
-                                    onClick={() => deleteIssue(issue.id)}
+                                    onClick={() => setIssueToDelete(issue)}
                                     className="bg-[#FF5E7E] hover:bg-[#ff476b] text-black border-2 border-black p-2 font-mono text-xs font-bold uppercase shadow-[2px_2px_0px_#000] hover:shadow-[1px_1px_0px_#000] hover:translate-x-0.5 transition-all cursor-pointer flex-shrink-0"
                                     title="Delete issue"
                                 >
@@ -245,9 +262,8 @@ export default function IssuesPage() {
                                             onChange={(e) => updateStatus(issue.id, e.target.value)}
                                             className="border-2 border-black bg-[#FFFDF5] px-2.5 py-1.5 font-mono text-xs font-bold text-black shadow-[2px_2px_0px_#000] focus:outline-none cursor-pointer"
                                         >
-                                            <option value="Open">Open</option>
-                                            <option value="In Progress">In Progress</option>
-                                            <option value="Closed">Closed</option>
+                                            <option value="OPEN">Open</option>
+                                            <option value="CLOSED">Closed</option>
                                         </select>
                                     </div>
                                 </div>
@@ -264,6 +280,16 @@ export default function IssuesPage() {
                     ))}
                 </div>
             )}
+
+            {/* In-App Neo-Brutalist Confirmation Dialog */}
+            <ConfirmModal
+                isOpen={!!issueToDelete}
+                onClose={() => setIssueToDelete(null)}
+                onConfirm={confirmDeleteIssue}
+                title="Delete Issue"
+                itemName={issueToDelete?.title}
+                isLoading={deleting}
+            />
         </div>
     );
 }

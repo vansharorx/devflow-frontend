@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import { getAccessToken } from "./tokenStore";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -12,8 +13,9 @@ const socket = io(socketUrl, {
     autoConnect: false,
 
     auth: (callback) => {
+        const token = getAccessToken() || localStorage.getItem("token");
         callback({
-            token: localStorage.getItem("token"),
+            token,
         });
     },
 });
