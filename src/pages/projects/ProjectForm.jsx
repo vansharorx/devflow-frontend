@@ -19,7 +19,7 @@ export default function ProjectForm({ onCreate }) {
         >
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-black mb-2 flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-[#00E676] border border-black inline-block"></span>
-                Initialize New Project
+                Create New Project
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">

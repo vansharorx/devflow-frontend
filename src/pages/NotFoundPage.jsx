@@ -6,15 +6,15 @@ export default function NotFoundPage() {
         <div className="min-h-[70vh] flex flex-col justify-center items-center text-center p-6 antialiased">
             <div className="bg-white border-[3px] border-black p-8 sm:p-12 shadow-[8px_8px_0px_#000] max-w-md w-full">
                 <div className="inline-block bg-[#FF5E7E] text-black border-2 border-black px-2.5 py-0.5 text-xs font-mono font-bold uppercase tracking-widest shadow-[2px_2px_0px_#000] mb-4">
-                    HTTP ERROR // 404
+                    Page Not Found
                 </div>
 
                 <h1 className="text-7xl sm:text-8xl heading-font font-extrabold text-black tracking-tighter">
                     404
                 </h1>
 
-                <p className="mt-3 font-mono text-sm font-bold text-gray-700 uppercase">
-                    The requested route does not exist in workspace.
+                <p className="mt-3 font-mono text-sm font-bold text-gray-700">
+                    The page you are looking for does not exist.
                 </p>
 
                 <div className="mt-6">

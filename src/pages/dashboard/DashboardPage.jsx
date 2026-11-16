@@ -54,27 +54,14 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-8 animate-neo-slide-up">
-            {/* Header / Hero Section in Reference Style */}
+            {/* Header / Hero Section */}
             <div className="bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000] relative animate-neo-pop">
-                <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="bg-[#FFE600] text-black border-2 border-black px-2.5 py-0.5 text-xs font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#000]">
-                        SYSTEM // OVERVIEW
-                    </span>
-                    <span className="bg-[#00D2FF] text-black border-2 border-black px-2.5 py-0.5 text-xs font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#000]">
-                        Q4 SPRINT
-                    </span>
-                </div>
-
-                <h1 className="heading-font text-3xl sm:text-5xl font-extrabold text-black tracking-tight leading-tight">
-                    Where developers{" "}
-                    <span className="bg-[#FFE600] px-2 py-0.5 border-2 border-black inline-block shadow-[3px_3px_0px_#000] hover:scale-105 transition-transform">
-                        actually
-                    </span>{" "}
-                    ship code.
+                <h1 className="heading-font text-3xl sm:text-4xl font-extrabold text-black tracking-tight leading-tight">
+                    Project Dashboard
                 </h1>
 
-                <p className="mt-3 text-xs sm:text-sm font-mono text-gray-700 max-w-2xl font-bold">
-                    Real-time pulse across projects, active bug triage, and contributor velocity.
+                <p className="mt-2 text-xs sm:text-sm font-mono text-gray-700 max-w-2xl font-bold">
+                    Overview of active projects, issues, and team activity.
                 </p>
             </div>
 
@@ -97,16 +84,13 @@ export default function DashboardPage() {
                 />
             </div>
 
-            {/* Quick Status Cards - Reference High-Contrast Colors */}
+            {/* Quick Status Cards */}
             <div className="animate-neo-pop stagger-2">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     {/* Open */}
                     <div className="bg-[#FF5E7E] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
-                            <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                                STATUS 01
-                            </span>
-                            <span className="text-xs font-mono font-bold uppercase">UNRESOLVED</span>
+                            <span className="text-xs font-mono font-bold uppercase">OPEN</span>
                         </div>
                         <h2 className="heading-font text-4xl sm:text-5xl font-extrabold mt-3 tracking-tight">
                             {dashboardData?.issuesByStatus?.open || 0}
@@ -119,10 +103,7 @@ export default function DashboardPage() {
                     {/* In Progress */}
                     <div className="bg-[#FFE600] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
-                            <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                                STATUS 02
-                            </span>
-                            <span className="text-xs font-mono font-bold uppercase">ACTIVE SPRINT</span>
+                            <span className="text-xs font-mono font-bold uppercase">IN PROGRESS</span>
                         </div>
                         <h2 className="heading-font text-4xl sm:text-5xl font-extrabold mt-3 tracking-tight">
                             {dashboardData?.issuesByStatus?.inProgress || 0}
@@ -135,10 +116,7 @@ export default function DashboardPage() {
                     {/* Closed */}
                     <div className="bg-[#00E676] border-[3px] border-black p-6 shadow-[5px_5px_0px_#000] text-black relative hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] transition-all cursor-default">
                         <div className="flex items-center justify-between">
-                            <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                                STATUS 03
-                            </span>
-                            <span className="text-xs font-mono font-bold uppercase">COMPLETED</span>
+                            <span className="text-xs font-mono font-bold uppercase">CLOSED</span>
                         </div>
                         <h2 className="heading-font text-4xl sm:text-5xl font-extrabold mt-3 tracking-tight">
                             {dashboardData?.issuesByStatus?.closed || 0}
@@ -171,9 +149,6 @@ export default function DashboardPage() {
                             <span className="w-3 h-3 bg-[#00D2FF] border border-black inline-block"></span>
                             Top Contributors
                         </h2>
-                        <span className="font-mono text-xs text-gray-500 font-bold">
-                            // RANKED BY ISSUES
-                        </span>
                     </div>
 
                     <div className="divide-y-2 divide-black/10">
@@ -199,7 +174,7 @@ export default function DashboardPage() {
                             ))
                         ) : (
                             <p className="text-xs font-mono text-gray-500 py-4 text-center">
-                                // No contributor data logged
+                                No contributor data available
                             </p>
                         )}
                     </div>
@@ -212,9 +187,6 @@ export default function DashboardPage() {
                             <span className="w-3 h-3 bg-[#FF5E7E] border border-black inline-block"></span>
                             Top Projects
                         </h2>
-                        <span className="font-mono text-xs text-gray-500 font-bold">
-                            // VOLUME LOAD
-                        </span>
                     </div>
 
                     <div className="divide-y-2 divide-black/10">
@@ -240,7 +212,7 @@ export default function DashboardPage() {
                             ))
                         ) : (
                             <p className="text-xs font-mono text-gray-500 py-4 text-center">
-                                // No project volume logged
+                                No projects found
                             </p>
                         )}
                     </div>

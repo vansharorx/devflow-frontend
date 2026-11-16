@@ -64,11 +64,8 @@ export default function ProjectDetailsPage() {
             {/* Project Header Banner */}
             <div className="bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000]">
                 <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="bg-[#00D2FF] text-black border-2 border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#000]">
-                        PROJECT REPO
-                    </span>
                     <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase">
-                        ID: {project.id}
+                        Project #{project.id}
                     </span>
                 </div>
 

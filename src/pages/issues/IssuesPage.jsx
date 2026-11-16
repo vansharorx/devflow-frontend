@@ -140,11 +140,6 @@ export default function IssuesPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b-[3px] border-black">
                 <div>
-                    <div className="flex items-center gap-2 mb-1">
-                        <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                            WORKSPACE // TRACKER
-                        </span>
-                    </div>
                     <h1 className="heading-font text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
                         Issue Tracker
                     </h1>

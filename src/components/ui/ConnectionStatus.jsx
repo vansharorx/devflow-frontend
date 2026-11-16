@@ -26,7 +26,7 @@ export default function ConnectionStatus() {
                         : "bg-black"
                 }`}
             />
-            {connected ? "LIVE" : connecting ? "CONNECTING..." : "OFFLINE"}
+            {connected ? "ONLINE" : connecting ? "CONNECTING..." : "OFFLINE"}
         </button>
     );
 }

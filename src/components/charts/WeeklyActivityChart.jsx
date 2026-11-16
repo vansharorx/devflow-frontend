@@ -16,9 +16,6 @@ export default function WeeklyActivityChart({ data = [] }) {
                     <span className="w-3 h-3 bg-[#00D2FF] border border-black inline-block"></span>
                     Weekly Activity
                 </h2>
-                <span className="font-mono text-xs text-gray-500 font-bold">
-                    // VELOCITY
-                </span>
             </div>
 
             <div className="w-full flex-1 min-h-[300px]">

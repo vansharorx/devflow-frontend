@@ -8,9 +8,6 @@ export default function ProjectActivityChart({ data = [] }) {
                     <span className="w-3 h-3 bg-[#FF8A00] border border-black inline-block"></span>
                     Project Activity
                 </h2>
-                <span className="font-mono text-xs text-gray-500 font-bold">
-                    // ISSUE DENSITY
-                </span>
             </div>
 
             <div className="w-full flex-1 min-h-[260px]">

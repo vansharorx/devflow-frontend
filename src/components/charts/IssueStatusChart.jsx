@@ -14,9 +14,6 @@ export default function IssueStatusChart({ data = [] }) {
                     <span className="w-3 h-3 bg-[#FF5E7E] border border-black inline-block"></span>
                     Issues By Status
                 </h2>
-                <span className="font-mono text-xs text-gray-500 font-bold">
-                    // DISTRIBUTION
-                </span>
             </div>
 
             <div className="w-full flex-1 min-h-[300px]">

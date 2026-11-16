@@ -70,12 +70,6 @@ export default function ChangePasswordModal({ open, onClose }) {
                     <X size={16} strokeWidth={2.5} />
                 </button>
 
-                <div className="flex items-center gap-2 mb-2">
-                    <span className="bg-[#FFE600] text-black border border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider">
-                        SECURITY MODAL
-                    </span>
-                </div>
-
                 <h2 className="heading-font text-2xl font-extrabold text-black tracking-tight mb-5 flex items-center gap-2">
                     <Lock size={22} strokeWidth={2.5} />
                     Change Password

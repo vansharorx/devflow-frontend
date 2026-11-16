@@ -96,11 +96,6 @@ export default function ProfilePage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b-[3px] border-black">
                 <div>
-                    <div className="flex items-center gap-2 mb-1">
-                        <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                            SECURITY // IDENTITY
-                        </span>
-                    </div>
                     <h1 className="heading-font text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
                         Developer Profile
                     </h1>
@@ -108,7 +103,7 @@ export default function ProfilePage() {
 
                 <div className="flex items-center gap-2">
                     <span className="bg-[#00E676] text-black border-2 border-black font-mono text-xs font-bold px-3 py-1 shadow-[2px_2px_0px_#000]">
-                        ACTIVE USER
+                        Active
                     </span>
                 </div>
             </div>
@@ -241,7 +236,7 @@ export default function ProfilePage() {
                     <div className="bg-[#FFFDF8] border-2 border-black p-4 shadow-[3px_3px_0px_#000]">
                         <p className="text-gray-500 font-bold uppercase mb-1">Authentication State</p>
                         <span className="bg-[#00E676] text-black border border-black px-2 py-0.5 font-bold uppercase inline-block">
-                            Authenticated // JWT Active
+                            Authenticated
                         </span>
                     </div>
                 </div>

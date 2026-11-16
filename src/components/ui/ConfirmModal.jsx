@@ -60,7 +60,7 @@ export default function ConfirmModal({
                 <div className="flex items-center gap-2 mb-3">
                     <span className="bg-[#FF5E7E] text-black border-2 border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
                         <AlertTriangle size={12} strokeWidth={2.5} />
-                        CAUTION // CONFIRM ACTION
+                        CONFIRM ACTION
                     </span>
                 </div>
 

@@ -7,7 +7,7 @@ export default function CommentList({ comments = [] }) {
             <div className="bg-white border-[3px] border-black p-8 text-center shadow-[5px_5px_0px_#000]">
                 <MessageSquare size={24} strokeWidth={2.5} className="mx-auto text-gray-400 mb-2" />
                 <p className="font-mono text-xs font-bold uppercase text-gray-500">
-                    // No comments yet on this thread
+                    No comments yet on this issue
                 </p>
             </div>
         );
@@ -16,7 +16,7 @@ export default function CommentList({ comments = [] }) {
     return (
         <div className="space-y-4">
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-black">
-                // Timeline Activity ({comments.length})
+                Discussion ({comments.length})
             </p>
 
             {comments.map((comment, idx) => (

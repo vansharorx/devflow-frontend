@@ -63,11 +63,6 @@ export default function ProjectsPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b-[3px] border-black">
                 <div>
-                    <div className="flex items-center gap-2 mb-1">
-                        <span className="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest">
-                            WORKSPACE // REPOSITORIES
-                        </span>
-                    </div>
                     <h1 className="heading-font text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
                         Projects
                     </h1>
@@ -110,7 +105,7 @@ export default function ProjectsPage() {
                                         </h2>
                                     </div>
                                     <p className="text-xs font-mono text-gray-600 mt-0.5">
-                                        ID: {project.id} // DevFlow Repository
+                                        Project #{project.id}
                                     </p>
                                 </div>
                             </div>

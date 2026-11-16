@@ -57,7 +57,7 @@ export default function IssueDetailsPage() {
                         ISSUE #{id}
                     </span>
                     <span className="bg-[#00D2FF] text-black border-2 border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase">
-                        THREAD // {comments.length} Comments
+                        {comments.length} {comments.length === 1 ? "Comment" : "Comments"}
                     </span>
                 </div>
 

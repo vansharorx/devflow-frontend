@@ -66,10 +66,10 @@ export default function LoginPage() {
         <div className="min-h-screen w-full bg-[#FBF7EE] flex items-center justify-center p-3 sm:p-4 md:p-6 antialiased overflow-x-hidden">
             <AuthCard className="max-w-4xl p-0">
                 <div className="grid grid-cols-1 md:grid-cols-12 landscape:grid-cols-12 min-h-0">
-                    {/* LEFT COLUMN: BRANDING & LOGO (Landscape horizontal side) */}
+                    {/* LEFT COLUMN: BRANDING & OVERVIEW */}
                     <div className="md:col-span-5 landscape:col-span-5 bg-[#FFFDF8] border-b-[3px] md:border-b-0 md:border-r-[3px] landscape:border-b-0 landscape:border-r-[3px] border-black p-5 sm:p-6 md:p-7 flex flex-col justify-between">
                         <div>
-                            {/* Logo + Platform badge */}
+                            {/* Logo + Title */}
                             <div className="flex items-center md:flex-col md:items-start landscape:flex-col landscape:items-start gap-3 md:gap-0 landscape:gap-0">
                                 <div className="relative mb-0 md:mb-3 landscape:mb-3 shrink-0">
                                     <img
@@ -79,9 +79,6 @@ export default function LoginPage() {
                                     />
                                 </div>
                                 <div>
-                                    <div className="inline-block bg-black text-white px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-widest mb-1.5 md:mb-2 landscape:mb-2">
-                                        DEVFLOW PLATFORM
-                                    </div>
                                     <h1 className="heading-font text-xl sm:text-2xl md:text-3xl font-extrabold text-black tracking-tight leading-tight">
                                         Sign In to DevFlow
                                     </h1>
@@ -89,38 +86,38 @@ export default function LoginPage() {
                             </div>
 
                             <p className="mt-2 md:mt-3 landscape:mt-3 text-xs font-mono text-gray-600 leading-relaxed">
-                                Track issues. Plan sprints. Ship faster with your team.
+                                Manage projects and track issues with your team.
                             </p>
                         </div>
 
-                        {/* Feature Badges for landscape/desktop view */}
+                        {/* Feature Highlights for landscape/desktop view */}
                         <div className="hidden md:flex landscape:flex flex-col gap-2 mt-5 pt-4 border-t-2 border-black/10">
                             <div className="flex items-center gap-2">
                                 <span className="w-2 h-2 bg-[#00E676] border border-black shrink-0" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
-                                    Real-time Sockets & Updates
+                                    Issue Tracking & Assignment
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="w-2 h-2 bg-[#FFE600] border border-black shrink-0" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
-                                    Neo-Brutalist Issue Tracking
+                                    Real-time Notifications
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="w-2 h-2 bg-[#00D2FF] border border-black shrink-0" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
-                                    Project & Member Assignment
+                                    Project Collaboration
                                 </span>
                             </div>
                         </div>
 
-                        {/* Status bar */}
+                        {/* Footer info */}
                         <div className="hidden md:flex landscape:flex items-center justify-between mt-5 pt-3.5 border-t-2 border-black font-mono text-[10px] font-bold text-gray-500 uppercase">
-                            <span>v2.0 // STABLE</span>
+                            <span>DevFlow Workspace</span>
                             <span className="flex items-center gap-1.5 text-black">
-                                <span className="w-2 h-2 rounded-full bg-[#00E676] border border-black animate-pulse" />
-                                ALL SYSTEMS ONLINE
+                                <span className="w-2 h-2 rounded-full bg-[#00E676] border border-black" />
+                                Online
                             </span>
                         </div>
                     </div>

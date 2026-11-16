@@ -42,9 +42,6 @@ export default function RecentActivity({ activities = [] }) {
                     <span className="w-3 h-3 bg-[#FFE600] border border-black inline-block"></span>
                     Recent Activity
                 </h2>
-                <span className="font-mono text-xs text-gray-500 font-bold">
-                    // REAL-TIME FEED
-                </span>
             </div>
 
             <div className="space-y-3 overflow-y-auto pr-1 flex-1">
@@ -68,7 +65,7 @@ export default function RecentActivity({ activities = [] }) {
                                     </span>
                                     {activity.performed_by_name && (
                                         <span className="bg-[#FFE600] text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold uppercase">
-                                            BY // {activity.performed_by_name}
+                                            By {activity.performed_by_name}
                                         </span>
                                     )}
                                 </div>
@@ -77,7 +74,7 @@ export default function RecentActivity({ activities = [] }) {
                     ))
                 ) : (
                     <div className="h-full flex items-center justify-center font-mono text-xs text-gray-500">
-                        // No recent system activity logged
+                        No recent activity logged
                     </div>
                 )}
             </div>

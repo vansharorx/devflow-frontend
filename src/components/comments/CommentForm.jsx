@@ -25,7 +25,7 @@ export default function CommentForm({ onSubmit }) {
             <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your diagnostic logs, PR references, or update notes..."
+                placeholder="Write a comment..."
                 className="w-full border-2 border-black p-3.5 font-mono text-xs sm:text-sm bg-white shadow-[3px_3px_0px_#000] focus:outline-none focus:bg-[#FFFDF5] focus:shadow-[4px_4px_0px_#000] transition-all min-h-[110px]"
             />
 

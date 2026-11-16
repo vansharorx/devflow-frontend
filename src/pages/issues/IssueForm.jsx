@@ -62,7 +62,7 @@ export default function IssueForm({ onCreate, users = [] }) {
                 >
                     {projects.map((project) => (
                         <option key={project.id} value={project.id}>
-                            Repo: {project.name}
+                            {project.name}
                         </option>
                     ))}
                 </select>
@@ -73,7 +73,7 @@ export default function IssueForm({ onCreate, users = [] }) {
                         onChange={(e) => setAssignedTo(e.target.value)}
                         className="border-2 border-black p-3 font-mono text-xs sm:text-sm font-bold bg-[#FFFDF5] shadow-[3px_3px_0px_#000] focus:outline-none cursor-pointer sm:max-w-xs truncate"
                     >
-                        <option value="">// Unassigned</option>
+                        <option value="">Unassigned</option>
                         {users.map((user) => (
                             <option key={user.id} value={user.id}>
                                 @ {user.name}
