@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 
-export default function AuthFooter({ text, linkText, to }) {
+export default function AuthFooter({ text, linkText, to, className = "" }) {
     return (
-        <p className="text-center font-mono text-xs text-gray-700 mt-6 pt-4 border-t-2 border-black/10">
+        <p
+            className={`text-center font-mono text-xs text-gray-700 ${
+                className || "mt-6 pt-4 border-t-2 border-black/10"
+            }`}
+        >
             {text}{" "}
             <Link
                 to={to}

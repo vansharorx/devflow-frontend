@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Camera, Mail, Layers, Bug, Bell } from "lucide-react";
+import { Camera, Mail, Layers, Bug, Bell, AlertTriangle, CheckCircle2, X } from "lucide-react";
 
 import api, { uploadProfileImage } from "../../services/api";
 import { AuthContext } from "../../context/AuthContext";
@@ -15,25 +15,8 @@ export default function ProfilePage() {
         notifications: 0,
     });
     const [uploading, setUploading] = useState(false);
-
-    useEffect(() => {
-        loadStats();
-    }, []);
-
-    const handleProfileImage = async (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        try {
-            setUploading(true);
-            await uploadProfileImage(file);
-            await loadUser();
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setUploading(false);
-        }
-    };
+    const [uploadError, setUploadError] = useState(null);
+    const [uploadSuccess, setUploadSuccess] = useState(null);
 
     const loadStats = async () => {
         try {
@@ -54,6 +37,53 @@ export default function ProfilePage() {
             });
         } catch (err) {
             console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        loadStats();
+    }, []);
+
+    const handleProfileImage = async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        setUploadError(null);
+        setUploadSuccess(null);
+
+        // Validate allowed file types
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+        if (!allowedTypes.includes(file.type)) {
+            setUploadError("Invalid file format. Please upload a JPG, PNG, or WEBP image.");
+            if (fileInputRef.current) fileInputRef.current.value = "";
+            return;
+        }
+
+        // Validate 5MB limit
+        const MAX_SIZE_BYTES = 5 * 1024 * 1024;
+        if (file.size > MAX_SIZE_BYTES) {
+            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+            setUploadError(`Image is too large (${sizeInMB}MB). Maximum allowed size is 5MB.`);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+            return;
+        }
+
+        try {
+            setUploading(true);
+            await uploadProfileImage(file);
+            await loadUser();
+            setUploadSuccess("Profile avatar updated successfully!");
+        } catch (err) {
+            const message =
+                err.response?.data?.message ||
+                err.message ||
+                "Failed to upload profile image. Please try again.";
+            setUploadError(message);
+        } finally {
+            setUploading(false);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
         }
     };
 
@@ -88,7 +118,7 @@ export default function ProfilePage() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     {/* Avatar Container */}
                     <div className="relative">
-                        <div className="w-24 h-24 bg-black border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center overflow-hidden">
+                        <div className="w-24 h-24 bg-black border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center overflow-hidden relative">
                             {user.profile_image ? (
                                 <img
                                     src={`${import.meta.env.VITE_API_URL.replace("/api/v1", "")}/${user.profile_image}`}
@@ -100,20 +130,31 @@ export default function ProfilePage() {
                                     {user.name ? user.name.charAt(0).toUpperCase() : "D"}
                                 </span>
                             )}
+
+                            {uploading && (
+                                <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-1.5 p-1 text-center">
+                                    <div className="w-5 h-5 bg-[#FFE600] border-2 border-black animate-spin" />
+                                    <span className="font-mono text-[9px] font-black tracking-widest text-[#FFE600]">
+                                        UPLOADING
+                                    </span>
+                                </div>
+                            )}
                         </div>
 
                         <button
-                            onClick={() => fileInputRef.current.click()}
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
                             disabled={uploading}
-                            className="absolute -bottom-2 -right-2 p-2 bg-[#FFE600] hover:bg-[#ffe01a] text-black border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105 active:scale-95 disabled:opacity-50"
+                            className="absolute -bottom-2 -right-2 p-2 bg-[#FFE600] hover:bg-[#ffe01a] text-black border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Upload new avatar"
+                            aria-label="Upload profile image"
                         >
                             <Camera size={16} strokeWidth={2.5} />
                         </button>
 
                         <input
                             type="file"
-                            accept="image/*"
+                            accept="image/jpeg,image/png,image/jpg,image/webp"
                             ref={fileInputRef}
                             className="hidden"
                             onChange={handleProfileImage}
@@ -121,7 +162,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Basic details */}
-                    <div>
+                    <div className="flex-1">
                         <div className="flex items-center gap-2">
                             <span className="bg-[#FFE600] border border-black px-2 py-0.5 text-[10px] font-mono font-bold uppercase">
                                 {user.role || "Developer"}
@@ -136,6 +177,47 @@ export default function ProfilePage() {
                         </p>
                     </div>
                 </div>
+
+                {/* Upload feedback alerts */}
+                {uploadError && (
+                    <div className="mt-5 bg-[#FF5E7E] text-black border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] flex items-start sm:items-center justify-between gap-3 animate-in fade-in">
+                        <div className="flex items-center gap-2.5">
+                            <AlertTriangle size={18} strokeWidth={2.5} className="shrink-0" />
+                            <span className="font-mono text-xs font-black">
+                                ERROR: {uploadError}
+                            </span>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setUploadError(null)}
+                            className="p-1 hover:bg-black hover:text-white transition-colors cursor-pointer border border-black shrink-0"
+                            title="Dismiss error"
+                            aria-label="Dismiss error"
+                        >
+                            <X size={14} strokeWidth={3} />
+                        </button>
+                    </div>
+                )}
+
+                {uploadSuccess && (
+                    <div className="mt-5 bg-[#00E676] text-black border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] flex items-start sm:items-center justify-between gap-3 animate-in fade-in">
+                        <div className="flex items-center gap-2.5">
+                            <CheckCircle2 size={18} strokeWidth={2.5} className="shrink-0" />
+                            <span className="font-mono text-xs font-black">
+                                SUCCESS: {uploadSuccess}
+                            </span>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setUploadSuccess(null)}
+                            className="p-1 hover:bg-black hover:text-white transition-colors cursor-pointer border border-black shrink-0"
+                            title="Dismiss notification"
+                            aria-label="Dismiss notification"
+                        >
+                            <X size={14} strokeWidth={3} />
+                        </button>
+                    </div>
+                )}
 
                 <hr className="my-6 border-t-2 border-black" />
 
