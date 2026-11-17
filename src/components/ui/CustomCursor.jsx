@@ -27,19 +27,33 @@ export default function CustomCursor() {
         // Activate custom cursor styling on body
         document.body.classList.add("custom-cursor-active");
 
+        const setDotDefault = () => {
+            inner.style.width = "11px";
+            inner.style.height = "11px";
+            inner.style.backgroundColor = "#111111";
+            inner.style.boxShadow = "none";
+            inner.style.outline = "none";
+            inner.style.border = "2px solid transparent";
+        };
+
         const updateCursorStyles = () => {
             const shouldHide = !isVisible.current || isTextTarget.current;
             cursor.style.opacity = shouldHide ? "0" : "1";
 
             if (isClicked.current) {
-                inner.style.transform = "translate(-50%, -50%) scale(0.75)";
-                inner.style.backgroundColor = "#000000";
+                inner.style.width = "7px";
+                inner.style.height = "7px";
+                inner.style.backgroundColor = "#111111";
+                inner.style.border = "2px solid transparent";
+                inner.style.boxShadow = "none";
             } else if (isHovered.current) {
-                inner.style.transform = "translate(-50%, -50%) scale(1.6)";
-                inner.style.backgroundColor = "#FFE600";
+                inner.style.width = "22px";
+                inner.style.height = "22px";
+                inner.style.backgroundColor = "rgba(255, 230, 0, 0.25)";
+                inner.style.border = "2px solid #FFE600";
+                inner.style.boxShadow = "none";
             } else {
-                inner.style.transform = "translate(-50%, -50%) scale(1)";
-                inner.style.backgroundColor = "#000000";
+                setDotDefault();
             }
         };
 
@@ -138,9 +152,16 @@ export default function CustomCursor() {
         >
             <div
                 ref={innerRef}
-                className="w-3.5 h-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black border-2 border-black shadow-[2px_2px_0px_#000] transition-transform duration-100 ease-out"
                 style={{
-                    willChange: "transform",
+                    width: "11px",
+                    height: "11px",
+                    borderRadius: "50%",
+                    backgroundColor: "#111111",
+                    transform: "translate(-50%, -50%)",
+                    transition: "width 90ms ease-out, height 90ms ease-out, background-color 90ms ease-out, border 90ms ease-out",
+                    willChange: "width, height, background-color",
+                    boxShadow: "none",
+                    border: "2px solid transparent",
                 }}
             />
         </div>

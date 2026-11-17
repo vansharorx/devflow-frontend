@@ -1,6 +1,7 @@
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CustomCursor from "./components/ui/CustomCursor";
 
 import MainLayout from "./components/layout/MainLayout";
 
@@ -30,6 +31,7 @@ import OAuthSuccessPage from "./pages/auth/OAuthSuccessPage";
 function App() {
     return (
         <BrowserRouter>
+            <CustomCursor />
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
 

@@ -3,16 +3,12 @@ import { Outlet } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import CustomCursor from "../ui/CustomCursor";
 
 export default function MainLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
         <div className="bg-[#FBF7EE] min-h-screen text-black flex flex-col md:flex-row antialiased selection:bg-[#FFE600] selection:text-black">
-            {/* Custom Interactive Desktop Cursor */}
-            <CustomCursor />
-
             {/* Sidebar */}
             <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 

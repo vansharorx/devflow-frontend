@@ -22,6 +22,14 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isExiting, setIsExiting] = useState(false);
+
+    const handleSwitchToRegister = (to) => {
+        setIsExiting(true);
+        setTimeout(() => {
+            navigate(to);
+        }, 140);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,10 +72,14 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen w-full bg-[#FBF7EE] flex items-center justify-center p-3 sm:p-4 md:p-6 antialiased overflow-x-hidden">
-            <AuthCard className="max-w-4xl p-0">
+            <AuthCard className="max-w-4xl p-0 animate-auth-card">
                 <div className="grid grid-cols-1 md:grid-cols-12 landscape:grid-cols-12 min-h-0">
                     {/* LEFT COLUMN: BRANDING & OVERVIEW */}
-                    <div className="md:col-span-5 landscape:col-span-5 bg-[#FFFDF8] border-b-[3px] md:border-b-0 md:border-r-[3px] landscape:border-b-0 landscape:border-r-[3px] border-black p-5 sm:p-6 md:p-7 flex flex-col justify-between">
+                    <div
+                        className={`md:col-span-5 landscape:col-span-5 bg-[#FFFDF8] border-b-[3px] md:border-b-0 md:border-r-[3px] landscape:border-b-0 landscape:border-r-[3px] border-black p-5 sm:p-6 md:p-7 flex flex-col justify-between transition-opacity duration-150 ${
+                            isExiting ? "opacity-40" : "animate-neo-pop"
+                        }`}
+                    >
                         <div>
                             {/* Logo + Title */}
                             <div className="flex items-center md:flex-col md:items-start landscape:flex-col landscape:items-start gap-3 md:gap-0 landscape:gap-0">
@@ -123,7 +135,11 @@ export default function LoginPage() {
                     </div>
 
                     {/* RIGHT COLUMN: LOGIN FORM */}
-                    <div className="md:col-span-7 landscape:col-span-7 p-5 sm:p-6 md:p-7 flex flex-col justify-center bg-white">
+                    <div
+                        className={`md:col-span-7 landscape:col-span-7 p-5 sm:p-6 md:p-7 flex flex-col justify-center bg-white ${
+                            isExiting ? "animate-auth-slide-out-left" : "animate-auth-slide-in-left"
+                        }`}
+                    >
                         <form onSubmit={handleSubmit}>
                             <AuthInput
                                 label="Email Address"
@@ -158,6 +174,7 @@ export default function LoginPage() {
                             text="New to DevFlow?"
                             linkText="Create an account"
                             to="/register"
+                            onSwitch={handleSwitchToRegister}
                             className="mt-3.5 pt-3 border-t-2 border-black/10"
                         />
                     </div>
