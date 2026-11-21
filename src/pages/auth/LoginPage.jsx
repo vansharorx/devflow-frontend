@@ -13,6 +13,7 @@ import PasswordInput from "../../components/auth/PasswordInput";
 import AuthDivider from "../../components/auth/AuthDivider";
 import GoogleButton from "../../components/auth/GoogleButton";
 import AuthFooter from "../../components/auth/AuthFooter";
+import AuthBackground from "../../components/auth/AuthBackground";
 import devflowLogo from "../../assets/devflow-login.png";
 
 export default function LoginPage() {
@@ -71,8 +72,11 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#FBF7EE] flex items-center justify-center p-3 sm:p-4 md:p-6 antialiased overflow-x-hidden">
-            <AuthCard className="max-w-4xl p-0 animate-auth-card">
+        <div className="relative min-h-screen w-full bg-[#FBF7EE] flex items-center justify-center p-3 sm:p-4 md:p-6 antialiased overflow-hidden">
+            {/* Continuous animated geometric background */}
+            <AuthBackground />
+
+            <AuthCard className="max-w-4xl p-0 animate-auth-card relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 landscape:grid-cols-12 min-h-0">
                     {/* LEFT COLUMN: BRANDING & OVERVIEW */}
                     <div
@@ -83,11 +87,11 @@ export default function LoginPage() {
                         <div>
                             {/* Logo + Title */}
                             <div className="flex items-center md:flex-col md:items-start landscape:flex-col landscape:items-start gap-3 md:gap-0 landscape:gap-0">
-                                <div className="relative mb-0 md:mb-3 landscape:mb-3 shrink-0">
+                                <div className="relative mb-0 md:mb-3 landscape:mb-3 shrink-0 group">
                                     <img
                                         src={devflowLogo}
                                         alt="DevFlow Logo"
-                                        className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain filter drop-shadow-[3px_3px_0px_#000]"
+                                        className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain filter drop-shadow-[3px_3px_0px_#000] transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3 cursor-pointer"
                                     />
                                 </div>
                                 <div>
@@ -104,20 +108,20 @@ export default function LoginPage() {
 
                         {/* Feature Highlights for landscape/desktop view */}
                         <div className="hidden md:flex landscape:flex flex-col gap-2 mt-5 pt-4 border-t-2 border-black/10">
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 bg-[#00E676] border border-black shrink-0" />
+                            <div className="flex items-center gap-2 group hover:translate-x-1.5 transition-transform duration-200 cursor-default animate-form-item stagger-1">
+                                <span className="w-2 h-2 bg-[#00E676] border border-black shrink-0 transition-transform duration-200 group-hover:scale-125" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
                                     Issue Tracking & Assignment
                                 </span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 bg-[#FFE600] border border-black shrink-0" />
+                            <div className="flex items-center gap-2 group hover:translate-x-1.5 transition-transform duration-200 cursor-default animate-form-item stagger-2">
+                                <span className="w-2 h-2 bg-[#FFE600] border border-black shrink-0 transition-transform duration-200 group-hover:scale-125" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
                                     Real-time Notifications
                                 </span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 bg-[#00D2FF] border border-black shrink-0" />
+                            <div className="flex items-center gap-2 group hover:translate-x-1.5 transition-transform duration-200 cursor-default animate-form-item stagger-3">
+                                <span className="w-2 h-2 bg-[#00D2FF] border border-black shrink-0 transition-transform duration-200 group-hover:scale-125" />
                                 <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black">
                                     Project Collaboration
                                 </span>
@@ -125,10 +129,13 @@ export default function LoginPage() {
                         </div>
 
                         {/* Footer info */}
-                        <div className="hidden md:flex landscape:flex items-center justify-between mt-5 pt-3.5 border-t-2 border-black font-mono text-[10px] font-bold text-gray-500 uppercase">
+                        <div className="hidden md:flex landscape:flex items-center justify-between mt-5 pt-3.5 border-t-2 border-black font-mono text-[10px] font-bold text-gray-500 uppercase animate-form-item stagger-4">
                             <span>DevFlow Workspace</span>
                             <span className="flex items-center gap-1.5 text-black">
-                                <span className="w-2 h-2 rounded-full bg-[#00E676] border border-black" />
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E676] border border-black" />
+                                </span>
                                 Online
                             </span>
                         </div>
@@ -147,6 +154,7 @@ export default function LoginPage() {
                                 placeholder="you@company.dev"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className="animate-form-item stagger-1"
                             />
 
                             <PasswordInput
@@ -155,27 +163,37 @@ export default function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 forgotPassword
+                                className="animate-form-item stagger-2"
                             />
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full mt-1 bg-black hover:bg-neutral-900 text-white py-2.5 px-4 font-mono text-xs uppercase font-bold tracking-widest border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all cursor-pointer disabled:opacity-50"
+                                className="group w-full mt-1 bg-black hover:bg-neutral-900 text-white py-2.5 px-4 font-mono text-xs uppercase font-bold tracking-widest border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all cursor-pointer disabled:opacity-50 animate-form-item stagger-3 flex items-center justify-center gap-1.5"
                             >
-                                {loading ? "Authenticating..." : "Sign In →"}
+                                <span>{loading ? "Authenticating..." : "Sign In"}</span>
+                                {!loading && (
+                                    <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 font-sans">
+                                        →
+                                    </span>
+                                )}
                             </button>
                         </form>
 
-                        <AuthDivider className="my-3 sm:my-3.5" />
+                        <div className="animate-form-item stagger-4">
+                            <AuthDivider className="my-3 sm:my-3.5" />
+                        </div>
 
-                        <GoogleButton onClick={handleGoogleLogin} />
+                        <div className="animate-form-item stagger-5">
+                            <GoogleButton onClick={handleGoogleLogin} />
+                        </div>
 
                         <AuthFooter
                             text="New to DevFlow?"
                             linkText="Create an account"
                             to="/register"
                             onSwitch={handleSwitchToRegister}
-                            className="mt-3.5 pt-3 border-t-2 border-black/10"
+                            className="mt-3.5 pt-3 border-t-2 border-black/10 animate-form-item stagger-6"
                         />
                     </div>
                 </div>

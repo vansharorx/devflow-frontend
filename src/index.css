@@ -266,21 +266,487 @@ body {
     animation: badgeBounce 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Floating decorative elements & auth item animations */
+@keyframes floatSlow {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(4deg);
+    }
+}
+
+@keyframes floatReverse {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(14px) rotate(-5deg);
+    }
+}
+
+@keyframes floatSlowDiagonal {
+    0%, 100% {
+        transform: translate(0px, 0px) rotate(45deg);
+    }
+    50% {
+        transform: translate(-8px, -14px) rotate(52deg);
+    }
+}
+
+@keyframes formItemFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(0, 230, 118, 0);
+    }
+}
+
+.animate-float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+    animation: floatReverse 7.5s ease-in-out infinite;
+}
+
+.animate-float-diagonal {
+    animation: floatSlowDiagonal 8s ease-in-out infinite;
+}
+
+.animate-form-item {
+    animation: formItemFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-pulse-glow {
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   Auth Background — continuous geometric drift paths
+   ═══════════════════════════════════════════════════ */
+
+/* Slow grid drift */
+.auth-bg-grid {
+    animation: authGridDrift 25s linear infinite;
+}
+@keyframes authGridDrift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 56px 56px; }
+}
+
+/* Shape 1 — big yellow square: sweeps corner-to-corner */
+.auth-bg-drift-1 {
+    top: -5%;
+    left: -5%;
+    animation: drift1 28s ease-in-out infinite;
+}
+@keyframes drift1 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(35vw, 25vh) rotate(45deg); }
+    50%  { transform: translate(70vw, 55vh) rotate(90deg); }
+    75%  { transform: translate(30vw, 70vh) rotate(135deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Shape 2 — coral circle: horizontal sweep across the middle */
+.auth-bg-drift-2 {
+    top: 35%;
+    right: -8%;
+    animation: drift2 32s ease-in-out infinite;
+}
+@keyframes drift2 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-85vw, -10vh); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Shape 3 — cyan diamond: wide diagonal orbit */
+.auth-bg-drift-3 {
+    bottom: 10%;
+    right: 15%;
+    animation: drift3 24s ease-in-out infinite;
+}
+@keyframes drift3 {
+    0%   { transform: translate(0, 0) rotate(45deg); }
+    33%  { transform: translate(-40vw, -30vh) rotate(90deg); }
+    66%  { transform: translate(-20vw, -60vh) rotate(135deg); }
+    100% { transform: translate(0, 0) rotate(405deg); }
+}
+
+/* Shape 4 — green square: gentle rise from bottom-left */
+.auth-bg-drift-4 {
+    bottom: -5%;
+    left: 10%;
+    animation: drift4 22s ease-in-out infinite;
+}
+@keyframes drift4 {
+    0%   { transform: translate(0, 0) rotate(-6deg); }
+    50%  { transform: translate(20vw, -70vh) rotate(30deg); }
+    100% { transform: translate(0, 0) rotate(-6deg); }
+}
+
+/* Shape 5 — small yellow circle: elliptical orbit centre-screen */
+.auth-bg-drift-5 {
+    top: 50%;
+    left: 50%;
+    animation: drift5 18s ease-in-out infinite;
+}
+@keyframes drift5 {
+    0%   { transform: translate(-50%, -50%) translate(0, 0); }
+    25%  { transform: translate(-50%, -50%) translate(30vw, -20vh); }
+    50%  { transform: translate(-50%, -50%) translate(10vw, 30vh); }
+    75%  { transform: translate(-50%, -50%) translate(-30vw, 10vh); }
+    100% { transform: translate(-50%, -50%) translate(0, 0); }
+}
+
+/* Shape 7 — small coral square: quicker diagonal */
+.auth-bg-drift-7 {
+    top: 60%;
+    left: -3%;
+    animation: drift7 16s ease-in-out infinite;
+}
+@keyframes drift7 {
+    0%   { transform: translate(0, 0) rotate(22deg); }
+    50%  { transform: translate(60vw, -40vh) rotate(100deg); }
+    100% { transform: translate(0, 0) rotate(22deg); }
+}
+
+/* Shape 8 — long thin line: sweeps across bottom half */
+.auth-bg-drift-8 {
+    bottom: 25%;
+    left: -15%;
+    animation: drift8 30s ease-in-out infinite;
+}
+@keyframes drift8 {
+    0%   { transform: translate(0, 0) rotate(15deg); }
+    50%  { transform: translate(100vw, -15vh) rotate(-8deg); }
+    100% { transform: translate(0, 0) rotate(15deg); }
+}
+
+/* ═══════════════════════════════════════
+   LINES — dashed / solid sweeping lines
+   ═══════════════════════════════════════ */
+
+/* Line 2 — yellow dashed: diagonal sweep top-right → bottom-left */
+.auth-bg-line-2 {
+    top: 12%;
+    right: -15%;
+    animation: lineD2 26s ease-in-out infinite;
+}
+@keyframes lineD2 {
+    0%   { transform: translate(0, 0) rotate(-25deg); }
+    50%  { transform: translate(-80vw, 50vh) rotate(-10deg); }
+    100% { transform: translate(0, 0) rotate(-25deg); }
+}
+
+/* Line 3 — cyan solid: horizontal glide upper area */
+.auth-bg-line-3 {
+    top: 22%;
+    left: -12%;
+    animation: lineD3 34s ease-in-out infinite;
+}
+@keyframes lineD3 {
+    0%   { transform: translate(0, 0) rotate(5deg); }
+    50%  { transform: translate(95vw, 8vh) rotate(-3deg); }
+    100% { transform: translate(0, 0) rotate(5deg); }
+}
+
+/* Line 4 — short green: quick diagonal sweep */
+.auth-bg-line-4 {
+    bottom: 18%;
+    right: -5%;
+    animation: lineD4 14s ease-in-out infinite;
+}
+@keyframes lineD4 {
+    0%   { transform: translate(0, 0) rotate(-20deg); }
+    50%  { transform: translate(-55vw, -25vh) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(-20deg); }
+}
+
+/* ═══════════════════════════════════════
+   ARCS — SVG curved paths
+   ═══════════════════════════════════════ */
+
+/* Arc 1 — large yellow open arc: left → right */
+.auth-bg-arc-1 {
+    top: 8%;
+    left: -8%;
+    animation: arcD1 30s ease-in-out infinite;
+}
+@keyframes arcD1 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    33%  { transform: translate(50vw, 20vh) rotate(15deg); }
+    66%  { transform: translate(75vw, 50vh) rotate(-10deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Arc 2 — coral half-circle: rises from bottom-right */
+.auth-bg-arc-2 {
+    bottom: 5%;
+    right: 10%;
+    animation: arcD2 24s ease-in-out infinite;
+}
+@keyframes arcD2 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(-30vw, -55vh) rotate(20deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Arc 3 — cyan S-curve: slow diagonal drift */
+.auth-bg-arc-3 {
+    top: 25%;
+    right: -5%;
+    animation: arcD3 36s ease-in-out infinite;
+}
+@keyframes arcD3 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(-25vw, 10vh) rotate(8deg); }
+    50%  { transform: translate(-60vw, -15vh) rotate(-5deg); }
+    75%  { transform: translate(-30vw, 25vh) rotate(12deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Arc 4 — green dashed arc: orbiting */
+.auth-bg-arc-4 {
+    bottom: 15%;
+    left: 5%;
+    animation: arcD4 20s ease-in-out infinite;
+}
+@keyframes arcD4 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(40vw, -35vh) rotate(-25deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* ═══════════════════════════════════════
+   WAVES — SVG sine-waves sweeping across
+   ═══════════════════════════════════════ */
+
+/* Wave 1 — yellow: sweeps left → right across lower third */
+.auth-bg-wave-1 {
+    bottom: 30%;
+    left: -40%;
+    animation: waveD1 28s ease-in-out infinite;
+}
+@keyframes waveD1 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(80vw, -8vh); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Wave 2 — coral: sweeps right → left across upper area */
+.auth-bg-wave-2 {
+    top: 20%;
+    right: -35%;
+    animation: waveD2 32s ease-in-out infinite;
+}
+@keyframes waveD2 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-75vw, 12vh); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Wave 3 — cyan dashed: drifts upward from bottom */
+.auth-bg-wave-3 {
+    bottom: 10%;
+    left: -20%;
+    animation: waveD3 22s ease-in-out infinite;
+}
+@keyframes waveD3 {
+    0%   { transform: translate(0, 0) rotate(3deg); }
+    50%  { transform: translate(50vw, -40vh) rotate(-4deg); }
+    100% { transform: translate(0, 0) rotate(3deg); }
+}
+
+/* ═══════════════════════════════════════
+   EXTRA DENSE BACKGROUND DRIFT PATHS
+   ═══════════════════════════════════════ */
+
+/* Extra Shapes */
+.auth-bg-extra-1 {
+    top: 18%;
+    right: 25%;
+    animation: extraDrift1 25s ease-in-out infinite;
+}
+@keyframes extraDrift1 {
+    0%   { transform: translate(0, 0) rotate(55deg); }
+    50%  { transform: translate(-30vw, 40vh) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(55deg); }
+}
+
+.auth-bg-extra-2 {
+    bottom: 35%;
+    left: 20%;
+    animation: extraDrift2 29s ease-in-out infinite;
+}
+@keyframes extraDrift2 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(45vw, -35vh); }
+    100% { transform: translate(0, 0); }
+}
+
+.auth-bg-extra-3 {
+    top: 45%;
+    right: 8%;
+    animation: extraDrift3 21s ease-in-out infinite;
+}
+@keyframes extraDrift3 {
+    0%   { transform: translate(0, 0) rotate(70deg); }
+    50%  { transform: translate(-50vw, -20vh) rotate(-40deg); }
+    100% { transform: translate(0, 0) rotate(70deg); }
+}
+
+.auth-bg-extra-4 {
+    top: -8%;
+    left: 40%;
+    animation: extraDrift4 33s ease-in-out infinite;
+}
+@keyframes extraDrift4 {
+    0%   { transform: translate(0, 0) rotate(35deg); }
+    50%  { transform: translate(-25vw, 65vh) rotate(120deg); }
+    100% { transform: translate(0, 0) rotate(35deg); }
+}
+
+.auth-bg-extra-5 {
+    bottom: 8%;
+    right: 35%;
+    animation: extraDrift5 19s ease-in-out infinite;
+}
+@keyframes extraDrift5 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-35vw, -45vh); }
+    100% { transform: translate(0, 0); }
+}
+
+.auth-bg-extra-6 {
+    top: 75%;
+    left: 45%;
+    animation: extraDrift6 27s ease-in-out infinite;
+}
+@keyframes extraDrift6 {
+    0%   { transform: translate(0, 0) rotate(15deg); }
+    50%  { transform: translate(30vw, -50vh) rotate(-60deg); }
+    100% { transform: translate(0, 0) rotate(15deg); }
+}
+
+/* Extra Lines */
+.auth-bg-line-5 {
+    top: 40%;
+    left: -15%;
+    animation: lineD5 31s ease-in-out infinite;
+}
+@keyframes lineD5 {
+    0%   { transform: translate(0, 0) rotate(12deg); }
+    50%  { transform: translate(85vw, -20vh) rotate(-15deg); }
+    100% { transform: translate(0, 0) rotate(12deg); }
+}
+
+.auth-bg-line-6 {
+    bottom: 40%;
+    right: -10%;
+    animation: lineD6 23s ease-in-out infinite;
+}
+@keyframes lineD6 {
+    0%   { transform: translate(0, 0) rotate(-30deg); }
+    50%  { transform: translate(-70vw, 30vh) rotate(5deg); }
+    100% { transform: translate(0, 0) rotate(-30deg); }
+}
+
+.auth-bg-line-7 {
+    top: 65%;
+    left: -5%;
+    animation: lineD7 27s ease-in-out infinite;
+}
+@keyframes lineD7 {
+    0%   { transform: translate(0, 0) rotate(20deg); }
+    50%  { transform: translate(60vw, -40vh) rotate(-10deg); }
+    100% { transform: translate(0, 0) rotate(20deg); }
+}
+
+/* Extra Arcs */
+.auth-bg-arc-5 {
+    top: 48%;
+    right: -10%;
+    animation: arcD5 29s ease-in-out infinite;
+}
+@keyframes arcD5 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(-75vw, -15vh) rotate(35deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.auth-bg-arc-6 {
+    bottom: 22%;
+    left: 25%;
+    animation: arcD6 35s ease-in-out infinite;
+}
+@keyframes arcD6 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(-20vw, -40vh) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Extra Waves */
+.auth-bg-wave-4 {
+    top: 60%;
+    left: -30%;
+    animation: waveD4 34s ease-in-out infinite;
+}
+@keyframes waveD4 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(70vw, 15vh); }
+    100% { transform: translate(0, 0); }
+}
+
+.auth-bg-wave-5 {
+    top: 5%;
+    right: -25%;
+    animation: waveD5 26s ease-in-out infinite;
+}
+@keyframes waveD5 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-65vw, 25vh); }
+    100% { transform: translate(0, 0); }
+}
+
 /* Stagger utilities */
 .stagger-1 {
-    animation-delay: 60ms;
+    animation-delay: 50ms;
 }
 
 .stagger-2 {
-    animation-delay: 120ms;
+    animation-delay: 100ms;
 }
 
 .stagger-3 {
-    animation-delay: 180ms;
+    animation-delay: 150ms;
 }
 
 .stagger-4 {
-    animation-delay: 240ms;
+    animation-delay: 200ms;
+}
+
+.stagger-5 {
+    animation-delay: 250ms;
+}
+
+.stagger-6 {
+    animation-delay: 300ms;
 }
 
 /* Strict respect for prefers-reduced-motion */

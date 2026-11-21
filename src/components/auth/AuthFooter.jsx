@@ -18,9 +18,12 @@ export default function AuthFooter({ text, linkText, to, className = "", onSwitc
             <Link
                 to={to}
                 onClick={handleClick}
-                className="text-black font-bold uppercase underline decoration-2 decoration-[#FFE600] hover:bg-[#FFE600] px-1 py-0.5 transition-colors ml-1 cursor-pointer"
+                className="group inline-flex items-center text-black font-bold uppercase underline decoration-2 decoration-[#FFE600] hover:bg-[#FFE600] px-1 py-0.5 transition-all duration-150 ml-1 cursor-pointer"
             >
-                {linkText} →
+                <span>{linkText}</span>
+                <span className="ml-1 inline-block transition-transform duration-200 group-hover:translate-x-1 font-sans">
+                    →
+                </span>
             </Link>
         </p>
     );
